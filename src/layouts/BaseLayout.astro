@@ -9,9 +9,10 @@ import SplashScreen from "../components/SplashScreen.astro";
 interface Props {
   title: string;
   description: string;
+  pageKind?: "installation" | "content";
 }
 
-const { title, description } = Astro.props;
+const { title, description, pageKind = "installation" } = Astro.props;
 const schema = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -38,7 +39,7 @@ const schema = {
     <meta name="twitter:description" content={description} />
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
-  <body>
+  <body class:list={[pageKind === "content" && "content-page"]}>
     <header class="site-navbar" aria-label="Primary">
       <a class="site-navbar-brand" href="/" aria-label="Intersect home">
         <span class="site-navbar-logo-frame" id="splash-navbar-logo" aria-hidden="true">
@@ -54,13 +55,24 @@ const schema = {
       </a>
 
       <nav class="site-navbar-links">
-        <a href="#projects">Projects</a>
-        <a href="#writing">Writing</a>
-        <a href="#about">About</a>
-        <a href="#ideas">Ideas</a>
+        {
+          pageKind === "installation" ? (
+            <>
+              <a href="#projects">Projects</a>
+              <a href="#writing">Writing</a>
+              <a href="#about">About</a>
+              <a href="#ideas">Ideas</a>
+            </>
+          ) : (
+            <>
+              <a href="/">Home</a>
+              <a href="/library/">Library</a>
+            </>
+          )
+        }
       </nav>
     </header>
-    <SplashScreen />
+    {pageKind === "installation" && <SplashScreen />}
     <slot />
   </body>
 </html>

@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const entries = (await getCollection("graph")).sort(
+  (left, right) => left.data.order - right.data.order,
+);
+---
+
+<BaseLayout
+  title="Content Library | Ajay Rajnikanth"
+  description="A first-pass content library for the Intersect portfolio."
+  pageKind="content"
+>
+  <main class="library-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <section class="library-hero">
+      <p class="eyebrow">Content library</p>
+      <h1>Three authored nodes, ready for a graph.</h1>
+      <p class="library-intro">
+        These entries are placeholder content, but the structure is real. Each
+        page has a type, metadata, and explicit relationships so it can later
+        render as a connected node inside the point-cloud interface.
+      </p>
+    </section>
+
+    <section class="library-grid" aria-label="Content entries">
+      {
+        entries.map((entry) => (
+          <article class="library-card">
+            <p class="card-eyebrow">{entry.data.nodeType}</p>
+            <h2>{entry.data.title}</h2>
+            <p>{entry.data.summary}</p>
+            <div class="library-meta">
+              <span>{entry.data.related.length} connections</span>
+              <span>{entry.data.status}</span>
+            </div>
+            <a class="button button-primary" href={`/library/${entry.id}/`}>
+              Open node
+            </a>
+          </article>
+        ))
+      }
+    </section>
+  </main>
+</BaseLayout>

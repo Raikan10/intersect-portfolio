@@ -1,10 +1,16 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import RaycastShader from '../components/RaycastShader.astro';
+import { getCollection } from "astro:content";
+import RaycastShader from "../components/RaycastShader.astro";
 
 const title = "Ajay Rajnikanth | Strategy x Technology x Systems";
 const description =
   "A concept homepage for Ajay Rajnikanth's portfolio: computational geometry, architectural light, and a systems-driven design language.";
+
+const featuredNodes = (await getCollection("graph"))
+  .filter((entry) => entry.data.featured)
+  .sort((left, right) => left.data.order - right.data.order)
+  .slice(0, 3);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -21,6 +27,17 @@ const description =
           <span>product builder</span>
           <span class="dot">·</span>
           <span>ai × strategy</span>
+        </div>
+        <div class="installation-actions">
+          <a class="installation-link" href="/library/">Open content library</a>
+          {
+            featuredNodes.map((node) => (
+              <a class="installation-node-link" href={`/library/${node.id}/`}>
+                <span>{node.data.nodeType}</span>
+                <strong>{node.data.title}</strong>
+              </a>
+            ))
+          }
         </div>
       </div>
     </div>
