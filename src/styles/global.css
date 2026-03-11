@@ -28,9 +28,10 @@ body {
 }
 
 body:not(.content-page) {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body.content-page {
@@ -182,22 +183,29 @@ body.site-ready .site-navbar-logo {
 
 .installation-shell {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  gap: clamp(32px, 6vw, 96px);
+  padding-bottom: clamp(48px, 7vw, 96px);
 }
 
 .hero-installation {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-end;
   z-index: 10;
-  position: absolute;
-  inset: 0;
+  width: min(100%, var(--max-width));
+  min-height: 100vh;
   padding: clamp(96px, 10vw, 144px) clamp(24px, 5vw, 64px) clamp(40px, 6vw, 64px);
+}
+
+.hero-panel {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .installation-title {
@@ -317,6 +325,168 @@ body.site-ready .installation-title {
   opacity: 1;
   filter: blur(0);
   transform: translateY(0);
+}
+
+.scroll-graph {
+  position: relative;
+  z-index: 10;
+  width: min(100%, var(--max-width));
+  display: grid;
+  gap: 24px;
+  padding: 0 clamp(24px, 5vw, 64px);
+  scroll-margin-top: 120px;
+}
+
+.graph-intro {
+  width: min(100%, 700px);
+}
+
+.graph-intro h2 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.graph-intro p {
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.graph-surface {
+  position: relative;
+  min-height: clamp(360px, 52vw, 620px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(247, 244, 238, 0.08), transparent 34%),
+    radial-gradient(circle at 78% 90%, rgba(164, 138, 114, 0.18), transparent 40%),
+    rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.graph-edge {
+  position: absolute;
+  height: 1px;
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(164, 138, 114, 0.08), rgba(247, 244, 238, 0.45));
+  opacity: 0;
+  animation: edge-in 1s ease forwards;
+}
+
+.edge-a {
+  left: 33%;
+  top: 44%;
+  width: 22%;
+  transform: rotate(-24deg);
+  animation-delay: 0.25s;
+}
+
+.edge-b {
+  left: 31%;
+  top: 46%;
+  width: 28%;
+  transform: rotate(14deg);
+  animation-delay: 0.35s;
+}
+
+.edge-c {
+  left: 31%;
+  top: 46%;
+  width: 19%;
+  transform: rotate(90deg);
+  animation-delay: 0.45s;
+}
+
+.edge-d {
+  left: 35%;
+  top: 54%;
+  width: 30%;
+  transform: rotate(38deg);
+  animation-delay: 0.55s;
+}
+
+.edge-e {
+  left: 49%;
+  top: 36%;
+  width: 24%;
+  transform: rotate(66deg);
+  animation-delay: 0.65s;
+}
+
+.graph-node {
+  position: absolute;
+  display: grid;
+  gap: 4px;
+  min-width: 170px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-hover);
+  border-radius: 18px;
+  background: rgba(247, 244, 238, 0.04);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24);
+  transform: translateY(12px);
+  opacity: 0;
+  animation: node-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.graph-node span {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.graph-node strong {
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.node-core {
+  left: 26%;
+  top: 38%;
+  background: rgba(247, 244, 238, 0.09);
+  animation-delay: 0.1s;
+}
+
+.node-1 {
+  left: 54%;
+  top: 25%;
+  animation-delay: 0.2s;
+}
+
+.node-2 {
+  right: 11%;
+  top: 38%;
+  animation-delay: 0.3s;
+}
+
+.node-3 {
+  left: 26%;
+  bottom: 15%;
+  animation-delay: 0.4s;
+}
+
+.node-4 {
+  right: 17%;
+  bottom: 14%;
+  animation-delay: 0.5s;
+}
+
+@keyframes node-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes edge-in {
+  to {
+    opacity: 1;
+  }
 }
 
 .library-shell,
@@ -470,9 +640,10 @@ body.site-ready .installation-title {
   }
 
   .hero-installation {
-    align-items: stretch;
+    align-items: center;
     justify-content: flex-end;
-    padding: 112px 20px 28px;
+    min-height: 100vh;
+    padding: 112px 20px 40px;
   }
 
   .installation-title {
@@ -492,6 +663,29 @@ body.site-ready .installation-title {
   .library-shell,
   .entry-shell {
     padding: 128px 18px 36px;
+  }
+
+  .scroll-graph {
+    padding-inline: 20px;
+    margin-top: -8px;
+  }
+
+  .graph-surface {
+    min-height: 560px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 18px;
+  }
+
+  .graph-edge {
+    display: none;
+  }
+
+  .graph-node {
+    position: static;
+    min-width: 0;
+    animation-delay: 0s;
   }
 }
 

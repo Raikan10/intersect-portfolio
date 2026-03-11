@@ -18,28 +18,70 @@ const featuredNodes = (await getCollection("graph"))
     <RaycastShader />
     <div class="ambient-grid" aria-hidden="true"></div>
 
-    <div class="hero-installation">
-      <div class="installation-title">
-        <h1>AJAY RAJNIKANTH</h1>
-        <div class="installation-subtitle">
-          <span>systems thinker</span>
-          <span class="dot">·</span>
-          <span>product builder</span>
-          <span class="dot">·</span>
-          <span>ai × strategy</span>
-        </div>
-        <div class="installation-actions">
-          <a class="installation-link" href="/library/">Open content library</a>
-          {
-            featuredNodes.map((node) => (
-              <a class="installation-node-link" href={`/library/${node.id}/`}>
-                <span>{node.data.nodeType}</span>
-                <strong>{node.data.title}</strong>
-              </a>
-            ))
-          }
+    <section class="hero-installation" id="top">
+      <div class="hero-panel">
+        <div class="installation-title">
+          <h1>AJAY RAJNIKANTH</h1>
+          <div class="installation-subtitle">
+            <span>systems thinker</span>
+            <span class="dot">·</span>
+            <span>product builder</span>
+            <span class="dot">·</span>
+            <span>ai × strategy</span>
+          </div>
+          <div class="installation-actions">
+            <a class="installation-link" href="/library/">Open content library</a>
+            {
+              featuredNodes.map((node) => (
+                <a class="installation-node-link" href={`/library/${node.id}/`}>
+                  <span>{node.data.nodeType}</span>
+                  <strong>{node.data.title}</strong>
+                </a>
+              ))
+            }
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="scroll-graph" id="projects">
+      <div class="graph-intro">
+        <p class="eyebrow">Scroll Graph</p>
+        <h2>What appears below is mapped as a relationship graph.</h2>
+        <p>
+          Each node represents a capability and each connection shows how strategy, technology,
+          design, and execution reinforce each other.
+        </p>
+      </div>
+
+      <div class="graph-surface" role="img" aria-label="Capability graph with connected domains">
+        <div class="graph-edge edge-a"></div>
+        <div class="graph-edge edge-b"></div>
+        <div class="graph-edge edge-c"></div>
+        <div class="graph-edge edge-d"></div>
+        <div class="graph-edge edge-e"></div>
+
+        <article class="graph-node node-core">
+          <span>Core</span>
+          <strong>Systems Thinking</strong>
+        </article>
+        <article class="graph-node node-1">
+          <span>Execution</span>
+          <strong>Product Building</strong>
+        </article>
+        <article class="graph-node node-2" id="writing">
+          <span>Direction</span>
+          <strong>Strategy</strong>
+        </article>
+        <article class="graph-node node-3" id="about">
+          <span>Interface</span>
+          <strong>Design Language</strong>
+        </article>
+        <article class="graph-node node-4" id="ideas">
+          <span>Amplifier</span>
+          <strong>AI Systems</strong>
+        </article>
+      </div>
+    </section>
   </main>
 </BaseLayout>
