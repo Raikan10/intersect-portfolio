@@ -1,0 +1,64 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("graph");
+
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const allEntries = await getCollection("graph");
+const relatedEntries = entry.data.related
+  .map((id) => allEntries.find((candidate) => candidate.id === id))
+  .filter(Boolean);
+---
+
+<BaseLayout
+  title={`${entry.data.title} | Ajay Rajnikanth`}
+  description={entry.data.summary}
+>
+  <main class="entry-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <article class="entry-layout">
+      <header class="entry-header">
+        <p class="eyebrow">{entry.data.nodeType}</p>
+        <h1>{entry.data.title}</h1>
+        <p class="entry-summary">{entry.data.summary}</p>
+        <div class="entry-tags" aria-label="Keywords">
+          {
+            entry.data.keywords.map((keyword) => (
+              <span>{keyword}</span>
+            ))
+          }
+        </div>
+      </header>
+
+      <div class="entry-body prose">
+        <Content />
+      </div>
+
+      <aside class="entry-relations">
+        <p class="card-eyebrow">Connected nodes</p>
+        {
+          relatedEntries.length > 0 ? (
+            relatedEntries.map((relatedEntry) => (
+              <a class="relation-card" href={`/library/${relatedEntry.id}/`}>
+                <strong>{relatedEntry.data.title}</strong>
+                <span>{relatedEntry.data.nodeType}</span>
+              </a>
+            ))
+          ) : (
+            <p class="entry-empty">No related nodes yet.</p>
+          )
+        }
+      </aside>
+    </article>
+  </main>
+</BaseLayout>

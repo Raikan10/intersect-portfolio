@@ -1,9 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
 const title = "Ajay Rajnikanth | Strategy x Technology x Systems";
 const description =
   "A concept homepage for Ajay Rajnikanth's portfolio: computational geometry, architectural light, and a systems-driven design language.";
+
+const featuredNodes = (await getCollection("graph"))
+  .filter((entry) => entry.data.featured)
+  .sort((left, right) => left.data.order - right.data.order)
+  .slice(0, 3);
 
 const navigation = [
   { label: "Projects", href: "#projects", detail: "Built systems with product and AI at the center." },
@@ -148,6 +154,33 @@ const pillars = [
           built in.
         </p>
       </article>
+    </section>
+
+    <section class="library-preview" aria-labelledby="library-preview-title">
+      <div class="library-preview-copy">
+        <p class="signal-label">Content model</p>
+        <h2 id="library-preview-title">The first nodes are now authored as content.</h2>
+        <p>
+          This is the beginning of the portfolio knowledge graph: separate
+          entries with metadata, relationships, and their own routes inside
+          Astro. The interface is still simple, but the content model is now
+          ready for graph rendering later.
+        </p>
+        <a class="button button-primary" href="/library/">Open content library</a>
+      </div>
+
+      <div class="library-preview-grid">
+        {
+          featuredNodes.map((node) => (
+            <article class="library-preview-card">
+              <p class="card-eyebrow">{node.data.nodeType}</p>
+              <h3>{node.data.title}</h3>
+              <p>{node.data.summary}</p>
+              <a href={`/library/${node.id}/`}>Read node</a>
+            </article>
+          ))
+        }
+      </div>
     </section>
   </main>
 </BaseLayout>

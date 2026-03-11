@@ -67,7 +67,11 @@ img {
 .hero,
 .pillars,
 .signal-band,
-.detail-grid {
+.detail-grid,
+.library-preview,
+.library-hero,
+.library-grid,
+.entry-layout {
   position: relative;
   z-index: 1;
   max-width: var(--max-width);
@@ -416,6 +420,182 @@ h1 {
   padding-bottom: 48px;
 }
 
+.library-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 18px;
+  align-items: start;
+  padding: 84px 0 120px;
+}
+
+.library-preview-copy,
+.library-preview-card,
+.library-card,
+.entry-header,
+.entry-body,
+.entry-relations {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+    rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.library-preview-copy,
+.library-preview-card,
+.library-card,
+.entry-header,
+.entry-body,
+.entry-relations,
+.relation-card {
+  padding: 28px;
+}
+
+.library-preview-copy p:last-child,
+.library-preview-card p:last-of-type,
+.library-card p:last-of-type,
+.entry-summary,
+.prose,
+.entry-empty {
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+.library-preview-copy h2,
+.library-preview-card h3,
+.library-card h2 {
+  font-size: clamp(1.7rem, 2vw, 2.3rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.library-preview-copy .button {
+  margin-top: 24px;
+}
+
+.library-preview-grid,
+.library-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.library-preview-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.library-preview-card,
+.library-card {
+  display: grid;
+  gap: 16px;
+}
+
+.library-preview-card a,
+.relation-card {
+  color: var(--text);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.library-shell,
+.entry-shell {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.library-hero {
+  padding: 72px 0 36px;
+}
+
+.library-hero h1,
+.entry-header h1 {
+  max-width: 12ch;
+}
+
+.library-intro {
+  margin-top: 24px;
+  max-width: 62ch;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.library-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding-bottom: 96px;
+}
+
+.library-meta,
+.entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.library-meta span,
+.entry-tags span {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.entry-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) minmax(280px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+  padding: 72px 0 96px;
+}
+
+.entry-header,
+.entry-body,
+.entry-relations {
+  min-height: 100%;
+}
+
+.entry-summary {
+  margin-top: 22px;
+}
+
+.prose > * + * {
+  margin-top: 18px;
+}
+
+.prose ul {
+  margin: 18px 0 0;
+  padding-left: 20px;
+}
+
+.prose li + li {
+  margin-top: 10px;
+}
+
+.entry-relations {
+  display: grid;
+  gap: 14px;
+}
+
+.relation-card {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.relation-card span {
+  color: var(--text-muted);
+}
+
 .detail-panel:nth-child(1) {
   min-height: 320px;
 }
@@ -451,7 +631,10 @@ h1 {
   .hero,
   .signal-band,
   .detail-grid,
-  .pillars {
+  .pillars,
+  .library-preview,
+  .library-grid,
+  .entry-layout {
     grid-template-columns: 1fr;
   }
 
@@ -468,10 +651,16 @@ h1 {
   .detail-panel:nth-child(3) {
     transform: none;
   }
+
+  .library-preview-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 780px) {
-  .page-shell {
+  .page-shell,
+  .library-shell,
+  .entry-shell {
     padding: 18px;
   }
 
@@ -516,6 +705,10 @@ h1 {
   .signal-band,
   .detail-grid {
     gap: 14px;
+  }
+
+  .library-hero {
+    padding-top: 42px;
   }
 
   .pillar-card,
