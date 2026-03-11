@@ -1,0 +1,153 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Ajay Rajnikanth | Strategy x Technology x Systems";
+const description =
+  "A concept homepage for Ajay Rajnikanth's portfolio: computational geometry, architectural light, and a systems-driven design language.";
+
+const navigation = [
+  { label: "Projects", href: "#projects", detail: "Built systems with product and AI at the center." },
+  { label: "Ideas", href: "#ideas", detail: "Thought frameworks, models, and mental maps." },
+  { label: "Writing", href: "#writing", detail: "Essays on technology, leverage, and execution." },
+  { label: "About", href: "#about", detail: "Operator profile, values, and point of view." },
+];
+
+const pillars = [
+  {
+    eyebrow: "Systems Thinker",
+    title: "I design leverage, not just interfaces.",
+    body:
+      "Product, AI, and strategy all become more valuable when they connect into a system people can actually use.",
+  },
+  {
+    eyebrow: "Product Builder",
+    title: "Execution with structural clarity.",
+    body:
+      "The work spans product direction, user experience, and the mechanics that make ambitious ideas feel inevitable.",
+  },
+  {
+    eyebrow: "AI x Strategy",
+    title: "A portfolio about intersections.",
+    body:
+      "The visual language mirrors the work itself: nodes, vectors, decisions, and connections forming a coherent whole.",
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="page-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="#top">
+        <span class="brand-mark"></span>
+        <span class="brand-copy">
+          <strong>Ajay Rajnikanth</strong>
+          <span>Strategy x Technology x Systems</span>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary">
+        {
+          navigation.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))
+        }
+      </nav>
+    </header>
+
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Digital installation portfolio</p>
+        <h1>AJAY RAJNIKANTH</h1>
+        <p class="hero-subtitle">strategy x technology x systems</p>
+        <p class="hero-summary">
+          A portfolio shaped like a spatial system: computational geometry,
+          architectural light, and product thinking rendered with restraint.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#projects">Enter projects</a>
+          <a class="button button-secondary" href="#about">Read the thesis</a>
+        </div>
+      </div>
+
+      <div class="hero-stage" aria-label="Spatial navigation concept">
+        <div class="stage-frame">
+          <div class="stage-halo"></div>
+          <img
+            class="stage-mark"
+            src="/Logo.svg"
+            alt="Intersect geometric symbol"
+            width="585"
+            height="454"
+          />
+          <div class="stage-center">
+            <span>INTERSECT</span>
+          </div>
+          <a class="stage-node stage-node-top" href="#projects">
+            <span>Projects</span>
+          </a>
+          <a class="stage-node stage-node-left" href="#ideas">
+            <span>Ideas</span>
+          </a>
+          <a class="stage-node stage-node-right" href="#writing">
+            <span>Writing</span>
+          </a>
+          <a class="stage-node stage-node-bottom" href="#about">
+            <span>About</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="pillars" aria-label="Core profile">
+      {
+        pillars.map((pillar) => (
+          <article class="pillar-card">
+            <p class="card-eyebrow">{pillar.eyebrow}</p>
+            <h2>{pillar.title}</h2>
+            <p>{pillar.body}</p>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="signal-band" id="projects">
+      <div>
+        <p class="signal-label">Current direction</p>
+        <h2>Minimal surface. Dense meaning.</h2>
+      </div>
+      <p>
+        The first screen behaves like an arrival sequence, not a marketing page.
+        Every line, glow, and label exists to reinforce a systems-oriented point
+        of view.
+      </p>
+    </section>
+
+    <section class="detail-grid">
+      <article class="detail-panel" id="ideas">
+        <p class="card-eyebrow">Geometry</p>
+        <h2>Thin vectors, intersections, controlled asymmetry.</h2>
+        <p>
+          The page uses the mark as a structural scaffold rather than a decorative
+          badge. Layout lines, spacing, and emphasis all echo the same geometry.
+        </p>
+      </article>
+      <article class="detail-panel" id="writing">
+        <p class="card-eyebrow">Lighting</p>
+        <h2>Contrast does the talking.</h2>
+        <p>
+          Instead of color noise, the interface relies on edge light, soft bloom,
+          and a restrained electric-blue accent to reveal hierarchy.
+        </p>
+      </article>
+      <article class="detail-panel" id="about">
+        <p class="card-eyebrow">Motion</p>
+        <h2>Alive, but calm.</h2>
+        <p>
+          The first pass stays CSS-only for speed. Motion is limited to gentle
+          drift, line shimmer, and hover illumination, with reduced-motion support
+          built in.
+        </p>
+      </article>
+    </section>
+  </main>
+</BaseLayout>
