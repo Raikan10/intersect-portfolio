@@ -1,0 +1,14 @@
+Use case: ui-mockup
+Asset type: portfolio website home screen concept
+Primary request: cinematic desktop homepage concept for Ajay Rajnikanth's portfolio website that feels like a digital installation about systems, intersections, and ideas
+Scene/background: dark architectural space rendered as a premium website interface; black environment with subtle gradient illumination, faint atmospheric depth, and geometric line structures derived from an intersecting constellation mark
+Subject: homepage hero interface with a central geometric network motif, refined editorial typography, sparse navigation anchors for projects, ideas, writing, and about, and a premium systems-thinking portfolio presence for Ajay Rajnikanth
+Style/medium: realistic product UI mockup, shippable website design, not a generic template, not abstract poster art
+Composition/framing: widescreen desktop landing page, full-browser view, strong central composition, generous whitespace, geometry guiding the grid, calm asymmetry, clear readable hierarchy
+Lighting/mood: architectural lighting, geometry revealed by light, subtle edge glow, soft gradient illumination, calm focus, intellectual clarity
+Color palette: black #0A0A0A, white #F5F5F5, gray #7A7A7A, extremely restrained electric blue #4A7BFF accents
+Materials/textures: thin vector lines, node points, glassy light bloom kept minimal, matte dark surfaces, precise high-contrast interface surfaces
+Text (verbatim): "AJAY RAJNIKANTH" and "strategy × technology × systems"
+Constraints: show a homepage UI concept for a personal portfolio website; include the name Ajay Rajnikanth exactly; include the subtitle exactly; geometric symbol should feel like structural DNA of the site; premium editorial typography; spatial navigation metaphor; no stock-photo blocks; no generic SaaS sections; no tacky neon cyberpunk styling; no clutter; no logos other than the site's own geometric motif; no watermark
+Avoid: cheesy sci-fi HUD; oversaturated neon; purple glow; crowded dashboards; card-grid template feel; heavy glassmorphism; cartoon styling; mobile mockup; browser chrome dominating the composition
+Quality: high

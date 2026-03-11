@@ -1,0 +1,260 @@
+
+Portfolio Design System
+
+Computational Geometry × Architectural Lighting
+
+Concept
+
+The portfolio should feel less like a traditional website and more like a digital installation or architectural space. The design language emphasizes structure, geometry, light, and silence.
+
+The core themes are:
+	•	systems thinking
+	•	intersections of ideas
+	•	structure and precision
+	•	minimal but intentional design
+	•	spatial navigation rather than menu-based browsing
+
+The experience should evoke:
+	•	entering a gallery
+	•	interacting with a constructed system
+	•	watching ideas form
+
+⸻
+
+Core Symbol
+
+The central mark is a radial geometric intersection structure composed of thin vector lines radiating from a central node.
+
+Conceptually the symbol represents:
+	•	intersections
+	•	decision points
+	•	systems
+	•	vectors
+	•	networks
+
+It functions as the structural DNA of the website.
+
+Possible interpretations:
+	•	radial geometric structure
+	•	vector constellation
+	•	parametric star
+	•	structural frame
+
+⸻
+
+Navigation Concept
+
+Instead of traditional navigation menus, the symbol can function as a spatial navigation system.
+
+Example structure:
+
+        projects
+           ↑
+ideas ←  INTERSECT  → writing
+           ↓
+         about
+
+Each node corresponds to a section of the site.
+
+Hovering or clicking nodes reveals sections.
+
+⸻
+
+Design Language
+
+Computational Geometry
+
+Visual elements are based on:
+	•	thin vector lines
+	•	nodes and connections
+	•	angular geometry
+	•	structural symmetry
+
+Motifs to repeat throughout the site:
+
+Element	Meaning
+nodes	ideas
+lines	connections
+intersections	insights
+angles	direction
+constellations	systems
+
+
+⸻
+
+Architectural Lighting
+
+Instead of heavy color usage, the site relies on light and contrast.
+
+Visual approach:
+	•	dark environment
+	•	geometry revealed by light
+	•	subtle glow along edges
+	•	soft gradient illumination
+
+Influence from architectural lighting installations.
+
+⸻
+
+Color Palette
+
+Primary palette:
+
+Black: #0A0A0A
+White: #F5F5F5
+Gray: #7A7A7A
+
+Optional accent color:
+
+Electric Blue: #4A7BFF
+
+The accent color should be used very sparingly.
+
+⸻
+
+Motion Design
+
+Motion should feel physical and deliberate, like kinetic sculpture.
+
+Rules:
+	•	slow
+	•	smooth
+	•	subtle
+	•	precise
+
+Possible interactions:
+
+Interaction	Effect
+page load	lines draw from center
+hover node	connections illuminate
+scroll	geometry rotates slightly
+section change	network redraws
+
+The system should feel alive but calm.
+
+⸻
+
+Typography System
+
+Typography should feel architectural and editorial.
+
+Recommended typefaces:
+	•	Söhne
+	•	Neue Haas Grotesk
+	•	IBM Plex Sans
+	•	Inter
+
+Typography principles:
+	•	large headings
+	•	generous whitespace
+	•	minimal decoration
+	•	strong hierarchy
+
+Example hero layout:
+
+AJAY RAJNIKANTH
+
+systems thinker
+product builder
+ai × strategy
+
+
+⸻
+
+Layout System
+
+The geometry of the symbol can generate the grid system for the site.
+
+Possible applications:
+	•	section divisions aligned with angles
+	•	diagonal visual separators
+	•	geometric cropping of images
+	•	line-based layout structures
+
+This ensures visual consistency across the site.
+
+⸻
+
+Hero Section Concept
+
+Initial page experience:
+	1.	Black screen.
+	2.	Thin lines slowly draw outward from a central node.
+	3.	The geometric symbol forms.
+	4.	Title fades in.
+
+Example:
+
+AJAY RAJNIKANTH
+
+Subtitle:
+
+strategy × technology × systems
+
+The effect should feel like an idea forming in space.
+
+⸻
+
+Visual Motifs
+
+The following elements should appear repeatedly across the site:
+	•	thin vector lines
+	•	node points
+	•	intersections
+	•	geometric angles
+	•	constellation structures
+
+This repetition creates a coherent visual language.
+
+⸻
+
+Surreal Element
+
+To prevent the design from feeling sterile, subtle surreal motion can be introduced.
+
+Examples:
+	•	nodes slightly floating
+	•	connections behaving like tensioned strings
+	•	geometry responding gently to cursor movement
+	•	faint pulsing light at intersections
+
+These effects should remain almost imperceptible.
+
+⸻
+
+Advanced Option: Generative Geometry
+
+The symbol can be implemented using WebGL or generative graphics.
+
+Benefits:
+	•	interactive structure
+	•	dynamic line behavior
+	•	subtle physics-based movement
+	•	deeper spatial feeling
+
+This approach can elevate the portfolio into a premium design experience.
+
+⸻
+
+Desired Emotional Tone
+
+Visitors should feel:
+	•	curiosity
+	•	calm focus
+	•	intellectual clarity
+	•	sense of exploration
+
+The portfolio should feel like entering a space of ideas, not browsing a résumé.
+
+⸻
+
+Summary
+
+The design system is built around:
+	1.	a central geometric intersection symbol
+	2.	computational geometry as visual language
+	3.	architectural lighting for depth and atmosphere
+	4.	minimal typography and whitespace
+	5.	subtle motion and generative structure
+
+The result should feel like a digital installation about systems and ideas.
