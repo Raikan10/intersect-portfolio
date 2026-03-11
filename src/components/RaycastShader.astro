@@ -1,0 +1,82 @@
+<div class="raycast-shader-bg" aria-hidden="true">
+  <div class="background-wash"></div>
+  <div class="background-glow glow-top"></div>
+  <div class="background-glow glow-bottom"></div>
+  <div class="background-vignette"></div>
+  <div class="background-grain"></div>
+</div>
+
+<style>
+  .raycast-shader-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: #040302;
+  }
+
+  .background-wash,
+  .background-glow,
+  .background-vignette,
+  .background-grain {
+    position: absolute;
+    inset: 0;
+  }
+
+  .background-wash {
+    background:
+      radial-gradient(circle at 50% 116%, rgba(120, 88, 59, 0.32), transparent 34%),
+      radial-gradient(circle at 50% 68%, rgba(73, 49, 31, 0.24), transparent 40%),
+      linear-gradient(180deg, #020202 0%, #060403 24%, #110c08 74%, #1d140d 100%);
+  }
+
+  .background-glow {
+    filter: blur(110px);
+    mix-blend-mode: screen;
+    opacity: 0.42;
+  }
+
+  .glow-top {
+    background: radial-gradient(circle at 50% 0%, rgba(60, 38, 22, 0.08), transparent 54%);
+    transform: translateY(-18%);
+  }
+
+  .glow-bottom {
+    background: radial-gradient(circle at 50% 100%, rgba(133, 95, 63, 0.22), transparent 42%);
+    transform: translateY(18%);
+  }
+
+  .background-vignette {
+    background:
+      radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.14) 56%, rgba(0, 0, 0, 0.72) 100%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.54) 0%, transparent 28%, transparent 72%, rgba(0, 0, 0, 0.36) 100%);
+  }
+
+  .background-grain {
+    opacity: 0.12;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(255, 244, 226, 0.5) 0 0.6px, transparent 0.8px),
+      radial-gradient(circle at 72% 34%, rgba(255, 244, 226, 0.25) 0 0.6px, transparent 0.8px),
+      radial-gradient(circle at 38% 74%, rgba(255, 244, 226, 0.3) 0 0.7px, transparent 0.9px),
+      radial-gradient(circle at 62% 58%, rgba(255, 244, 226, 0.14) 0 0.6px, transparent 0.8px);
+    background-size: 140px 140px, 180px 180px, 120px 120px, 100px 100px;
+    mix-blend-mode: overlay;
+    animation: grain-shift 0.3s steps(2) infinite;
+  }
+
+  @keyframes grain-shift {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(0.5%, -0.5%, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .background-grain {
+      animation: none;
+    }
+  }
+</style>

@@ -93,15 +93,14 @@ Influence from architectural lighting installations.
 
 Primary palette:
 
-    Black: #0A0A0A
-    White: #F5F5F5
-    Gray: #7A7A7A
+    Near Black: #040302
+    Soft White: #F7F4EE
+    Warm Taupe: #94806D
+    Muted Bronze: #A48A72
 
-Optional accent color:
-
-    Electric Blue: #4A7BFF
-
-Use the accent **sparingly**.
+Do not introduce a cool accent into the hero. The visual system should
+stay inside black, brown, bronze, and warm off-white. Emphasis should
+come from contrast, opacity, and scale rather than a saturated accent.
 
 ------------------------------------------------------------------------
 
@@ -177,10 +176,12 @@ This ensures visual consistency across the site.
 
 Initial page experience:
 
-1.  Black screen.
-2.  Thin lines slowly draw outward from a central node.
-3.  The geometric symbol forms.
-4.  Title fades in.
+1.  A near-black screen with a restrained warm brown lift toward the
+    bottom.
+2.  Subtle grain adds surface texture without becoming noisy.
+3.  The geometric symbol sits within the atmosphere rather than
+    generating the background.
+4.  Title and navigation appear in warm off-white.
 
 Example:
 
@@ -190,7 +191,16 @@ Subtitle:
 
     strategy × technology × systems
 
-The effect should feel like **an idea forming in space**.
+The effect should feel **quiet, minimal, and cinematic** rather than
+generative or theatrical.
+
+Hero background rules:
+
+-   top of screen should stay almost fully black
+-   bottom can carry a soft brown gradient rise
+-   grain should be fine and understated
+-   no red, blue, or neon glow
+-   grid lines, if present, should be extremely faint and warm-toned
 
 ------------------------------------------------------------------------
 

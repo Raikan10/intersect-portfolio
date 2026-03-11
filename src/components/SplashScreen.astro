@@ -1,0 +1,183 @@
+---
+// SplashScreen.astro
+---
+<div id="splash-screen" class="splash-screen">
+  <div class="splash-door left"></div>
+  <div class="splash-door right"></div>
+  
+  <div class="splash-logo-container">
+    <svg width="480" height="364" viewBox="0 0 693 525" fill="none" xmlns="http://www.w3.org/2000/svg" class="splash-logo">
+      <!-- Background triangles -->
+      <path pathLength="1" d="M341.5 271.5L60 39L351.5 264L363 271.5L634 486.5L351.5 280.5L341.5 271.5Z" fill="#FFFEFE" stroke="white" stroke-width="3" class="splash-path delay-1"/>
+      <path pathLength="1" d="M352.5 271.5L634 39L342.5 264L331 271.5L60 486.5L342.5 280.5L352.5 271.5Z" fill="#FFFEFE" stroke="white" stroke-width="3" class="splash-path delay-1"/>
+      
+      <!-- Foreground prongs (sharp tips) -->
+      <path pathLength="1" d="M151 327L60 486.5L156.5 331.5L259 328L267.5 321.5L151 327Z" fill="#FDFCFC" stroke="white" stroke-width="5" class="splash-path delay-2"/>
+      <path pathLength="1" d="M542.5 326.5L633.5 486L537 331L434.5 327.5L426 321L542.5 326.5Z" fill="#FDFCFC" stroke="white" stroke-width="5" class="splash-path delay-2"/>
+      <path pathLength="1" d="M542.5 198.5L633.5 39L537 194L434.5 197.5L426 204L542.5 198.5Z" fill="#FDFCFC" stroke="white" stroke-width="5" class="splash-path delay-3"/>
+      <path pathLength="1" d="M151 198.5L60 39L156.5 194L259 197.5L267.5 204L151 198.5Z" fill="#FDFCFC" stroke="white" stroke-width="5" class="splash-path delay-3"/>
+    </svg>
+  </div>
+</div>
+
+<script>
+  // Fast, inline script to check if we should play the animation.
+  // We use sessionStorage so it plays once per tab session.
+  const markSiteReady = () => {
+    document.body.classList.add('site-ready');
+    document.body.style.overflow = '';
+  };
+
+  if (sessionStorage.getItem('splashPlayed')) {
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+      splash.style.display = 'none';
+    }
+    markSiteReady();
+  } else {
+    // Lock scrolling while splash is active
+    document.body.style.overflow = 'hidden';
+
+    // Play the animation
+    sessionStorage.setItem('splashPlayed', 'true');
+
+    const initializeSplashTransition = () => {
+      const splash = document.getElementById('splash-screen');
+      const logoContainer = splash?.querySelector('.splash-logo-container');
+      const navbarLogo = document.getElementById('splash-navbar-logo');
+
+      if (!splash || !logoContainer || !navbarLogo) {
+        markSiteReady();
+        splash?.remove();
+        return;
+      }
+
+      const startNavbarTransition = () => {
+        const sourceRect = logoContainer.getBoundingClientRect();
+        const targetRect = navbarLogo.getBoundingClientRect();
+        const translateX =
+          targetRect.left + targetRect.width / 2 - (sourceRect.left + sourceRect.width / 2);
+        const translateY =
+          targetRect.top + targetRect.height / 2 - (sourceRect.top + sourceRect.height / 2);
+        const scale = Math.min(targetRect.width / sourceRect.width, targetRect.height / sourceRect.height);
+
+        splash.classList.add('is-transitioning');
+        logoContainer.style.setProperty('--logo-translate-x', `${translateX}px`);
+        logoContainer.style.setProperty('--logo-translate-y', `${translateY}px`);
+        logoContainer.style.setProperty('--logo-scale', `${scale}`);
+      };
+
+      window.setTimeout(startNavbarTransition, 2450);
+      window.setTimeout(() => {
+        markSiteReady();
+      }, 3350);
+      window.setTimeout(() => {
+        splash.remove();
+      }, 4100);
+    };
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(initializeSplashTransition);
+    });
+  }
+</script>
+
+<style>
+  .splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    pointer-events: none; /* Container itself shouldn't block */
+  }
+
+  /* The actual black background splits into two halves */
+  .splash-door {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50vw;
+    background-color: #000;
+    pointer-events: all; /* Blocks clicks while active */
+    transform: scaleX(1);
+  }
+
+  .splash-door.left {
+    left: 0;
+    transform-origin: left;
+  }
+
+  .splash-door.right {
+    right: 0;
+    transform-origin: right;
+  }
+
+  .splash-logo-container {
+    position: relative;
+    z-index: 10000;
+    transform-origin: center center;
+    transition:
+      transform 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.3s ease;
+  }
+
+  .splash-logo {
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+  }
+
+  /* SVG Outline Animation */
+  .splash-path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    fill-opacity: 0; /* Start completely empty */
+    animation: 
+      draw-line 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+      fade-fill 0.8s ease-in 1.2s forwards;
+  }
+
+  /* Stagger the drawing */
+  .splash-path.delay-1 { animation-delay: 0.2s, 1.4s; }
+  .splash-path.delay-2 { animation-delay: 0.6s, 1.8s; }
+  .splash-path.delay-3 { animation-delay: 1.0s, 2.2s; }
+
+  @keyframes draw-line {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes fade-fill {
+    to {
+      fill-opacity: 1;
+    }
+  }
+
+  @keyframes slide-door {
+    0% {
+      transform: scaleX(1);
+    }
+    100% {
+      transform: scaleX(0); /* Hardware accelerated sliding */
+    }
+  }
+  .splash-screen.is-transitioning .splash-door {
+    animation: slide-door 1s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+  }
+
+  .splash-screen.is-transitioning .splash-logo-container {
+    transform:
+      translate(var(--logo-translate-x, 0), var(--logo-translate-y, 0))
+      scale(var(--logo-scale, 1));
+  }
+
+  .splash-screen.is-transitioning .splash-logo {
+    filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.12));
+  }
+</style>

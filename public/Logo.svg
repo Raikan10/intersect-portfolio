@@ -1,9 +1,14 @@
-<svg width="693" height="525" viewBox="0 0 693 525" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="693" height="525" fill="black"/>
-<path d="M341.5 271.5L60 39L351.5 264L363 271.5L634 486.5L351.5 280.5L341.5 271.5Z" fill="#FFFEFE" stroke="white" stroke-width="3"/>
-<path d="M352.5 271.5L634 39L342.5 264L331 271.5L60 486.5L342.5 280.5L352.5 271.5Z" fill="#FFFEFE" stroke="white" stroke-width="3"/>
-<path d="M151 327L60 486.5L156.5 331.5L259 328L267.5 321.5L151 327Z" fill="#FDFCFC" stroke="white" stroke-width="5"/>
-<path d="M542.5 326.5L633.5 486L537 331L434.5 327.5L426 321L542.5 326.5Z" fill="#FDFCFC" stroke="white" stroke-width="5"/>
-<path d="M542.5 198.5L633.5 39L537 194L434.5 197.5L426 204L542.5 198.5Z" fill="#FDFCFC" stroke="white" stroke-width="5"/>
-<path d="M151 198.5L60 39L156.5 194L259 197.5L267.5 204L151 198.5Z" fill="#FDFCFC" stroke="white" stroke-width="5"/>
+<svg viewBox="45 24 604 478" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    path { stroke: #FFF; fill: #FFF; }
+    @media (prefers-color-scheme: light) {
+      path { stroke: #000; fill: #000; }
+    }
+  </style>
+  <path d="M341.5 271.5L60 39L351.5 264L363 271.5L634 486.5L351.5 280.5L341.5 271.5Z" stroke-width="3"/>
+  <path d="M352.5 271.5L634 39L342.5 264L331 271.5L60 486.5L342.5 280.5L352.5 271.5Z" stroke-width="3"/>
+  <path d="M151 327L60 486.5L156.5 331.5L259 328L267.5 321.5L151 327Z" stroke-width="5"/>
+  <path d="M542.5 326.5L633.5 486L537 331L434.5 327.5L426 321L542.5 326.5Z" stroke-width="5"/>
+  <path d="M542.5 198.5L633.5 39L537 194L434.5 197.5L426 204L542.5 198.5Z" stroke-width="5"/>
+  <path d="M151 198.5L60 39L156.5 194L259 197.5L267.5 204L151 198.5Z" stroke-width="5"/>
 </svg>

@@ -100,15 +100,14 @@ Color Palette
 
 Primary palette:
 
-Black: #0A0A0A
-White: #F5F5F5
-Gray: #7A7A7A
+Near Black: #040302
+Soft White: #F7F4EE
+Warm Taupe: #94806D
+Muted Bronze: #A48A72
 
-Optional accent color:
-
-Electric Blue: #4A7BFF
-
-The accent color should be used very sparingly.
+There should be no cool accent color in the hero.
+The visual system should stay within black, brown, bronze, and warm off-white.
+Any emphasis should come from contrast, opacity, and scale rather than a bright accent.
 
 ⸻
 
@@ -178,10 +177,10 @@ This ensures visual consistency across the site.
 Hero Section Concept
 
 Initial page experience:
-	1.	Black screen.
-	2.	Thin lines slowly draw outward from a central node.
-	3.	The geometric symbol forms.
-	4.	Title fades in.
+	1.	A near-black screen with a restrained warm brown lift toward the bottom.
+	2.	Subtle grain gives the surface texture without becoming noisy.
+	3.	The geometric symbol sits within the atmosphere rather than generating the background.
+	4.	Title and navigation appear in warm off-white.
 
 Example:
 
@@ -191,7 +190,14 @@ Subtitle:
 
 strategy × technology × systems
 
-The effect should feel like an idea forming in space.
+The effect should feel quiet, minimal, and cinematic rather than generative or theatrical.
+
+Hero background rules:
+	•	top of screen should stay almost fully black
+	•	bottom can carry a soft brown gradient rise
+	•	grain should be fine and understated
+	•	no red, blue, or neon glow
+	•	grid lines, if present, should be extremely faint and warm-toned
 
 ⸻
 

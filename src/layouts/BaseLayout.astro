@@ -4,6 +4,7 @@ import "@fontsource/ibm-plex-sans/500.css";
 import "@fontsource/ibm-plex-sans/600.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import "../styles/global.css";
+import SplashScreen from "../components/SplashScreen.astro";
 
 interface Props {
   title: string;
@@ -38,6 +39,28 @@ const schema = {
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
   <body>
+    <header class="site-navbar" aria-label="Primary">
+      <a class="site-navbar-brand" href="/" aria-label="Intersect home">
+        <span class="site-navbar-logo-frame" id="splash-navbar-logo" aria-hidden="true">
+          <img
+            class="site-navbar-logo"
+            src="/Logo.svg"
+            alt=""
+            width="104"
+            height="80"
+          />
+        </span>
+        <span class="site-navbar-wordmark">Intersect</span>
+      </a>
+
+      <nav class="site-navbar-links">
+        <a href="#projects">Projects</a>
+        <a href="#writing">Writing</a>
+        <a href="#about">About</a>
+        <a href="#ideas">Ideas</a>
+      </nav>
+    </header>
+    <SplashScreen />
     <slot />
   </body>
 </html>
