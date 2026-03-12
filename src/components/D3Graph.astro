@@ -25,11 +25,17 @@ const { nodes, links } = Astro.props;
 
 <style>
   .graph-container {
+    position: relative;
     width: 100%;
-    height: 600px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: #111;
-    border-radius: 8px;
+    min-height: clamp(500px, 60vw, 760px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(circle at 18% 12%, rgba(247, 244, 238, 0.05), transparent 34%),
+      radial-gradient(circle at 78% 90%, rgba(164, 138, 114, 0.12), transparent 40%),
+      rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
     overflow: hidden;
   }
   
@@ -39,8 +45,23 @@ const { nodes, links } = Astro.props;
     height: 100%;
   }
 
-  :global(circle:active) {
-    cursor: grabbing !important;
+  :global(.graph-node) {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  
+  :global(.graph-link) {
+    transition: stroke-opacity 0.3s ease, stroke-width 0.3s ease, stroke 0.3s ease;
+  }
+
+  :global(.node-bg) {
+    transition: fill 0.3s ease, stroke 0.3s ease, filter 0.3s ease;
+  }
+
+  :global(.graph-node:hover .node-bg) {
+    stroke: var(--text);
+    fill: rgba(255, 255, 255, 0.1);
+    filter: drop-shadow(0 0 8px rgba(247, 244, 238, 0.2));
   }
 </style>
 
@@ -79,26 +100,30 @@ const { nodes, links } = Astro.props;
       const links = validLinks.map(d => ({ ...d }));
 
       svg.selectAll("*").remove(); // Clear previous drawing
-      // Use viewBox for better responsiveness if needed, but internal logic uses raw width/height
-      // svg.attr("viewBox", [0, 0, width, height]);
 
       const simulation = d3.forceSimulation(nodes)
-          .force("link", d3.forceLink(links).id((d: any) => d.id).distance(150))
-          .force("charge", d3.forceManyBody().strength(-400))
-          .force("center", d3.forceCenter(width / 2, height / 2));
+          .force("link", d3.forceLink(links).id((d: any) => d.id).distance(220))
+          .force("charge", d3.forceManyBody().strength(-1200))
+          .force("center", d3.forceCenter(width / 2, height / 2))
+          .force("collide", d3.forceCollide().radius(110))
+          .force("x", d3.forceX(width / 2).strength(0.05))
+          .force("y", d3.forceY(height / 2).strength(0.05));
 
       const link = svg.append("g")
-          .attr("stroke", "rgba(255, 255, 255, 0.2)")
-          .attr("stroke-opacity", 0.6)
+          .attr("class", "links")
         .selectAll("line")
         .data(links)
         .join("line")
-          .attr("stroke-width", 2);
+          .attr("class", "graph-link")
+          .attr("stroke", "rgba(164, 138, 114, 0.3)")
+          .attr("stroke-width", 1.5)
+          .attr("stroke-opacity", 0.8);
 
       const nodeGroup = svg.append("g")
         .selectAll("g")
         .data(nodes)
         .join("g")
+          .attr("class", "graph-node")
           .call(d3.drag()
             .on("start", (event, d: any) => {
               if (!event.active) simulation.alphaTarget(0.3).restart();
@@ -115,21 +140,64 @@ const { nodes, links } = Astro.props;
               d.fy = null;
             }) as any);
 
-      nodeGroup.append("circle")
-          .attr("r", 20)
-          .attr("fill", "#4caf50")
-          .attr("stroke", "#fff")
-          .attr("stroke-width", 2)
-          .style("cursor", "pointer");
+      nodeGroup.append("rect")
+          .attr("class", "node-bg")
+          .attr("width", 220)
+          .attr("height", 80)
+          .attr("x", -110)
+          .attr("y", -40)
+          .attr("rx", 20)
+          .attr("fill", "rgba(10, 10, 10, 0.4)")
+          .attr("stroke", "rgba(164, 138, 114, 0.2)")
+          .attr("stroke-width", 1);
+
+      nodeGroup.append("text")
+          .text("PROJECT")
+          .attr("text-anchor", "middle")
+          .attr("y", -18)
+          .attr("fill", "var(--accent)")
+          .style("font-size", "10px")
+          .style("font-family", "'IBM Plex Mono', monospace")
+          .style("letter-spacing", "0.2em")
+          .style("opacity", "0.8")
+          .style("pointer-events", "none");
 
       nodeGroup.append("text")
           .text((d: any) => d.name)
-          .attr("font-size", 14)
-          .attr("fill", "#fff")
-          .attr("dx", 25)
-          .attr("dy", 5)
-          .style("font-family", "sans-serif")
+          .attr("text-anchor", "middle")
+          .attr("y", 8)
+          .attr("fill", "var(--text)")
+          .style("font-size", "15px")
+          .style("font-weight", "500")
+          .style("font-family", "'IBM Plex Sans', sans-serif")
+          .style("letter-spacing", "0.02em")
           .style("pointer-events", "none");
+
+      nodeGroup.on("mouseover", (event, d: any) => {
+        nodeGroup.style("opacity", 0.2);
+        link.style("stroke-opacity", 0.05);
+
+        const connectedIds = new Set([d.id]);
+        link.each((l: any) => {
+          if (l.source.id === d.id || l.target.id === d.id) {
+            connectedIds.add(l.source.id);
+            connectedIds.add(l.target.id);
+          }
+        });
+
+        nodeGroup.filter((n: any) => connectedIds.has(n.id)).style("opacity", 1);
+        link.filter((l: any) => l.source.id === d.id || l.target.id === d.id)
+          .attr("stroke", "rgba(164, 138, 114, 0.8)")
+          .attr("stroke-opacity", 1)
+          .attr("stroke-width", 2.5);
+      });
+
+      nodeGroup.on("mouseout", () => {
+        nodeGroup.style("opacity", 1);
+        link.attr("stroke", "rgba(164, 138, 114, 0.3)")
+            .attr("stroke-opacity", 0.8)
+            .attr("stroke-width", 1.5);
+      });
 
       nodeGroup.on("click", (event, d: any) => {
         if (event.defaultPrevented) return; // ignore if the user was dragging
