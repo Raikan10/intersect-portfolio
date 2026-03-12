@@ -1,45 +1,39 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import GlowShader from "../components/GlowShader.astro";
+import InteractiveGraph from "../components/InteractiveGraph.astro";
 import { getCollection } from "astro:content";
-import RaycastShader from "../components/RaycastShader.astro";
 
 const title = "Ajay Rajnikanth | Strategy x Technology x Systems";
 const description =
   "A concept homepage for Ajay Rajnikanth's portfolio: computational geometry, architectural light, and a systems-driven design language.";
 
-const featuredNodes = (await getCollection("graph"))
-  .filter((entry) => entry.data.featured)
-  .sort((left, right) => left.data.order - right.data.order)
-  .slice(0, 3);
+const allNodes = await getCollection("graph");
+
+const nodes = allNodes.map((entry) => ({
+  id: entry.id,
+  name: entry.data.title,
+  type: entry.data.nodeType,
+}));
+
+const links = allNodes.flatMap((entry) => {
+  if (!entry.data.related) return [];
+  return entry.data.related.map((targetId) => ({
+    source: entry.id,
+    target: targetId,
+  }));
+});
 ---
 
 <BaseLayout title={title} description={description}>
   <main class="installation-shell">
-    <RaycastShader />
+    <GlowShader />
     <div class="ambient-grid" aria-hidden="true"></div>
 
     <section class="hero-installation" id="top">
       <div class="hero-panel">
         <div class="installation-title">
           <h1>AJAY RAJNIKANTH</h1>
-          <div class="installation-subtitle">
-            <span>systems thinker</span>
-            <span class="dot">·</span>
-            <span>product builder</span>
-            <span class="dot">·</span>
-            <span>ai × strategy</span>
-          </div>
-          <div class="installation-actions">
-            <a class="installation-link" href="/library/">Open content library</a>
-            {
-              featuredNodes.map((node) => (
-                <a class="installation-node-link" href={`/library/${node.id}/`}>
-                  <span>{node.data.nodeType}</span>
-                  <strong>{node.data.title}</strong>
-                </a>
-              ))
-            }
-          </div>
         </div>
       </div>
     </section>
@@ -54,34 +48,7 @@ const featuredNodes = (await getCollection("graph"))
         </p>
       </div>
 
-      <div class="graph-surface" role="img" aria-label="Capability graph with connected domains">
-        <div class="graph-edge edge-a"></div>
-        <div class="graph-edge edge-b"></div>
-        <div class="graph-edge edge-c"></div>
-        <div class="graph-edge edge-d"></div>
-        <div class="graph-edge edge-e"></div>
-
-        <article class="graph-node node-core">
-          <span>Core</span>
-          <strong>Systems Thinking</strong>
-        </article>
-        <article class="graph-node node-1">
-          <span>Execution</span>
-          <strong>Product Building</strong>
-        </article>
-        <article class="graph-node node-2" id="writing">
-          <span>Direction</span>
-          <strong>Strategy</strong>
-        </article>
-        <article class="graph-node node-3" id="about">
-          <span>Interface</span>
-          <strong>Design Language</strong>
-        </article>
-        <article class="graph-node node-4" id="ideas">
-          <span>Amplifier</span>
-          <strong>AI Systems</strong>
-        </article>
-      </div>
+      <InteractiveGraph nodes={nodes} links={links} />
     </section>
   </main>
 </BaseLayout>

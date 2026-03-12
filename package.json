@@ -10,6 +10,16 @@
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/ibm-plex-sans": "^5.2.8",
-    "astro": "^6.0.3"
+    "@types/three": "^0.183.1",
+    "astro": "^6.0.3",
+    "d3": "^7.9.0",
+    "d3-drag": "^3.0.0",
+    "d3-force": "^3.0.0",
+    "d3-selection": "^3.0.0",
+    "d3-zoom": "^3.0.0",
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3"
   }
 }
