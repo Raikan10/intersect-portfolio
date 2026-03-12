@@ -47,14 +47,15 @@ const schema = {
             class="site-navbar-logo"
             src="/Logo.svg"
             alt=""
-            width="104"
-            height="80"
           />
         </span>
-        <span class="site-navbar-wordmark">Intersect</span>
+        <span class="site-navbar-wordmark">Ajay Rajnikanth</span>
       </a>
+      <button id="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
 
-      <nav class="site-navbar-links">
+      <nav class="site-navbar-links" id="site-navbar-links">
         {
           pageKind === "installation" ? (
             <>
@@ -74,5 +75,29 @@ const schema = {
     </header>
     {pageKind === "installation" && <SplashScreen />}
     <slot />
+
+    <script>
+      const toggle = document.getElementById('mobile-menu-toggle');
+      const navbar = document.querySelector('.site-navbar');
+      
+      if (toggle && navbar) {
+        toggle.addEventListener('click', () => {
+          const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!isExpanded));
+          navbar.classList.toggle('is-open');
+          document.body.classList.toggle('menu-open');
+        });
+
+        // Close menu when clicking a link
+        const links = navbar.querySelectorAll('.site-navbar-links a');
+        links.forEach(link => {
+          link.addEventListener('click', () => {
+            toggle.setAttribute('aria-expanded', 'false');
+            navbar.classList.remove('is-open');
+            document.body.classList.remove('menu-open');
+          });
+        });
+      }
+    </script>
   </body>
 </html>

@@ -37,6 +37,9 @@
       // INIT TARGET MOUSE FIRST to prevent 1st frame crash!
       this.targetMouse = new THREE.Vector2(0.5, 0.5);
 
+      this.isVisible = true;
+      this.setupObserver();
+
       this.init();
       
       this.onResize = this.onResize.bind(this);
@@ -53,6 +56,24 @@
       this.animate();
 
       setTimeout(() => document.body.classList.add('site-ready'), 3500);
+    }
+
+    setupObserver() {
+      this.observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        const wasVisible = this.isVisible;
+        this.isVisible = entry.isIntersecting;
+        
+        if (this.isVisible && !wasVisible) {
+          // Restart animation if it becomes visible
+          this.animate();
+        }
+      }, { 
+        threshold: 0, // Trigger as soon as even 1 pixel leaves/enters
+        rootMargin: "0px" 
+      });
+
+      if (this.canvas) this.observer.observe(this.canvas);
     }
 
     init() {
@@ -186,6 +207,7 @@
     }
 
     animate() {
+      if (!this.isVisible) return;
       this.frame = requestAnimationFrame(() => this.animate());
       
       if (this.targetMouse) {
@@ -198,6 +220,7 @@
 
     destroy() {
       cancelAnimationFrame(this.frame);
+      if (this.observer) this.observer.disconnect();
       window.removeEventListener('resize', this.onResize);
     }
   }
@@ -210,9 +233,12 @@
 
 <style>
   .beam-shader-container {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
     background: #020101; 
     pointer-events: none;
     overflow: hidden;

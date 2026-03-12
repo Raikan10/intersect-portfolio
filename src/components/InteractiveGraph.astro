@@ -28,7 +28,7 @@ const { nodes, links } = Astro.props;
   .interactive-graph-container {
     position: relative;
     width: 100%;
-    min-height: clamp(400px, 60vw, 720px);
+    min-height: clamp(500px, 60vw, 760px);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background:
@@ -65,50 +65,94 @@ const { nodes, links } = Astro.props;
   import * as d3 from "d3";
 
   class IntersectGraph extends HTMLElement {
-    constructor() {
-      super();
+    initialized = false;
+    simulation = null;
 
-      const container = this.querySelector(".interactive-graph-container") as HTMLElement;
+    connectedCallback() {
+      const container = this.querySelector(".interactive-graph-container");
       if (!container) return;
 
-      const rawNodes = JSON.parse(this.dataset.nodes || "[]");
-      const rawLinks = JSON.parse(this.dataset.links || "[]");
-
-      // Deep copy nodes and links for d3 simulation
-      const nodes = rawNodes.map((d: any) => Object.create(d));
-      const links = rawLinks.map((d: any) => Object.create(d));
-
-      const svg = d3.select(this.querySelector("svg"));
-      
-      const updateDimensions = () => {
-        const { width, height } = container.getBoundingClientRect();
-        return { width, height };
+      const runInit = () => {
+        const rect = container.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0 && !this.initialized) {
+          this.initGraph(rect.width, rect.height);
+          this.initialized = true;
+        }
       };
 
-      let { width, height } = updateDimensions();
+      // Try immediately
+      runInit();
+      
+      // Also try after a short delay for layout
+      setTimeout(runInit, 500);
 
-      const simulation = d3.forceSimulation(nodes)
-        .force("link", d3.forceLink(links).id((d: any) => d.id).distance(150))
-        .force("charge", d3.forceManyBody().strength(-800))
-        .force("center", d3.forceCenter(width / 2, height / 2))
-        .force("collide", d3.forceCollide().radius(60));
+      // And on resize
+      window.addEventListener("resize", () => {
+        const rect = container.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+          if (!this.initialized) {
+            runInit();
+          } else if (this.simulation) {
+            this.simulation.force("center", d3.forceCenter(rect.width / 2, rect.height / 2));
+            this.simulation.alpha(0.3).restart();
+          }
+        }
+      });
+    }
 
+    initGraph(width, height) {
+      const svgElement = this.querySelector("svg");
+      if (!svgElement) return;
+
+      let nodesData, linksData;
+      try {
+        nodesData = JSON.parse(this.dataset.nodes || "[]");
+        linksData = JSON.parse(this.dataset.links || "[]");
+      } catch (e) {
+        console.error("Failed to parse graph data", e);
+        return;
+      }
+
+      // 1. VALIDATE LINKS: D3 will crash if source or target don't exist
+      const nodeIds = new Set(nodesData.map(n => n.id));
+      const validLinks = linksData.filter(l => {
+        return nodeIds.has(l.source) && nodeIds.has(l.target);
+      });
+
+      // 2. Initial positions (randomized to prevent 0,0 stack)
+      const nodes = nodesData.map(d => ({
+        ...d,
+        x: width / 2 + (Math.random() - 0.5) * 100,
+        y: height / 2 + (Math.random() - 0.5) * 100
+      }));
+      const links = validLinks.map(d => ({ ...d }));
+
+      const svg = d3.select(svgElement);
+      svg.selectAll("*").remove();
+      
+      const g = svg.append("g");
+
+      // Zoom support
       const zoom = d3.zoom()
-        .scaleExtent([0.5, 4])
+        .scaleExtent([0.2, 3])
         .on("zoom", (event) => {
           g.attr("transform", event.transform);
         });
+      svg.call(zoom);
 
-      svg.call(zoom as any);
-      
-      const g = svg.append("g");
+      this.simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(d => d.id).distance(220))
+        .force("charge", d3.forceManyBody().strength(-1500))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("collide", d3.forceCollide().radius(110))
+        .force("x", d3.forceX(width / 2).strength(0.1))
+        .force("y", d3.forceY(height / 2).strength(0.1));
 
       const link = g.append("g")
         .attr("class", "links")
         .selectAll("line")
         .data(links)
         .join("line")
-        .attr("class", "graph-link")
         .attr("stroke", "rgba(164, 138, 114, 0.4)")
         .attr("stroke-width", 2);
 
@@ -119,132 +163,93 @@ const { nodes, links } = Astro.props;
         .join("g")
         .attr("class", "graph-node")
         .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended) as any);
+          .on("start", (event, d) => {
+            if (!event.active) this.simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          })
+          .on("drag", (event, d) => {
+            d.fx = event.x;
+            d.fy = event.y;
+          })
+          .on("end", (event, d) => {
+            if (!event.active) this.simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+          }));
 
-      // Node background
+      // Node styling
       node.append("rect")
-        .attr("width", 180)
-        .attr("height", 60)
-        .attr("x", -90)
-        .attr("y", -30)
-        .attr("rx", 14)
-        .attr("fill", "rgba(247, 244, 238, 0.05)")
+        .attr("width", 220)
+        .attr("height", 80)
+        .attr("x", -110)
+        .attr("y", -40)
+        .attr("rx", 20)
+        .attr("fill", "rgba(10, 10, 10, 0.6)")
         .attr("stroke", "rgba(247, 244, 238, 0.15)")
-        .attr("stroke-width", 1);
+        .attr("stroke-width", 2)
+        .style("backdrop-filter", "blur(10px)");
 
-      // Type label
       node.append("text")
-        .text((d: any) => d.type.toUpperCase())
-        .attr("y", -6)
+        .text(d => d.type.toUpperCase())
+        .attr("y", -14)
         .attr("text-anchor", "middle")
-        .attr("fill", "rgba(148, 128, 109, 1)")
+        .attr("fill", "rgba(164, 138, 114, 1)")
         .style("font-size", "10px")
         .style("font-family", "'IBM Plex Mono', monospace")
-        .style("letter-spacing", "0.08em");
+        .style("letter-spacing", "0.2em")
+        .style("pointer-events", "none");
 
-      // Title label
       node.append("text")
-        .text((d: any) => {
-          return d.name.length > 20 ? d.name.substring(0, 18) + "..." : d.name;
-        })
-        .attr("y", 12)
+        .text(d => d.name)
+        .attr("y", 16)
         .attr("text-anchor", "middle")
         .attr("fill", "#f7f4ee")
-        .style("font-size", "14px")
-        .style("font-weight", "500")
-        .style("font-family", "'IBM Plex Sans', sans-serif");
+        .style("font-size", "16px")
+        .style("font-family", "'IBM Plex Sans', sans-serif")
+        .style("pointer-events", "none");
 
+      // Hover and Click
+      node.on("mouseover", (event, d) => {
+        node.style("opacity", 0.15);
+        link.style("stroke-opacity", 0.05);
 
-      // Interaction states
-      node.on("mouseover", function(event, d: any) {
-        // Dim all nodes and links slightly
-        node.style("opacity", 0.3);
-        link.style("stroke-opacity", 0.1);
-
-        // Highlight connected nodes and links
-        const connectedNodeIds = new Set();
-        connectedNodeIds.add(d.id);
-        
-        link.filter((l: any) => {
-          const isConnected = l.source.id === d.id || l.target.id === d.id;
-          if (isConnected) {
-            connectedNodeIds.add(l.source.id);
-            connectedNodeIds.add(l.target.id);
+        const connectedIds = new Set([d.id]);
+        link.each(l => {
+          if (l.source.id === d.id || l.target.id === d.id) {
+            connectedIds.add(l.source.id);
+            connectedIds.add(l.target.id);
           }
-          return isConnected;
-        })
-        .style("stroke", "rgba(247, 244, 238, 0.8)")
-        .style("stroke-width", 3)
-        .style("stroke-opacity", 1);
+        });
 
-        node.filter((n: any) => connectedNodeIds.has(n.id))
-          .style("opacity", 1)
-          .select("rect")
-          .attr("stroke", "rgba(247, 244, 238, 0.5)");
-          
-        d3.select(this).select("rect")
-          .attr("stroke", "rgba(247, 244, 238, 0.8)")
-          .attr("fill", "rgba(247, 244, 238, 0.1)");
+        node.filter(n => connectedIds.has(n.id)).style("opacity", 1);
+        link.filter(l => l.source.id === d.id || l.target.id === d.id)
+          .style("stroke", "#f7f4ee")
+          .style("stroke-opacity", 1)
+          .style("stroke-width", 3);
       });
 
-      node.on("mouseout", function() {
-        // Reset styles
-        node.style("opacity", 1)
-          .select("rect")
-          .attr("stroke", "rgba(247, 244, 238, 0.15)")
-          .attr("fill", "rgba(247, 244, 238, 0.05)");
-          
+      node.on("mouseout", () => {
+        node.style("opacity", 1);
         link.style("stroke", "rgba(164, 138, 114, 0.4)")
           .style("stroke-width", 2)
           .style("stroke-opacity", 1);
       });
 
-      node.on("click", (event, d: any) => {
-        if (event.defaultPrevented) return; // Prevent click on drag
-        window.location.href = `/library/${d.id}/`;
+      node.on("click", (event, d) => {
+        if (!event.defaultPrevented) window.location.href = `/library/${d.id}/`;
       });
 
-      simulation.on("tick", () => {
+      this.simulation.on("tick", () => {
         link
-          .attr("x1", (d: any) => Math.max(0, Math.min(width, d.source.x)))
-          .attr("y1", (d: any) => Math.max(0, Math.min(height, d.source.y)))
-          .attr("x2", (d: any) => Math.max(0, Math.min(width, d.target.x)))
-          .attr("y2", (d: any) => Math.max(0, Math.min(height, d.target.y)));
+          .attr("x1", d => d.source.x)
+          .attr("y1", d => d.source.y)
+          .attr("x2", d => d.target.x)
+          .attr("y2", d => d.target.y);
 
         node
-          .attr("transform", (d: any) => {
-             d.x = Math.max(90, Math.min(width - 90, d.x));
-             d.y = Math.max(30, Math.min(height - 30, d.y));
-             return `translate(${d.x},${d.y})`;
-          });
+          .attr("transform", d => `translate(${d.x},${d.y})`);
       });
-
-      window.addEventListener("resize", () => {
-        const newDims = updateDimensions();
-        width = newDims.width;
-        height = newDims.height;
-        simulation.force("center", d3.forceCenter(width / 2, height / 2));
-        simulation.alpha(0.3).restart();
-      });
-
-      function dragstarted(event: any, d: any) {
-        if (!event.active) simulation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
-      }
-
-      function dragged(event: any, d: any) {
-        d.fx = event.x;
-        d.fy = event.y;
-      }
-
-      function dragended(event: any, d: any) {
-        if (!event.active) simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
-      }
     }
   }
 
