@@ -1,0 +1,153 @@
+---
+export interface Node {
+  id: string;
+  name: string;
+}
+
+export interface Link {
+  source: string;
+  target: string;
+}
+
+interface Props {
+  nodes: Node[];
+  links: Link[];
+}
+
+const { nodes, links } = Astro.props;
+---
+
+<simple-d3-graph data-nodes={JSON.stringify(nodes)} data-links={JSON.stringify(links)}>
+  <div class="graph-container">
+    <svg width="100%" height="600"></svg>
+  </div>
+</simple-d3-graph>
+
+<style>
+  .graph-container {
+    width: 100%;
+    height: 600px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #111;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  :global(circle:active) {
+    cursor: grabbing !important;
+  }
+</style>
+
+<script>
+  import * as d3 from 'd3';
+
+  class SimpleD3Graph extends HTMLElement {
+    connectedCallback() {
+      const container = this.querySelector('.graph-container');
+      if (!container) return;
+
+      const nodesData = JSON.parse(this.dataset.nodes || '[]');
+      const linksData = JSON.parse(this.dataset.links || '[]');
+
+      // Delay graph init slightly to ensure layout is complete
+      setTimeout(() => {
+        this.initGraph(container, nodesData, linksData);
+      }, 50);
+    }
+
+    initGraph(container: Element, nodesData: any[], linksData: any[]) {
+      const svgElement = container.querySelector('svg');
+      if (!svgElement) return;
+
+      const svg = d3.select(svgElement);
+      
+      const width = container.clientWidth || 800;
+      const height = container.clientHeight || 600;
+
+      // Ensure valid links (source and target exist in nodes)
+      const nodeIds = new Set(nodesData.map(n => n.id));
+      const validLinks = linksData.filter(l => nodeIds.has(l.source) && nodeIds.has(l.target));
+
+      // Clone objects for D3 as it mutates them
+      const nodes = nodesData.map(d => ({ ...d }));
+      const links = validLinks.map(d => ({ ...d }));
+
+      svg.selectAll("*").remove(); // Clear previous drawing
+      // Use viewBox for better responsiveness if needed, but internal logic uses raw width/height
+      // svg.attr("viewBox", [0, 0, width, height]);
+
+      const simulation = d3.forceSimulation(nodes)
+          .force("link", d3.forceLink(links).id((d: any) => d.id).distance(150))
+          .force("charge", d3.forceManyBody().strength(-400))
+          .force("center", d3.forceCenter(width / 2, height / 2));
+
+      const link = svg.append("g")
+          .attr("stroke", "rgba(255, 255, 255, 0.2)")
+          .attr("stroke-opacity", 0.6)
+        .selectAll("line")
+        .data(links)
+        .join("line")
+          .attr("stroke-width", 2);
+
+      const nodeGroup = svg.append("g")
+        .selectAll("g")
+        .data(nodes)
+        .join("g")
+          .call(d3.drag()
+            .on("start", (event, d: any) => {
+              if (!event.active) simulation.alphaTarget(0.3).restart();
+              d.fx = d.x;
+              d.fy = d.y;
+            })
+            .on("drag", (event, d: any) => {
+              d.fx = event.x;
+              d.fy = event.y;
+            })
+            .on("end", (event, d: any) => {
+              if (!event.active) simulation.alphaTarget(0);
+              d.fx = null;
+              d.fy = null;
+            }) as any);
+
+      nodeGroup.append("circle")
+          .attr("r", 20)
+          .attr("fill", "#4caf50")
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 2)
+          .style("cursor", "pointer");
+
+      nodeGroup.append("text")
+          .text((d: any) => d.name)
+          .attr("font-size", 14)
+          .attr("fill", "#fff")
+          .attr("dx", 25)
+          .attr("dy", 5)
+          .style("font-family", "sans-serif")
+          .style("pointer-events", "none");
+
+      nodeGroup.on("click", (event, d: any) => {
+        if (event.defaultPrevented) return; // ignore if the user was dragging
+        window.location.href = `/library/${d.id}/`;
+      });
+
+      simulation.on("tick", () => {
+        link
+            .attr("x1", (d: any) => d.source.x)
+            .attr("y1", (d: any) => d.source.y)
+            .attr("x2", (d: any) => d.target.x)
+            .attr("y2", (d: any) => d.target.y);
+
+        nodeGroup
+            .attr("transform", (d: any) => `translate(${d.x},${d.y})`);
+      });
+    }
+  }
+
+  customElements.define("simple-d3-graph", SimpleD3Graph);
+</script>

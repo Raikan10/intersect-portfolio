@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GlowShader from "../components/GlowShader.astro";
+import D3Graph from "../components/D3Graph.astro";
 import { getCollection } from "astro:content";
 
 const title = "Ajay Rajnikanth | Strategy x Technology x Systems";
@@ -9,6 +10,24 @@ const description =
 
 const allNodes = await getCollection("graph");
 const sortedNodes = allNodes.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+const graphNodes = sortedNodes.map(node => ({
+  id: node.id,
+  name: node.data.title
+}));
+
+const graphLinks: { source: string; target: string }[] = [];
+sortedNodes.forEach(node => {
+  if (node.data.related && Array.isArray(node.data.related)) {
+    node.data.related.forEach(relatedId => {
+      // Add a link from this node to the related node
+      graphLinks.push({
+        source: node.id,
+        target: relatedId
+      });
+    });
+  }
+});
 ---
 
 <BaseLayout title={title} description={description}>
@@ -29,6 +48,10 @@ const sortedNodes = allNodes.sort((a, b) => (a.data.order || 0) - (b.data.order 
         <p>
           Each node represents a capability and a case study. Click any node to explore the depth of the work.
         </p>
+      </div>
+
+      <div class="test-graph-container" style="margin-top: 2rem;">
+        <D3Graph nodes={graphNodes} links={graphLinks} />
       </div>
 
       <div class="capability-grid">
