@@ -1,0 +1,151 @@
+body.content-page {
+  overflow: auto;
+  background:
+    radial-gradient(circle at top left, rgba(164, 138, 114, 0.14), transparent 28%),
+    radial-gradient(circle at 78% 24%, rgba(255, 255, 255, 0.05), transparent 20%),
+    linear-gradient(180deg, #050403 0%, #090807 40%, #040302 100%);
+}
+
+.library-hero,
+.library-grid,
+.entry-layout {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+
+.library-hero {
+  padding-bottom: 36px;
+}
+
+.library-hero h1,
+.entry-header h1 {
+  max-width: 12ch;
+  font-size: clamp(3rem, 9vw, 5.4rem);
+  line-height: 0.92;
+}
+
+.library-intro,
+.library-card p,
+.entry-summary,
+.prose,
+.entry-empty {
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.library-card,
+.entry-header,
+.entry-body,
+.entry-relations,
+.relation-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+    rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+.library-card {
+  display: grid;
+  gap: 16px;
+}
+
+.button-primary {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(164, 138, 114, 0.22));
+}
+
+.library-meta,
+.entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.library-meta span,
+.entry-tags span {
+  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.entry-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) minmax(280px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.entry-summary {
+  margin-top: 22px;
+}
+
+.prose > * {
+  margin: 0;
+}
+
+.prose > * + * {
+  margin-top: 18px;
+}
+
+.prose ul {
+  margin: 18px 0 0;
+  padding-left: 20px;
+}
+
+.prose li + li {
+  margin-top: 10px;
+}
+
+.entry-relations {
+  display: grid;
+  gap: 14px;
+}
+
+.relation-card {
+  display: grid;
+  gap: 6px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.relation-card span {
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.relation-card strong {
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 1080px) {
+  .library-grid,
+  .entry-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .library-shell,
+  .entry-shell {
+    padding: 128px 18px 36px;
+  }
+}

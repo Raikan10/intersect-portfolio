@@ -5,7 +5,10 @@ import D3Graph from "../components/D3Graph.astro";
 import About from "../components/About.astro";
 import Contact from "../components/Contact.astro";
 import Sitemap from "../components/Sitemap.astro";
+import "../styles/components/Hero.css";
+import "../styles/components/Projects.css";
 import { getCollection } from "astro:content";
+
 
 const title = "Ajay Rajnikanth | Strategy × Technology × Systems";
 const description =
@@ -39,16 +42,20 @@ sortedNodes.forEach(node => {
     <section class="hero-installation" id="top">
       <GlowShader />
       <div class="hero-panel">
-        <div class="hero-top">
-          <span class="hero-brand">Ajay Rajnikanth</span>
-        </div>
         <div class="hero-center">
           <p class="strategy-ai">
-            STRATEGY 
+            <span class="strategy-txt">STRATEGY</span>
             <svg class="strategy-logo" viewBox="0 0 851 847" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M715.811 311.017L523.907 346.329L545.44 323.628L698.71 288.317L829.883 24.0387L440.616 432.81L448.712 439.553L448.723 439.562L448.734 439.573L828.012 822.655L697.444 557.856L537.841 527.93L509.973 500.185L714.544 535.156L839.947 839.087L827.492 826.607L431.919 456.369L425.738 449.265L419.558 456.369L17.6332 830.975L9.21338 839.087L137.492 535.063L137.548 535.054L342.443 500.028L314.342 528.004L314.32 528.026L314.288 528.032L154.736 557.949L20.4398 824.527L402.742 439.573L402.753 439.562L402.765 439.553L410.86 432.81L323.411 340.573L321.037 340.11L326.936 346.329L135.032 311.017L9.62917 7.08665L18.496 15.9145L425.738 419.408L832.347 15.9145L841.213 7.08665L715.811 311.017ZM24.9095 30.4867L152.132 288.317L305.402 323.628L320.544 339.59L322.918 340.053L21.1674 23.6227L24.9095 30.4867Z" fill="currentColor"/>
+              <defs>
+                <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(243, 237, 230, 0.95)" />
+                  <stop offset="40%" stop-color="rgba(223, 217, 210, 0.85)" />
+                  <stop offset="100%" stop-color="rgba(243, 237, 230, 0.9)" />
+                </linearGradient>
+              </defs>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M715.811 311.017L523.907 346.329L545.44 323.628L698.71 288.317L829.883 24.0387L440.616 432.81L448.712 439.553L448.723 439.562L448.734 439.573L828.012 822.655L697.444 557.856L537.841 527.93L509.973 500.185L714.544 535.156L839.947 839.087L827.492 826.607L431.919 456.369L425.738 449.265L419.558 456.369L17.6332 830.975L9.21338 839.087L137.492 535.063L137.548 535.054L342.443 500.028L314.342 528.004L314.32 528.026L314.288 528.032L154.736 557.949L20.4398 824.527L402.742 439.573L402.753 439.562L402.765 439.553L410.86 432.81L323.411 340.573L321.037 340.11L326.936 346.329L135.032 311.017L9.62917 7.08665L18.496 15.9145L425.738 419.408L832.347 15.9145L841.213 7.08665L715.811 311.017ZM24.9095 30.4867L152.132 288.317L305.402 323.628L320.544 339.59L322.918 340.053L21.1674 23.6227L24.9095 30.4867Z" fill="url(#logo-gradient)"/>
             </svg>
-            AI
+            <span class="ai-txt">AI</span>
           </p>
         </div>
         <a href="#projects" class="scroll-indicator" aria-label="Scroll to projects">

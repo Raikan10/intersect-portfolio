@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/components/Hero.css";
+
+const title = "404 - Page Not Found | Intersect";
+const description = "The page you are looking for has been lost in the system thinking process.";
+---
+
+<BaseLayout title={title} description={description} pageKind="content">
+  <main class="installation-shell" style="display: flex; align-items: center; justify-content: center; min-height: 80vh; text-align: center;">
+    <section class="error-content" style="max-width: 600px; padding: 2rem;">
+      <p class="eyebrow" style="margin-bottom: 1rem;">System Error 404</p>
+      <h1 style="font-family: 'Anton', sans-serif; font-size: clamp(3rem, 10vw, 6rem); text-transform: uppercase; margin-bottom: 2rem; background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        VOID
+      </h1>
+      <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 3rem; line-height: 1.6;">
+        The node you requested does not exist in this architecture. 
+        It may have been moved, or it was never part of the system.
+      </p>
+      <a href="/" class="cta-button" style="display: inline-block; padding: 1rem 2.5rem; border: 1px solid var(--line-hover); border-radius: 999px; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s ease;">
+        Return to Source
+      </a>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .cta-button:hover {
+    background: var(--text);
+    color: var(--bg);
+    transform: translateY(-2px);
+  }
+</style>

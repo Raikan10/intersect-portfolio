@@ -1,0 +1,91 @@
+.scroll-graph {
+  position: relative;
+  z-index: 10;
+  width: min(100%, var(--max-width));
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 0 clamp(24px, 5vw, 64px);
+  scroll-margin-top: 120px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.graph-intro {
+  width: min(100%, 800px);
+}
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+.capability-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background: rgba(4, 3, 2, 0.4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  min-height: 280px;
+}
+
+.capability-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(164, 138, 114, 0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.capability-card:hover {
+  border-color: var(--line-hover);
+  background: rgba(164, 138, 114, 0.04);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.capability-card:hover::before {
+  opacity: 1;
+}
+
+.card-type {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.card-summary {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: auto;
+}
+
+.card-arrow {
+  margin-top: 32px;
+  color: var(--text-muted);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.capability-card:hover .card-arrow {
+  transform: translateX(6px);
+  color: var(--text);
+}

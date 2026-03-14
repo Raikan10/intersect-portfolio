@@ -8,8 +8,12 @@
     "preview": "ASTRO_TELEMETRY_DISABLED=1 bun ./node_modules/astro/bin/astro.mjs preview"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.1",
+    "@fontsource/anton": "^5.2.7",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/ibm-plex-sans": "^5.2.8",
+    "@fontsource/instrument-serif": "^5.2.8",
+    "@fontsource/inter": "^5.2.8",
     "@types/three": "^0.183.1",
     "astro": "^6.0.3",
     "d3": "^7.9.0",

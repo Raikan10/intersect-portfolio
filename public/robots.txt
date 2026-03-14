@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://intersect-portfolio.com/sitemap-index.xml
