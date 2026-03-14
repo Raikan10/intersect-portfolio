@@ -2,182 +2,234 @@
 // SplashScreen.astro
 ---
 <div id="splash-screen" class="splash-screen">
-  <div class="splash-door left"></div>
-  <div class="splash-door right"></div>
+  <div class="splash-overlay"></div>
   
   <div class="splash-logo-container">
-    <svg width="480" height="364" viewBox="0 0 693 525" fill="none" xmlns="http://www.w3.org/2000/svg" class="splash-logo">
-      <!-- Background triangles -->
-      <path pathLength="1" d="M341.5 271.5L60 39L351.5 264L363 271.5L634 486.5L351.5 280.5L341.5 271.5Z" fill="#FFFEFE" stroke="white" stroke-width="3" class="splash-path delay-1"/>
-      <path pathLength="1" d="M352.5 271.5L634 39L342.5 264L331 271.5L60 486.5L342.5 280.5L352.5 271.5Z" fill="#FFFEFE" stroke="white" stroke-width="3" class="splash-path delay-1"/>
+    <svg width="400" height="400" viewBox="0 0 4037 4029" fill="none" xmlns="http://www.w3.org/2000/svg" class="splash-logo">
+      <!-- Stage 2: Origin Node -->
+      <circle cx="2020" cy="1996" r="10" fill="white" class="construction-node" />
       
-      <!-- Foreground prongs (sharp tips) -->
-      <path pathLength="1" d="M151 327L60 486.5L156.5 331.5L259 328L267.5 321.5L151 327Z" fill="#FDFCFC" stroke="white" stroke-width="5" class="splash-path delay-2"/>
-      <path pathLength="1" d="M542.5 326.5L633.5 486L537 331L434.5 327.5L426 321L542.5 326.5Z" fill="#FDFCFC" stroke="white" stroke-width="5" class="splash-path delay-2"/>
-      <path pathLength="1" d="M542.5 198.5L633.5 39L537 194L434.5 197.5L426 204L542.5 198.5Z" fill="#FDFCFC" stroke="white" stroke-width="5" class="splash-path delay-3"/>
-      <path pathLength="1" d="M151 198.5L60 39L156.5 194L259 197.5L267.5 204L151 198.5Z" fill="#FDFCFC" stroke="white" stroke-width="5" class="splash-path delay-3"/>
+      <!-- Stage 3: Primary Structural Diagonals (X-Shape) -->
+      <g class="construction-lines">
+        <!-- Center-out drawing -->
+        <line x1="2020" y1="1996" x2="18" y2="14" stroke="white" stroke-width="25" stroke-linecap="butt" class="construction-line primary" />
+        <line x1="2020" y1="1996" x2="4012" y2="4014" stroke="white" stroke-width="25" stroke-linecap="butt" class="construction-line primary" />
+        <line x1="2020" y1="1996" x2="3975" y2="14" stroke="white" stroke-width="25" stroke-linecap="butt" class="construction-line primary" />
+        <line x1="2020" y1="1996" x2="58" y2="4014" stroke="white" stroke-width="25" stroke-linecap="butt" class="construction-line primary" />
+      </g>
+
+      <!-- Stage 4: Secondary Structural Arms -->
+      <g class="construction-lines">
+        <path d="M3415 1475 L2492 1645 L2596 1536" stroke="white" stroke-width="20" stroke-linecap="butt" stroke-linejoin="miter" class="construction-path secondary" />
+        <path d="M623 1475 L1545 1645 L1442 1536" stroke="white" stroke-width="20" stroke-linecap="butt" stroke-linejoin="miter" class="construction-path secondary" />
+        <path d="M3409 2552 L2425 2384 L2559 2518" stroke="white" stroke-width="20" stroke-linecap="butt" stroke-linejoin="miter" class="construction-path secondary" />
+        <path d="M635 2552 L1620 2384 L1485 2518" stroke="white" stroke-width="20" stroke-linecap="butt" stroke-linejoin="miter" class="construction-path secondary" />
+      </g>
+
+      <!-- Stage 5: Stabilized Final Logo -->
+      <path pathLength="1" fill-rule="evenodd" clip-rule="evenodd" d="M3415.53 1475.38L2492.91 1645.14L2596.44 1536.01L3333.32 1366.24L3963.95 95.6733L2092.48 2060.92L2131.4 2093.34L2131.45 2093.38L2131.51 2093.44L3954.96 3935.17L3327.23 2662.1L2559.9 2518.23L2425.93 2384.84L3409.44 2552.97L4012.34 4014.17L3952.46 3954.17L2050.66 2174.19L2020.95 2140.03L1991.24 2174.19L58.9065 3975.17L18.4268 4014.17L635.151 2552.52L635.421 2552.48L1620.49 2384.08L1485.39 2518.58L1485.28 2518.69L1485.13 2518.72L718.055 2662.55L72.3998 3944.17L1910.39 2093.44L1910.44 2093.38L1910.5 2093.34L1949.42 2060.92L1528.99 1617.48L1517.58 1615.25L1545.94 1645.14L623.323 1475.38L20.4258 14.1733L63.0548 56.6147L2020.95 1996.49L3975.8 56.6147L4018.43 14.1733L3415.53 1475.38ZM93.889 126.673L705.536 1366.24L1442.41 1536.01L1515.21 1612.75L1526.62 1614.98L75.898 93.6733L93.889 126.673Z" fill="white" stroke="white" stroke-width="20" class="final-logo-path" />
     </svg>
   </div>
 </div>
 
 <script>
-  // Fast, inline script to check if we should play the animation.
-  // We use sessionStorage so it plays once per tab session.
-  const markSiteReady = () => {
+  const markSiteReady = (showLogo = true, releaseScroll = false) => {
     document.body.classList.add('site-ready');
-    document.body.style.overflow = '';
+    if (releaseScroll) {
+      document.body.style.overflow = '';
+    }
+    if (showLogo) {
+      const navbarLogo = document.getElementById('splash-navbar-logo');
+      if (navbarLogo) (navbarLogo as HTMLElement).style.opacity = '1';
+    }
   };
 
   if (sessionStorage.getItem('splashPlayed')) {
     const splash = document.getElementById('splash-screen');
-    if (splash) {
-      splash.style.display = 'none';
-    }
-    markSiteReady();
+    if (splash) splash.style.display = 'none';
+    markSiteReady(true, true);
   } else {
-    // Lock scrolling while splash is active
     document.body.style.overflow = 'hidden';
-
-    // Play the animation
     sessionStorage.setItem('splashPlayed', 'true');
 
-    const initializeSplashTransition = () => {
+    const initializeSplash = () => {
       const splash = document.getElementById('splash-screen');
-      const logoContainer = splash?.querySelector('.splash-logo-container');
-      const navbarLogo = document.getElementById('splash-navbar-logo');
+      const container = splash?.querySelector('.splash-logo-container') as HTMLElement;
+      const navbarLogo = document.getElementById('splash-navbar-logo') as HTMLElement;
+      const overlay = splash?.querySelector('.splash-overlay') as HTMLElement;
 
-      if (!splash || !logoContainer || !navbarLogo) {
-        markSiteReady();
+      if (!splash || !container || !navbarLogo || !overlay) {
+        markSiteReady(true, true);
         splash?.remove();
         return;
       }
 
-      const startNavbarTransition = () => {
-        const sourceRect = logoContainer.getBoundingClientRect();
+      // Ensure container is ready for FLIP
+      container.style.transformOrigin = 'center center';
+
+      // Timing Sequence (Strict adherence to Brief)
+      const tLatent = 300;
+      const tCenter = 700;    
+      const tPrimary = 1400;  
+      const tSecondary = 2100;
+      const tStabilize = 2700;
+      const tHold = 3400; // Hold for 700ms before move
+      
+      const startTransition = () => {
+        const navbar = document.querySelector('.site-navbar') as HTMLElement;
+        if (!navbar) return;
+        
+        // --- 1. ULTRA-ROBUST MEASUREMENT ---
+        // Save states
+        const originalNavbarTransition = navbar.style.transition;
+        const originalNavbarTransform = navbar.style.transform;
+        const originalNavbarOpacity = navbar.style.opacity;
+
+        // FORCE final state for measurement
+        // Importantly, we stay during overflow:hidden to keep width consistent
+        navbar.style.transition = 'none';
+        navbar.style.transform = 'translateY(0)';
+        navbar.style.opacity = '1';
+        document.body.classList.add('site-ready');
+        navbarLogo.style.opacity = '1';
+
+        // Direct layout flush to let the browser calculate new positions
+        void navbar.offsetHeight;
+
+        // Measure!
         const targetRect = navbarLogo.getBoundingClientRect();
-        const translateX =
-          targetRect.left + targetRect.width / 2 - (sourceRect.left + sourceRect.width / 2);
-        const translateY =
-          targetRect.top + targetRect.height / 2 - (sourceRect.top + sourceRect.height / 2);
+        const sourceRect = container.getBoundingClientRect();
+
+        // Restore splash-mode
+        document.body.classList.remove('site-ready');
+        navbarLogo.style.opacity = '0'; // Keep real logo hidden during travel
+        navbar.style.opacity = originalNavbarOpacity;
+        
+        // --- 2. CALCULATE ---
+        const translateX = targetRect.left + targetRect.width / 2 - (sourceRect.left + sourceRect.width / 2);
+        const translateY = targetRect.top + targetRect.height / 2 - (sourceRect.top + sourceRect.height / 2);
         const scale = Math.min(targetRect.width / sourceRect.width, targetRect.height / sourceRect.height);
 
-        splash.classList.add('is-transitioning');
-        logoContainer.style.setProperty('--logo-translate-x', `${translateX}px`);
-        logoContainer.style.setProperty('--logo-translate-y', `${translateY}px`);
-        logoContainer.style.setProperty('--logo-scale', `${scale}`);
+        container.classList.add('is-transitioning');
+        container.style.setProperty('--tx', `${translateX}px`);
+        container.style.setProperty('--ty', `${translateY}px`);
+        container.style.setProperty('--s', `${scale}`);
+
+        overlay.style.opacity = '0';
+
+        // Trigger the navbar appearance (doors/text) at 300ms
+        window.setTimeout(() => {
+          markSiteReady(false, false); // Still hidden overflow
+          // Keep the bar static at translateY(0) so the landing target doesn't move
+          navbar.style.transition = 'none';
+          navbar.style.transform = 'translateY(0)';
+        }, 300);
+
+        // Cross-fade the logos at the exact end of the move (using 1000ms from CSS)
+        window.setTimeout(() => {
+          container.style.opacity = '0';
+          navbarLogo.style.opacity = '1';
+          
+          // Now that it's landed, restore the navbar's natural CSS transitions
+          window.setTimeout(() => {
+             navbar.style.transition = originalNavbarTransition;
+             // Final Release of Scroll
+             document.body.style.overflow = '';
+          }, 50);
+        }, 1000);
       };
 
-      window.setTimeout(startNavbarTransition, 2450);
-      window.setTimeout(() => {
-        markSiteReady();
-      }, 3350);
-      window.setTimeout(() => {
-        splash.remove();
-      }, 4100);
+      // Trigger Stages
+      window.setTimeout(() => container.classList.add('stage-2'), tLatent);
+      window.setTimeout(() => container.classList.add('stage-3'), tCenter);
+      window.setTimeout(() => container.classList.add('stage-4'), tPrimary);
+      window.setTimeout(() => container.classList.add('stage-5'), tSecondary);
+      
+      window.setTimeout(startTransition, tHold);
+      window.setTimeout(() => splash.remove(), tHold + 2500);
     };
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(initializeSplashTransition);
-    });
+    requestAnimationFrame(() => requestAnimationFrame(initializeSplash));
   }
 </script>
 
 <style>
   .splash-screen {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: transparent;
-    pointer-events: none; /* Container itself shouldn't block */
+    pointer-events: none;
   }
 
-  /* The actual black background splits into two halves */
-  .splash-door {
+  .splash-overlay {
     position: absolute;
-    top: 0;
-    height: 100%;
-    width: 50vw;
+    inset: 0;
     background-color: #000;
-    pointer-events: all; /* Blocks clicks while active */
-    transform: scaleX(1);
+    pointer-events: all;
+    z-index: 1;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .splash-door.left {
-    left: 0;
-    transform-origin: left;
-  }
-
-  .splash-door.right {
-    right: 0;
-    transform-origin: right;
+  /* FLIP Transition */
+  .is-transitioning {
+    transform: translate3d(var(--tx), var(--ty), 0) scale(var(--s));
+    will-change: transform;
   }
 
   .splash-logo-container {
     position: relative;
-    z-index: 10000;
+    z-index: 2;
     transform-origin: center center;
-    transition:
-      transform 0.95s cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 0.3s ease;
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
   }
 
   .splash-logo {
     display: block;
-    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+    overflow: visible;
   }
 
-  /* SVG Outline Animation */
-  .splash-path {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    fill-opacity: 0; /* Start completely empty */
-    animation: 
-      draw-line 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards,
-      fade-fill 0.8s ease-in 1.2s forwards;
+  /* Stage 2: Center Activation */
+  .construction-node {
+    transform: scale(0);
+    transform-origin: 2020px 1996px;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  .stage-2 .construction-node { transform: scale(1); }
+
+  /* Stage 3: Primary Diagonals */
+  .construction-line {
+    stroke-dasharray: 3000;
+    stroke-dashoffset: 3000;
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .stage-3 .construction-line { stroke-dashoffset: 0; }
+
+  /* Stage 4: Secondary Arms */
+  .construction-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    opacity: 0;
+    transition: stroke-dashoffset 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  }
+  .stage-4 .construction-path { 
+    stroke-dashoffset: 0; 
+    opacity: 1;
   }
 
-  /* Stagger the drawing */
-  .splash-path.delay-1 { animation-delay: 0.2s, 1.4s; }
-  .splash-path.delay-2 { animation-delay: 0.6s, 1.8s; }
-  .splash-path.delay-3 { animation-delay: 1.0s, 2.2s; }
-
-  @keyframes draw-line {
-    to {
-      stroke-dashoffset: 0;
-    }
+  /* Stage 5: Final Logo Path Cross-fade */
+  .final-logo-path {
+    opacity: 0;
+    transition: opacity 0.8s ease;
   }
-
-  @keyframes fade-fill {
-    to {
-      fill-opacity: 1;
-    }
-  }
-
-  @keyframes slide-door {
-    0% {
-      transform: scaleX(1);
-    }
-    100% {
-      transform: scaleX(0); /* Hardware accelerated sliding */
-    }
-  }
-  .splash-screen.is-transitioning .splash-door {
-    animation: slide-door 1s cubic-bezier(0.85, 0, 0.15, 1) forwards;
-  }
-
-  .splash-screen.is-transitioning .splash-logo-container {
-    transform:
-      translate(var(--logo-translate-x, 0), var(--logo-translate-y, 0))
-      scale(var(--logo-scale, 1));
-  }
-
-  .splash-screen.is-transitioning .splash-logo {
-    filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.12));
+  .stage-5 .final-logo-path { opacity: 1; }
+  .stage-5 .construction-node,
+  .stage-5 .construction-line,
+  .stage-5 .construction-path {
+    opacity: 0;
+    transition: opacity 0.6s ease;
   }
 </style>

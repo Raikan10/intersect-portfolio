@@ -6,7 +6,7 @@ This brief consolidates the current visual-system inputs:
 
 - `Design Doc.txt`
 - `portfolio_design_system.md`
-- `Logo.svg`
+- `logo.svg`
 
 The two text documents express effectively the same design intent. The
 Markdown file is a reformatted version of the text file, not a separate

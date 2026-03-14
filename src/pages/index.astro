@@ -2,9 +2,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GlowShader from "../components/GlowShader.astro";
 import D3Graph from "../components/D3Graph.astro";
+import About from "../components/About.astro";
+import Contact from "../components/Contact.astro";
+import Sitemap from "../components/Sitemap.astro";
 import { getCollection } from "astro:content";
 
-const title = "Ajay Rajnikanth | Strategy x Technology x Systems";
+const title = "Ajay Rajnikanth | Strategy × Technology × Systems";
 const description =
   "A concept homepage for Ajay Rajnikanth's portfolio: computational geometry, architectural light, and a systems-driven design language.";
 
@@ -13,7 +16,8 @@ const sortedNodes = allNodes.sort((a, b) => (a.data.order || 0) - (b.data.order 
 
 const graphNodes = sortedNodes.map(node => ({
   id: node.id,
-  name: node.data.title
+  name: node.data.title,
+  type: node.data.nodeType
 }));
 
 const graphLinks: { source: string; target: string }[] = [];
@@ -36,14 +40,19 @@ sortedNodes.forEach(node => {
       <GlowShader />
       <div class="hero-panel">
         <div class="hero-center">
-          <p class="strategy-ai">STRATEGY X AI</p>
+          <h1 class="brand-name">Ajay Rajnikanth</h1>
+        </div>
+        <div class="hero-bottom">
+          <p class="strategy-ai">STRATEGY × AI</p>
         </div>
       </div>
     </section>
 
+    <About />
+
     <section class="scroll-graph" id="projects">
       <div class="graph-intro">
-        <p class="eyebrow">Project Network</p>
+        <p class="eyebrow">Enter my mind</p>
         <h2>A selection of specialized systems.</h2>
         <p>
           Each node represents a capability and a case study. Click any node to explore the depth of the work.
@@ -53,23 +62,9 @@ sortedNodes.forEach(node => {
       <div class="test-graph-container" style="margin-top: 2rem;">
         <D3Graph nodes={graphNodes} links={graphLinks} />
       </div>
-
-      <div class="capability-grid">
-        {
-          sortedNodes.map((node) => (
-            <a href={`/library/${node.id}/`} class="capability-card">
-              <span class="card-type">{node.data.nodeType}</span>
-              <strong class="card-title">{node.data.title}</strong>
-              <p class="card-summary">{node.data.summary}</p>
-              <div class="card-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-            </a>
-          ))
-        }
-      </div>
     </section>
+
+    <Contact />
+    <Sitemap />
   </main>
 </BaseLayout>

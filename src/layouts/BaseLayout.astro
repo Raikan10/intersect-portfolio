@@ -28,9 +28,12 @@ const schema = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0A0A0A" />
-    <link rel="icon" href="/Logo.svg" type="image/svg+xml" />
+    <link rel="icon" href="/nav-logo.svg" type="image/svg+xml" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -42,10 +45,11 @@ const schema = {
   <body class:list={[pageKind === "content" && "content-page"]}>
     <header class="site-navbar" aria-label="Primary">
       <a class="site-navbar-brand" href="/" aria-label="Intersect home">
-        <span class="site-navbar-logo-frame" id="splash-navbar-logo" aria-hidden="true">
+        <span class="site-navbar-logo-frame" aria-hidden="true">
           <img
+            id="splash-navbar-logo"
             class="site-navbar-logo"
-            src="/Logo.svg"
+            src="/nav-logo.svg"
             alt=""
           />
         </span>
@@ -61,13 +65,15 @@ const schema = {
             <>
               <a href="#projects">Projects</a>
               <a href="#writing">Writing</a>
-              <a href="#about">About</a>
               <a href="#ideas">Ideas</a>
+              <a href="#about">About</a>
+              <a href="/contact" class="cta-button">Get in touch</a>
             </>
           ) : (
             <>
               <a href="/">Home</a>
               <a href="/library/">Library</a>
+              <a href="/contact" class="cta-button">Get in touch</a>
             </>
           )
         }

@@ -6,7 +6,7 @@ const graph = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    nodeType: z.enum(["project", "idea", "writing"]),
+    nodeType: z.enum(["project", "idea", "writing", "education", "experience", "hackathon", "mba", "leadership"]),
     status: z.enum(["draft", "placeholder", "published"]).default("placeholder"),
     featured: z.boolean().default(false),
     order: z.number().int().default(0),

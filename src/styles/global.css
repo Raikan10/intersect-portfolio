@@ -1,10 +1,10 @@
 :root {
-  --bg: #040302;
-  --text: #f7f4ee;
-  --text-muted: #94806d;
-  --accent: #a48a72;
-  --line: rgba(164, 138, 114, 0.11);
-  --line-hover: rgba(247, 244, 238, 0.32);
+  --bg: #020101;
+  --text: #fceade;
+  --text-muted: #a48a72;
+  --accent: #8b5a2b;
+  --line: rgba(139, 90, 43, 0.15);
+  --line-hover: rgba(252, 234, 222, 0.35);
   --max-width: 1240px;
   --radius: 28px;
   --shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
@@ -20,6 +20,7 @@ html {
   font-family: "IBM Plex Sans", -apple-system, sans-serif;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -66,26 +67,32 @@ img {
 
 .site-navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 32px;
-  padding: 32px 48px;
+  gap: 24px;
+  padding: 12px 18px;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 
+    0 4px 24px -1px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.02);
   transition:
     opacity 0.7s ease,
     transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .site-navbar::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(4, 3, 2, 0.96), rgba(4, 3, 2, 0));
-  pointer-events: none;
+  display: none; /* Removed full-width gradient */
 }
 
 .site-navbar-brand,
@@ -97,32 +104,31 @@ img {
 .site-navbar-brand {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   min-width: 0;
+  padding-left: 6px;
 }
 
 .site-navbar-logo-frame {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   flex: 0 0 auto;
 }
 
 .site-navbar-logo {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   object-fit: contain;
-  opacity: 1;
-  filter: brightness(0) invert(1); /* Force white for dark theme */
-  transition: opacity 0.3s ease;
+  opacity: 0; /* Controlled by Splash Handoff */
+  filter: brightness(0) invert(1);
 }
 
 .content-page .site-navbar-logo {
   opacity: 1;
-  transform: scale(1);
 }
 
 .site-navbar-wordmark,
@@ -135,23 +141,49 @@ img {
 .button,
 .eyebrow,
 .card-eyebrow {
-  font-family: "IBM Plex Mono", monospace;
+  font-family: "IBM Plex Sans", sans-serif; /* Cleaner for navigation */
 }
 
 .site-navbar-wordmark {
-  font-size: 1rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(247, 244, 238, 0.84);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  opacity: 0.95;
 }
 
 .site-navbar-links {
   display: inline-flex;
   align-items: center;
-  gap: 36px;
-  font-size: 0.95rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  gap: 28px;
+}
+
+.site-navbar-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  transition: all 0.2s ease;
+  padding: 6px 4px;
+}
+
+.site-navbar-links a:hover {
+  color: #fff;
+}
+
+.site-navbar-links .cta-button {
+  background: #fff;
+  color: #000;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.82rem;
+  margin-left: 8px;
+}
+
+.site-navbar-links .cta-button:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 #mobile-menu-toggle {
@@ -177,11 +209,6 @@ img {
 .site-navbar-links a:hover,
 .site-navbar-links a:focus-visible {
   color: var(--text);
-}
-
-body.site-ready .site-navbar-logo {
-  opacity: 1;
-  transform: scale(1);
 }
 
 .ambient-grid {
@@ -239,14 +266,60 @@ body.site-ready .site-navbar-logo {
 }
 
 .strategy-ai {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  letter-spacing: 0.8em;
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(3rem, 15vw, 20rem); /* Maximized display impact */
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  
+  /* Crystal Glass Aesthetic */
+  font-weight: 400;
+  
+  /* Specular Highlight Gradient */
+  background: linear-gradient(
+    175deg,
+    #ffffff 0%,
+    rgba(252, 234, 222, 1) 15%,
+    rgba(164, 138, 114, 0.4) 45%, /* Transparency starts here */
+    rgba(255, 255, 255, 1) 48%,  /* Mid-refraction line */
+    rgba(252, 234, 222, 0.9) 52%,
+    rgba(164, 138, 114, 0.8) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Layered shadows to simulate physical thickness and light refraction */
+  text-shadow: 
+    0px 0.5px 0px rgba(255, 255, 255, 0.8),    /* Sharp top rim highlight */
+    0px 2px 0px rgba(139, 90, 43, 0.2),       /* Beveled side / thickness */
+    2px 4px 12px rgba(0, 0, 0, 0.4),          /* Physical drop shadow */
+    0px 0px 15px rgba(252, 234, 222, 0.3);     /* Internal light bloom */
+  
+  /* Polishing the glass surface */
+  filter: brightness(1.2) contrast(1.1);
+  
+  line-height: 1.1; 
+  margin: 0;
+  opacity: 1;
+}
+
+.hero-bottom {
+  margin-top: auto;
+  width: 100%;
+  padding: 0 clamp(24px, 5vw, 64px) clamp(24px, 5vw, 48px);
+  text-align: left;
+}
+
+.brand-name {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(1.2rem, 3vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text);
-  margin: 0;
+  margin-bottom: 1rem;
   opacity: 0.9;
-  filter: drop-shadow(0 0 15px rgba(247, 244, 238, 0.4));
 }
 
 

@@ -55,7 +55,7 @@ The design direction came from these source files:
 
 - `Design Doc.txt`
 - `portfolio_design_system.md`
-- `Logo.svg`
+- `logo.svg`
 
 There is also a synthesized analysis document:
 
