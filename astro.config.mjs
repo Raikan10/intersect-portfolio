@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://intersect-portfolio.com", // Replace with your actual domain
+  site: "https://ajraikan.pages.dev", // Replace with your actual domain when ready
   server: {
     host: true,
   },
