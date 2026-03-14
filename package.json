@@ -5,10 +5,10 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "ASTRO_TELEMETRY_DISABLED=1 bun ./node_modules/astro/bin/astro.mjs dev",
-    "start": "ASTRO_TELEMETRY_DISABLED=1 bun ./node_modules/astro/bin/astro.mjs dev",
-    "build": "ASTRO_TELEMETRY_DISABLED=1 bun ./node_modules/astro/bin/astro.mjs build",
-    "preview": "ASTRO_TELEMETRY_DISABLED=1 bun ./node_modules/astro/bin/astro.mjs preview"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",
