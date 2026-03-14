@@ -145,8 +145,10 @@ img {
 }
 
 .site-navbar-wordmark {
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-family: "Instrument Serif", serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-style: italic;
   letter-spacing: -0.01em;
   color: var(--text);
   opacity: 0.95;
@@ -199,6 +201,26 @@ img {
 #mobile-menu-toggle svg {
   width: 28px;
   height: 28px;
+}
+
+.hero-top {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.hero-brand {
+  font-family: "Instrument Serif", serif;
+  font-size: 2.2rem;
+  font-style: italic;
+  color: var(--text);
+  opacity: 0.8;
+  letter-spacing: -0.02em;
 }
 
 .site-navbar-links a {
@@ -257,7 +279,7 @@ img {
 
 .hero-center {
   position: absolute;
-  top: 50%;
+  top: 45%; /* Moved up by 5% from 50% */
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
@@ -272,36 +294,109 @@ img {
   letter-spacing: -0.01em;
   text-transform: uppercase;
   
-  /* Crystal Glass Aesthetic */
+  /* Glassmorphic Aesthetic (Warmer) */
   font-weight: 400;
   
-  /* Specular Highlight Gradient */
+  /* Translucent Frosted Warm Fill */
   background: linear-gradient(
-    175deg,
-    #ffffff 0%,
-    rgba(252, 234, 222, 1) 15%,
-    rgba(164, 138, 114, 0.4) 45%, /* Transparency starts here */
-    rgba(255, 255, 255, 1) 48%,  /* Mid-refraction line */
-    rgba(252, 234, 222, 0.9) 52%,
-    rgba(164, 138, 114, 0.8) 100%
+    135deg,
+    rgba(252, 234, 222, 0.35) 0%,
+    rgba(164, 138, 114, 0.12) 40%,
+    rgba(252, 234, 222, 0.18) 100%
   );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
-  /* Layered shadows to simulate physical thickness and light refraction */
+  /* Glass Edge (Warm Rim Lighting) */
+  -webkit-text-stroke: 1.5px rgba(252, 234, 222, 0.22);
+  
+  /* Depth and Refraction (Strictly on glyphs) */
   text-shadow: 
-    0px 0.5px 0px rgba(255, 255, 255, 0.8),    /* Sharp top rim highlight */
-    0px 2px 0px rgba(139, 90, 43, 0.2),       /* Beveled side / thickness */
-    2px 4px 12px rgba(0, 0, 0, 0.4),          /* Physical drop shadow */
-    0px 0px 15px rgba(252, 234, 222, 0.3);     /* Internal light bloom */
+    0px 1px 0px rgba(252, 234, 222, 0.4),    /* Top specular rim (warmer) */
+    0px 0px 12px rgba(164, 138, 114, 0.25),  /* Amber internal refraction */
+    0px 10px 40px rgba(0, 0, 0, 0.4);         /* Ground shadow for depth */
   
-  /* Polishing the glass surface */
-  filter: brightness(1.2) contrast(1.1);
+  /* Enhance the "Glass" brilliance with a warmer lift */
+  filter: brightness(1.15) contrast(1.05);
   
-  line-height: 1.1; 
+  line-height: 1.25; 
   margin: 0;
   opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center horizontally */
+  gap: 0.15em;
+  width: 100%;
+}
+
+.strategy-logo {
+  height: 0.83em; /* Increased by 15% from 0.72em */
+  width: auto;
+  flex: 0 0 auto;
+  
+  /* Reinforced Glass Luminance */
+  color: rgba(252, 234, 222, 0.65); /* Increased opacity for more core presence */
+  
+  /* Specular Highlight and Glow */
+  filter: 
+    brightness(1.4) /* Boosted luminance */
+    drop-shadow(0 0 25px rgba(252, 234, 222, 0.4)); /* Whiter, stronger aura */
+  
+  /* Precision Glass Rim */
+  stroke: rgba(252, 234, 222, 0.7); /* Sharper rim highlights */
+  stroke-width: 14px; 
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  z-index: 20;
+}
+
+.scroll-indicator:hover {
+  opacity: 1;
+}
+
+.mouse-frame {
+  width: 22px;
+  height: 36px;
+  border: 1.5px solid var(--text-muted);
+  border-radius: 12px;
+  position: relative;
+}
+
+.scroll-dot {
+  width: 3px;
+  height: 6px;
+  background: var(--text);
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scroll-ping 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes scroll-ping {
+  0% { transform: translate(-50%, 0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(-50%, 18px); opacity: 0.8; }
 }
 
 .hero-bottom {
@@ -312,14 +407,14 @@ img {
 }
 
 .brand-name {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: clamp(1.2rem, 3vw, 2.5rem);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-family: "Instrument Serif", serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
   color: var(--text);
-  margin-bottom: 1rem;
-  opacity: 0.9;
+  margin-bottom: 0.5rem;
+  opacity: 0.95;
 }
 
 
