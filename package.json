@@ -1,6 +1,9 @@
 {
   "name": "intersect-portfolio",
   "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 bun ./node_modules/astro/bin/astro.mjs dev",
     "start": "ASTRO_TELEMETRY_DISABLED=1 bun ./node_modules/astro/bin/astro.mjs dev",
