@@ -1,0 +1,228 @@
+---
+interface Props {
+  nodes: any[];
+}
+
+const { nodes } = Astro.props;
+
+// Sort nodes by order
+const sortedNodes = nodes.sort((a, b) => (a.data?.order || 0) - (b.data?.order || 0));
+
+// Determine grid class for each card
+const getGridClass = (index: number) => {
+  const patternIndex = index % 8;
+  if (patternIndex === 0) return 'bento-2x2';
+  if (patternIndex === 1) return 'bento-2x1';
+  if (patternIndex === 6) return 'bento-1x2';
+  return 'bento-1x1';
+};
+// Determine color based on nodeType
+const getTypeColor = (type: string) => {
+  const t = type.toLowerCase();
+  if (t === 'project') return 'rgba(96, 165, 250, 0.8)'; // blue-400
+  if (t === 'idea') return 'rgba(251, 191, 36, 0.8)';   // amber-400
+  if (t === 'writing') return 'rgba(244, 114, 182, 0.8)'; // pink-400
+  if (t === 'education' || t === 'mba') return 'rgba(129, 140, 248, 0.8)'; // indigo-400
+  if (t === 'experience' || t === 'leadership') return 'rgba(192, 132, 252, 0.8)'; // violet-400
+  if (t === 'hackathon') return 'rgba(251, 113, 133, 0.8)'; // rose-400
+  return 'var(--accent)';
+};
+---
+
+<div class="bento-grid">
+  {sortedNodes.map((node, index) => (
+    <a href={`/library/${node.id}/`} class={`bento-card ${getGridClass(index)}`} style={`--card-accent: ${getTypeColor(node.type)}`}>
+      <div class="card-inner">
+        <div class="card-glow" style={`background: radial-gradient(circle, ${getTypeColor(node.type)} 0%, transparent 70%)`}></div>
+        <div class="card-header">
+          <span class="card-type" style={`color: ${getTypeColor(node.type)}`}>{node.type}</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">{node.name}</h3>
+          <p class="card-summary">{node.summary || "Exploring the intersection of strategy and AI."}</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-link">Enter Project <span class="arrow">→</span></div>
+        </div>
+      </div>
+    </a>
+  ))}
+</div>
+
+<style>
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 240px;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .bento-card {
+    position: relative;
+    border-radius: 20px;
+    background: rgba(15, 12, 10, 0.4);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bento-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--card-accent);
+    background: rgba(164, 138, 114, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(164, 138, 114, 0.1);
+  }
+
+  /* Bento Sizes */
+  .bento-2x2 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .bento-2x1 {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .bento-1x2 {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  .bento-1x1 {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .card-inner {
+    height: 100%;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+
+  .card-glow {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.05;
+    transition: opacity 0.4s ease;
+  }
+
+  .bento-card:hover .card-glow {
+    opacity: 0.15;
+  }
+
+  .card-type {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+
+  .card-title {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin: 12px 0 16px 0;
+    line-height: 1.2;
+    color: var(--text);
+  }
+
+  .bento-2x2 .card-title {
+    font-size: 2.2rem;
+  }
+
+  .card-summary {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bento-2x2 .card-summary {
+    -webkit-line-clamp: 6;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    padding-top: 24px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+  }
+
+  .bento-card:hover .card-footer {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .card-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+  }
+
+  .arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .card-link:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  /* Responsive Bento */
+  @media (max-width: 1200px) {
+    .bento-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 992px) {
+    .bento-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .bento-2x2, .bento-2x1, .bento-1x2 {
+       grid-column: span 1;
+       grid-row: span 1;
+    }
+    
+    .bento-grid {
+      grid-auto-rows: minmax(280px, auto);
+    }
+
+    .card-title {
+       font-size: 1.25rem;
+    }
+    
+    .bento-2x2 .card-title {
+       font-size: 1.5rem;
+    }
+    
+    .card-footer {
+        opacity: 1;
+        transform: none;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

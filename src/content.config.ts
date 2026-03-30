@@ -12,6 +12,11 @@ const graph = defineCollection({
     order: z.number().int().default(0),
     related: z.array(z.string()).default([]),
     keywords: z.array(z.string()).default([]),
+    // Social metadata for 'Ghostless Ghost'
+    linkedinPostContent: z.string().optional(),
+    linkedinPostId: z.string().optional(),
+    isPublished: z.boolean().default(false),
+    publishDate: z.date().optional(),
   }),
 });
 

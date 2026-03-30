@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GlowShader from "../components/GlowShader.astro";
-import D3Graph from "../components/D3Graph.astro";
+import WorkProjects from "../components/WorkProjects.astro";
 import About from "../components/About.astro";
 import Contact from "../components/Contact.astro";
 import Sitemap from "../components/Sitemap.astro";
@@ -20,7 +20,9 @@ const sortedNodes = allNodes.sort((a, b) => (a.data.order || 0) - (b.data.order 
 const graphNodes = sortedNodes.map(node => ({
   id: node.id,
   name: node.data.title,
-  type: node.data.nodeType
+  type: node.data.nodeType,
+  summary: node.data.summary,
+  order: node.data.order
 }));
 
 const graphLinks: { source: string; target: string }[] = [];
@@ -78,8 +80,8 @@ sortedNodes.forEach(node => {
         </p>
       </div>
 
-      <div class="test-graph-container" style="margin-top: 2rem;">
-        <D3Graph nodes={graphNodes} links={graphLinks} />
+      <div class="work-section-wrapper" style="margin-top: 3rem;">
+        <WorkProjects nodes={graphNodes} links={graphLinks} />
       </div>
     </section>
 

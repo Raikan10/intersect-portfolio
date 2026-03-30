@@ -1,0 +1,278 @@
+---
+import WorkBento from './WorkBento.astro';
+import D3Graph from './D3Graph.astro';
+
+interface Props {
+  nodes: any[];
+  links: any[];
+}
+
+const { nodes, links } = Astro.props;
+---
+
+<div class="work-projects-container">
+  <div class="toggle-wrapper">
+    <div class="toggle-group" id="workToggleGroup">
+      <button class="toggle-btn active" data-view="work" id="workBtn">
+        <span class="btn-icon">📁</span>
+        <span class="btn-text">Works</span>
+      </button>
+      <button class="toggle-btn" data-view="ai" id="aiBtn">
+        <span class="btn-icon">🤖</span>
+        <span class="btn-text">Talk to my AI</span>
+      </button>
+      <div class="toggle-glider"></div>
+    </div>
+  </div>
+
+  <div class="view-content">
+    <div id="workView" class="view-panel active">
+      <WorkBento nodes={nodes.slice(0, 4)} />
+    </div>
+
+    <div id="aiView" class="view-panel">
+      <div class="ai-interface">
+        <div class="graph-wrapper">
+          <D3Graph nodes={nodes} links={links} />
+        </div>
+        
+        <div class="prompt-overlay">
+          <div class="prompt-container">
+            <div class="ai-status-badge">AI OFFLINE</div>
+            <div class="mock-input-container">
+              <input type="text" placeholder="Ask me any question you'd like..." disabled />
+              <div class="input-glow"></div>
+            </div>
+            <p class="coming-soon-text">Interface coming soon. Currently indexing project repository.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .work-projects-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .toggle-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .toggle-group {
+    position: relative;
+    display: flex;
+    background: rgba(15, 12, 10, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 4px;
+    gap: 0;
+    width: fit-content;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .toggle-btn {
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 12px 28px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 100px;
+  }
+
+  .toggle-btn.active {
+    color: var(--text);
+  }
+
+  .btn-icon {
+    font-size: 1.1rem;
+    filter: grayscale(1) opacity(0.7);
+    transition: filter 0.3s ease;
+  }
+
+  .toggle-btn.active .btn-icon {
+    filter: grayscale(0) opacity(1);
+  }
+
+  .toggle-glider {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    width: calc(50% - 4px);
+    background: rgba(243, 237, 230, 0.1);
+    border: 1px solid rgba(243, 237, 230, 0.2);
+    border-radius: 100px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
+  }
+
+  /* Glider movement */
+  .toggle-group:has(#aiBtn.active) .toggle-glider {
+    transform: translateX(100%);
+  }
+
+  .view-content {
+    position: relative;
+    display: grid;
+    grid-template-areas: "stack";
+  }
+
+  .view-panel {
+    grid-area: stack;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    visibility: hidden;
+  }
+
+  .view-panel.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  /* AI Interface Styles */
+  .ai-interface {
+    position: relative;
+    width: 100%;
+    height: 700px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: rgba(4, 3, 2, 0.4);
+    border: 1px solid var(--line);
+  }
+
+  .graph-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .prompt-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 60px 40px 40px;
+    background: linear-gradient(to top, 
+      rgba(2, 1, 1, 1) 0%, 
+      rgba(2, 1, 1, 0.8) 40%, 
+      rgba(2, 1, 1, 0) 100%
+    );
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    pointer-events: none; /* Let clicks pass to the graph */
+  }
+
+  .prompt-container {
+    width: min(100%, 700px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    pointer-events: all; /* Recover pointer events for the input area */
+  }
+
+  .coming-soon-text {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    opacity: 0.7;
+  }
+
+  .mock-input-container {
+    width: 100%;
+    position: relative;
+    margin-top: 12px;
+  }
+
+  .mock-input-container input {
+    width: 100%;
+    background: rgba(15, 12, 10, 0.8);
+    border: 1px solid var(--line);
+    padding: 16px 24px;
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 1.1rem;
+    cursor: not-allowed;
+  }
+
+  .input-glow {
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    border-radius: 12px;
+    opacity: 0.3;
+    pointer-events: none;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    padding: 1px;
+  }
+
+  @media (max-width: 768px) {
+    .toggle-btn {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+    }
+    
+    .btn-text {
+      display: none;
+    }
+    
+    .toggle-btn.active .btn-text {
+      display: inline;
+    }
+  }
+</style>
+
+<script>
+  function setupToggle() {
+    const workBtn = document.getElementById('workBtn');
+    const aiBtn = document.getElementById('aiBtn');
+    const workView = document.getElementById('workView');
+    const aiView = document.getElementById('aiView');
+
+    if (!workBtn || !aiBtn || !workView || !aiView) return;
+
+    workBtn.addEventListener('click', () => {
+      workBtn.classList.add('active');
+      aiBtn.classList.remove('active');
+      workView.classList.add('active');
+      aiView.classList.remove('active');
+    });
+
+    aiBtn.addEventListener('click', () => {
+      aiBtn.classList.add('active');
+      workBtn.classList.remove('active');
+      aiView.classList.add('active');
+      workView.classList.remove('active');
+      
+      // Force d3 to resize if needed
+      window.dispatchEvent(new Event('resize'));
+    });
+  }
+
+  // Run on first load
+  setupToggle();
+  // Run on view transitions/navigation
+  document.addEventListener('astro:after-swap', setupToggle);
+</script>
