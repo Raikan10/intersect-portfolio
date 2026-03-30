@@ -33,6 +33,22 @@
 </div>
 
 <script>
+  const waitForTemporaryShort = () =>
+    new Promise<void>((resolve) => {
+      const shortOverlay = document.getElementById("temporary-short-overlay");
+      if (!shortOverlay) {
+        resolve();
+        return;
+      }
+
+      if (shortOverlay.hidden) {
+        resolve();
+        return;
+      }
+
+      document.addEventListener("temporary-short-dismissed", () => resolve(), { once: true });
+    });
+
   const markSiteReady = (showLogo = true, releaseScroll = false) => {
     document.body.classList.add('site-ready');
     if (releaseScroll) {
@@ -44,11 +60,16 @@
     }
   };
 
-  if (sessionStorage.getItem('splashPlayed')) {
-    const splash = document.getElementById('splash-screen');
-    if (splash) splash.style.display = 'none';
-    markSiteReady(true, true);
-  } else {
+  const runSplash = async () => {
+    await waitForTemporaryShort();
+
+    if (sessionStorage.getItem('splashPlayed')) {
+      const splash = document.getElementById('splash-screen');
+      if (splash) splash.style.display = 'none';
+      markSiteReady(true, true);
+      return;
+    }
+
     document.body.style.overflow = 'hidden';
     sessionStorage.setItem('splashPlayed', 'true');
 
@@ -82,7 +103,6 @@
         // --- 1. ULTRA-ROBUST MEASUREMENT ---
         // Save states
         const originalNavbarTransition = navbar.style.transition;
-        const originalNavbarTransform = navbar.style.transform;
         const originalNavbarOpacity = navbar.style.opacity;
 
         // FORCE final state for measurement
@@ -150,7 +170,9 @@
     };
 
     requestAnimationFrame(() => requestAnimationFrame(initializeSplash));
-  }
+  };
+
+  runSplash();
 </script>
 
 <style>

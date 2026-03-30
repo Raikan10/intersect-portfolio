@@ -13,6 +13,7 @@ import "../styles/components/Navbar.css";
 import "../styles/components/Library.css";
 
 import SplashScreen from "../components/SplashScreen.astro";
+import TemporaryShortOverlay from "../components/TemporaryShortOverlay.astro";
 
 
 interface Props {
@@ -67,6 +68,7 @@ const schema = {
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
   <body class:list={[pageKind === "content" && "content-page"]}>
+    {pageKind === "installation" && <TemporaryShortOverlay />}
     <header class="site-navbar" aria-label="Primary">
       <a class="site-navbar-brand" href="/" aria-label="Intersect home">
         <span class="site-navbar-logo-frame" aria-hidden="true">

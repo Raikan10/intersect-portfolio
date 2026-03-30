@@ -1,0 +1,183 @@
+---
+const promoStart = "2026-03-31T00:00:00+02:00";
+const promoEnd = "2026-04-14T23:59:59+02:00";
+const shortId = "hN71kVBg9FY";
+const shortUrl = `https://youtube.com/shorts/${shortId}`;
+const embedUrl = `https://www.youtube-nocookie.com/embed/${shortId}?autoplay=1&mute=0&playsinline=1&rel=0&modestbranding=1&controls=1&loop=1&playlist=${shortId}&enablejsapi=1`;
+---
+
+<div
+  id="temporary-short-overlay"
+  class="temporary-short-overlay"
+  data-promo-start={promoStart}
+  data-promo-end={promoEnd}
+  hidden
+>
+  <div class="temporary-short-backdrop"></div>
+
+  <div class="temporary-short-panel" role="dialog" aria-modal="true" aria-labelledby="temporary-short-title">
+    <button id="temporary-short-skip" class="temporary-short-skip" type="button" aria-label="Skip intro video">
+      Skip
+    </button>
+
+    <h2 id="temporary-short-title">Project Barcelona Hack intro video</h2>
+
+    <div class="temporary-short-frame">
+      <iframe
+        id="temporary-short-iframe"
+        data-embed-src={embedUrl}
+        title="Ajay Rajnikanth YouTube short"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        loading="eager"
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>
+    </div>
+
+    <p class="temporary-short-note">
+      If the embed is blocked, open it directly on
+      <a href={shortUrl} target="_blank" rel="noreferrer">YouTube</a>.
+    </p>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById("temporary-short-overlay");
+  const skipButton = document.getElementById("temporary-short-skip");
+  const iframe = document.getElementById("temporary-short-iframe");
+
+  const releaseTemporaryShort = () => {
+    overlay?.remove();
+    document.body.classList.remove("temporary-short-active");
+    document.dispatchEvent(new CustomEvent("temporary-short-dismissed"));
+  };
+
+  if (!overlay || !skipButton) {
+    document.dispatchEvent(new CustomEvent("temporary-short-dismissed"));
+  } else {
+    const promoStart = Date.parse(overlay.dataset.promoStart ?? "");
+    const promoEnd = Date.parse(overlay.dataset.promoEnd ?? "");
+    const now = Date.now();
+    const isPromoActive = Number.isFinite(promoStart) && Number.isFinite(promoEnd) && now >= promoStart && now <= promoEnd;
+
+    if (!isPromoActive) {
+      releaseTemporaryShort();
+    } else {
+      overlay.hidden = false;
+      document.body.classList.add("temporary-short-active");
+      if (iframe instanceof HTMLIFrameElement) {
+        const embedSrc = iframe.dataset.embedSrc;
+        if (embedSrc) {
+          const separator = embedSrc.includes("?") ? "&" : "?";
+          iframe.src = `${embedSrc}${separator}origin=${encodeURIComponent(window.location.origin)}`;
+        }
+      }
+
+      skipButton.addEventListener("click", releaseTemporaryShort, { once: true });
+    }
+  }
+</script>
+
+<style>
+  .temporary-short-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+
+  .temporary-short-backdrop {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at top, rgba(189, 171, 129, 0.2), transparent 42%),
+      rgba(5, 5, 5, 0.92);
+    backdrop-filter: blur(12px);
+  }
+
+  .temporary-short-panel {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 480px);
+    max-width: min(100%, calc((100svh - 120px) * 9 / 16 + 48px));
+    max-height: calc(100svh - 32px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 28px;
+    padding: 24px 24px 20px;
+    background: linear-gradient(180deg, rgba(17, 17, 17, 0.94), rgba(8, 8, 8, 0.98));
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+    text-align: center;
+    overflow: auto;
+  }
+
+  .temporary-short-panel h2 {
+    margin: 0 0 18px;
+    color: #f3ede6;
+    font: 500 clamp(1.15rem, 2vw, 1.5rem)/1.15 "IBM Plex Sans", sans-serif;
+  }
+
+  .temporary-short-frame {
+    overflow: hidden;
+    border-radius: 20px;
+    background: #000;
+    aspect-ratio: 9 / 16;
+    width: 100%;
+    max-height: calc(100svh - 180px);
+  }
+
+  .temporary-short-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .temporary-short-skip {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    border: 0;
+    border-radius: 999px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #f3ede6;
+    font: 500 0.82rem/1 "IBM Plex Sans", sans-serif;
+    cursor: pointer;
+  }
+
+  .temporary-short-note {
+    margin: 12px 0 0;
+    color: rgba(243, 237, 230, 0.7);
+    font: 400 0.82rem/1.5 "IBM Plex Sans", sans-serif;
+  }
+
+  .temporary-short-note a {
+    color: #f3ede6;
+  }
+
+  :global(body.temporary-short-active) {
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    .temporary-short-overlay {
+      padding: 16px;
+    }
+
+    .temporary-short-panel {
+      width: 100%;
+      max-width: min(100%, calc((100svh - 104px) * 9 / 16 + 40px));
+      max-height: calc(100svh - 24px);
+      padding: 20px 20px 16px;
+      border-radius: 24px;
+    }
+
+    .temporary-short-frame {
+      max-height: calc(100svh - 156px);
+    }
+  }
+</style>
