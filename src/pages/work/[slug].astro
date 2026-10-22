@@ -1,7 +1,8 @@
 ---
 import { render } from "astro:content";
-import Base from "../../layouts/Base.astro";
-import { site } from "../../data/site";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sitemap from "../../components/Sitemap.astro";
+import { site, services, principles, relations } from "../../data/site";
 import { breadcrumbs, caseStudy } from "../../lib/schema";
 import { getWork } from "../../lib/markdown";
 
@@ -17,44 +18,54 @@ const { entry, next } = Astro.props;
 const d = entry.data;
 const path = `/work/${entry.id}/`;
 const { Content } = await render(entry);
+
+const rel = relations[entry.id] ?? { services: [], principles: [] };
+const connected = [
+  ...rel.services.map((id) => services.find((s) => s.id === id)).filter((s) => s !== undefined).map((s) => ({ name: s.name, type: "Service", href: `/services/#${s.id}` })),
+  ...rel.principles.map((id) => principles.find((p) => p.id === id)).filter((p) => p !== undefined).map((p) => ({ name: p.title, type: "Principle", href: `/services/#${p.id}` })),
+];
 ---
-<Base title={d.title} description={d.summary} markdown={`/work/${entry.id}.md`} ogType="article" schema={[
+<BaseLayout title={d.title} description={d.summary} pageKind="content" markdown={`/work/${entry.id}.md`} ogType="article" schema={[
   caseStudy({ title: d.title, summary: d.summary, path, tags: d.tags }),
   breadcrumbs([{ name: "Home", path: "/" }, { name: "Work", path: "/work/" }, { name: d.title, path }]),
 ]}>
-  <article class="wrap">
-    <header class="page-head">
-      <p class="crumbs"><a href="/">Home</a> / <a href="/work/">Work</a> / {d.sector}</p>
-      <h1 class="display">{d.title}</h1>
-      <p class="lede">{d.summary}</p>
-      <div class="metrics">
-        {d.metrics.map((m) => (<div class="metric"><strong>{m.value}</strong><span>{m.label}</span></div>))}
-      </div>
-    </header>
-
-    <div class="two-col">
-      <div class="prose"><Content /></div>
-      <aside>
-        <dl class="facts">
-          <div><dt>Client</dt><dd>{d.client}</dd></div>
-          <div><dt>Sector</dt><dd>{d.sector}</dd></div>
-          <div><dt>Status</dt><dd>{d.status}</dd></div>
-          <div><dt>Topics</dt><dd>{d.tags.join(", ")}</dd></div>
-        </dl>
-      </aside>
-    </div>
-  </article>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="cta">
-        <p class="eyebrow">Next case study</p>
-        <h2 class="h2"><a href={`/work/${next.id}/`}>{next.data.title}</a></h2>
-        <div class="actions">
-          <a class="btn btn-primary" href={`mailto:${site.email}?subject=A%20workflow%20to%20take%20apart`}>Talk about your workflow</a>
-          <a class="btn" href="/work/">All work</a>
+  <main class="entry-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <article class="entry-layout">
+      <header class="entry-header">
+        <p class="eyebrow">{d.sector} · {d.status}</p>
+        <h1>{d.title}</h1>
+        <p class="entry-summary">{d.client}</p>
+        <div class="entry-metrics">
+          {d.metrics.map((m) => (
+            <div><strong>{m.value}</strong><span>{m.label}</span></div>
+          ))}
         </div>
+      </header>
+
+      <div class="entry-body prose">
+        <p>{d.summary}</p>
+        <Content />
       </div>
+
+      <aside class="entry-relations">
+        <p class="card-eyebrow">Connected nodes</p>
+        {connected.map((c) => (
+          <a class="relation-card" href={c.href}>
+            <strong>{c.name}</strong>
+            <span>{c.type}</span>
+          </a>
+        ))}
+        <a class="relation-card" href={`/work/${next.id}/`}>
+          <strong>{next.data.title}</strong>
+          <span>Next case study</span>
+        </a>
+      </aside>
+    </article>
+    <div class="entry-next">
+      <a class="button button-primary" href={`mailto:${site.email}?subject=A%20workflow%20to%20take%20apart`}>Talk about your workflow</a>
+      <a class="button" href="/work/">All work</a>
     </div>
-  </section>
-</Base>
+  </main>
+  <Sitemap />
+</BaseLayout>

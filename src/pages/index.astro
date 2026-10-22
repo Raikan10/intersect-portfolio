@@ -1,126 +1,129 @@
 ---
-import Base from "../layouts/Base.astro";
-import FlowDiagram from "../components/FlowDiagram.astro";
-import WorkCard from "../components/WorkCard.astro";
-import { site, principles, services, audiences, faqs } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GlowShader from "../components/GlowShader.astro";
+import D3Graph from "../components/D3Graph.astro";
+import About from "../components/About.astro";
+import Contact from "../components/Contact.astro";
+import Sitemap from "../components/Sitemap.astro";
+import "../styles/components/Hero.css";
+import "../styles/components/Projects.css";
+import { site, services, principles, faqs, relations } from "../data/site";
 import { faqGraph } from "../lib/schema";
 import { getWork } from "../lib/markdown";
 
 const work = await getWork();
+
+// The graph: case studies, services and principles as nodes, joined where
+// a case study used a service or was shaped by a principle.
+const graphNodes = [
+  ...work.map((e) => ({ id: e.id, name: e.data.title, type: "Case study", summary: e.data.summary, href: `/work/${e.id}/` })),
+  ...services.map((s) => ({ id: s.id, name: s.name, type: "Service", summary: s.summary, href: `/services/#${s.id}` })),
+  ...principles.map((p) => ({ id: p.id, name: p.title, type: "Principle", summary: p.body, href: `/services/#${p.id}` })),
+];
+const graphLinks = [
+  ...Object.entries(relations).flatMap(([workId, r]) => [
+    ...r.services.map((target) => ({ source: workId, target })),
+    ...r.principles.map((target) => ({ source: workId, target })),
+  ]),
+  { source: "workflow-teardown", target: "fixed-scope-build" },
+  { source: "fixed-scope-build", target: "operating-layer" },
+];
 ---
-<Base markdown="/index.md" schema={[faqGraph()]}>
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow rise">AI strategy and builds · Coimbatore, India</p>
-        <h1 class="display rise rise-2">AI for businesses that <em>run on operations.</em></h1>
-        <p class="lede rise rise-3">
-          {site.name} is a small practice led by Ajay Rajnikanth. We take one workflow apart, automate the parts that are completely standard, route the exceptions to the right person, and stay until your team actually uses it.
-        </p>
-        <div class="actions rise rise-3">
-          <a class="btn btn-primary" href="#contact">Pick a workflow with us</a>
-          <a class="btn" href="/work/">See the work</a>
+
+<BaseLayout markdown="/index.md" schema={[faqGraph()]}>
+  <main class="installation-shell">
+    <section class="hero-installation" id="top">
+      <GlowShader />
+      <div class="hero-panel">
+        <div class="hero-center">
+          <p class="strategy-ai" aria-hidden="true">
+            <span class="strategy-txt">STRATEGY</span>
+            <svg class="strategy-logo" viewBox="0 0 851 847" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(243, 237, 230, 0.95)" />
+                  <stop offset="40%" stop-color="rgba(223, 217, 210, 0.85)" />
+                  <stop offset="100%" stop-color="rgba(243, 237, 230, 0.9)" />
+                </linearGradient>
+              </defs>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M715.811 311.017L523.907 346.329L545.44 323.628L698.71 288.317L829.883 24.0387L440.616 432.81L448.712 439.553L448.723 439.562L448.734 439.573L828.012 822.655L697.444 557.856L537.841 527.93L509.973 500.185L714.544 535.156L839.947 839.087L827.492 826.607L431.919 456.369L425.738 449.265L419.558 456.369L17.6332 830.975L9.21338 839.087L137.492 535.063L137.548 535.054L342.443 500.028L314.342 528.004L314.32 528.026L314.288 528.032L154.736 557.949L20.4398 824.527L402.742 439.573L402.753 439.562L402.765 439.553L410.86 432.81L323.411 340.573L321.037 340.11L326.936 346.329L135.032 311.017L9.62917 7.08665L18.496 15.9145L425.738 419.408L832.347 15.9145L841.213 7.08665L715.811 311.017ZM24.9095 30.4867L152.132 288.317L305.402 323.628L320.544 339.59L322.918 340.053L21.1674 23.6227L24.9095 30.4867Z" fill="url(#logo-gradient)"/>
+            </svg>
+            <span class="ai-txt">AI</span>
+          </p>
+          <h1 class="hero-statement">AI strategy and builds for businesses that run on operations.</h1>
         </div>
-        <p class="hero-note">First workflow teardown has no fee. You keep the plan.</p>
+        <a href="#about" class="scroll-indicator" aria-label="Scroll to about">
+          <div class="mouse-frame">
+            <div class="scroll-dot"></div>
+          </div>
+          <span>Scroll</span>
+        </a>
       </div>
-      <FlowDiagram />
-    </div>
-  </section>
+    </section>
 
-  <section class="section" aria-labelledby="who">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Who it's for</p>
-        <h2 id="who" class="h2">Operators first. Technology second.</h2>
-        <p class="lede">Most problems we see are not a lack of intelligence. They are price lists in five places, approvals stuck in WhatsApp, and numbers re-typed between systems. That is where the hours go.</p>
-      </div>
-      <ul class="audience">
-        {audiences.map((a) => <li>{a}</li>)}
-      </ul>
-    </div>
-  </section>
+    <About />
 
-  <section class="section" aria-labelledby="how">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">How we work</p>
-        <h2 id="how" class="h2">Six rules we hold ourselves to.</h2>
+    <section class="scroll-graph" id="work">
+      <div class="graph-intro">
+        <p class="eyebrow">Enter the system</p>
+        <h2>Where the work intersects.</h2>
+        <p>
+          Each node is a case study, a service or a principle. Lines show where they meet. Hover to read, click to open.
+        </p>
       </div>
-      <ol class="principles">
-        {principles.map((p) => (
-          <li>
-            <h3>{p.title}</h3>
-            <p>{p.body}</p>
-          </li>
+
+      <div class="graph-frame">
+        <D3Graph nodes={graphNodes} links={graphLinks} />
+      </div>
+
+      <div class="capability-grid">
+        {work.map((entry) => (
+          <a class="capability-card" href={`/work/${entry.id}/`}>
+            <span class="card-type">{entry.data.sector} · {entry.data.status}</span>
+            <h3 class="card-title">{entry.data.title}</h3>
+            <p class="card-summary">{entry.data.summary}</p>
+            <span class="card-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
+          </a>
         ))}
-      </ol>
-    </div>
-  </section>
+      </div>
+    </section>
 
-  <section class="section" aria-labelledby="services">
-    <div class="wrap">
-      <div class="section-head">
+    <section class="scroll-graph" id="services">
+      <div class="graph-intro">
         <p class="eyebrow">Services</p>
-        <h2 id="services" class="h2">Start with one workflow. End with something your team runs.</h2>
+        <h2>Start with one workflow.</h2>
+        <p>Every engagement has a defined output, a price agreed up front, and a payback case you can check.</p>
       </div>
-      <div class="grid-2">
+      <div class="capability-grid">
         {services.map((s) => (
-          <article class="card" id={s.id}>
-            <div class="meta">
-              <span class="pill">{s.duration}</span>
-              <span class="pill pill-accent">{s.price}</span>
-            </div>
-            <h3>{s.name}</h3>
-            <p class="muted">{s.summary}</p>
-          </article>
+          <a class="capability-card" href={`/services/#${s.id}`}>
+            <span class="card-type">{s.duration}</span>
+            <h3 class="card-title">{s.name}</h3>
+            <p class="card-summary">{s.summary}</p>
+            <span class="card-price">{s.price}</span>
+          </a>
         ))}
       </div>
-      <p class="actions"><a class="btn" href="/services/">How engagements work</a></p>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" aria-labelledby="work">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Selected work</p>
-        <h2 id="work" class="h2">What we built, what it changed, and what we chose not to do.</h2>
-        <p class="lede">Client names are withheld. Work still in progress is labelled as such.</p>
-      </div>
-      <div class="work-list">
-        {work.slice(0, 3).map((entry) => <WorkCard entry={entry} />)}
-      </div>
-      <p class="actions"><a class="btn" href="/work/">All case studies</a></p>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="faq">
-    <div class="wrap">
-      <div class="section-head">
+    <section class="scroll-graph" id="faq">
+      <div class="graph-intro">
         <p class="eyebrow">Questions</p>
-        <h2 id="faq" class="h2">Straight answers.</h2>
+        <h2>Straight answers.</h2>
       </div>
-      <div class="faq">
+      <div class="faq-list">
         {faqs.map((f, i) => (
-          <details open={i === 0}>
+          <details class="faq-item" open={i === 0}>
             <summary>{f.q}</summary>
             <p>{f.a}</p>
           </details>
         ))}
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" id="contact" aria-labelledby="contact-h">
-    <div class="wrap">
-      <div class="cta">
-        <p class="eyebrow">Contact</p>
-        <h2 id="contact-h" class="h2">Which workflow costs you the most hours?</h2>
-        <p class="lede">Send one line about it. Ajay replies personally, and the first half-day teardown has no fee.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href={`mailto:${site.email}?subject=A%20workflow%20to%20take%20apart`}>{site.email}</a>
-          <a class="btn" href={site.linkedin} rel="me noopener">LinkedIn</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</Base>
+    <Contact />
+    <Sitemap />
+  </main>
+</BaseLayout>

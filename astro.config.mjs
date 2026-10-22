@@ -10,4 +10,10 @@ export default defineConfig({
     inlineStylesheets: "never",
   },
   integrations: [sitemap()],
+  vite: {
+    build: {
+      // Never inline scripts into HTML: the CSP only allows script-src 'self'.
+      assetsInlineLimit: 0,
+    },
+  },
 });

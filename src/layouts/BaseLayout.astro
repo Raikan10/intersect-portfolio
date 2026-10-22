@@ -1,0 +1,135 @@
+---
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/500.css";
+import "@fontsource/ibm-plex-sans/600.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/anton";
+import "@fontsource/instrument-serif/400.css";
+import "@fontsource/instrument-serif/400-italic.css";
+import "../styles/tokens.css";
+import "../styles/components/Navbar.css";
+import "../styles/components/Library.css";
+
+import SplashScreen from "../components/SplashScreen.astro";
+import { site, nav } from "../data/site";
+import { orgGraph, toJsonLd } from "../lib/schema";
+
+interface Props {
+  title?: string;
+  description?: string;
+  pageKind?: "installation" | "content";
+  /** Path of this page's markdown twin, e.g. "/services.md". */
+  markdown?: string;
+  /** Extra JSON-LD nodes; the organisation graph is always included. */
+  schema?: object[];
+  ogType?: "website" | "article";
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  pageKind = "installation",
+  markdown,
+  schema = [],
+  ogType = "website",
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | Strategy × AI × Systems`;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL("/og-image.jpg", site.url).href;
+const jsonLd = toJsonLd([...orgGraph(), ...schema]);
+const isHome = pageKind === "installation";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="author" content="Ajay Rajnikanth" />
+    <meta name="theme-color" content="#020101" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/nav-logo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Machine-readable versions of this site -->
+    {markdown && <link rel="alternate" type="text/markdown" href={markdown} title="This page as markdown" />}
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:locale" content="en_IN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={jsonLd} />
+  </head>
+  <body class:list={[pageKind === "content" && "content-page"]}>
+    <header class="site-navbar" aria-label="Primary">
+      <a class="site-navbar-brand" href="/" aria-label={`${site.name} home`}>
+        <span class="site-navbar-logo-frame" aria-hidden="true">
+          <img
+            id="splash-navbar-logo"
+            class="site-navbar-logo"
+            src="/nav-logo.svg"
+            alt=""
+          />
+        </span>
+        <span class="site-navbar-wordmark">{site.name}</span>
+      </a>
+      <button id="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-navbar-links">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <nav class="site-navbar-links" id="site-navbar-links">
+        {nav.map((item) => (
+          <a href={isHome ? item.href.replace(/^\/(\w+)\/$/, "#$1") : item.href}>{item.label}</a>
+        ))}
+        <a href={isHome ? "#contact" : "/#contact"} class="cta-button">Get in touch</a>
+      </nav>
+    </header>
+    {isHome && <SplashScreen />}
+    <slot />
+
+    <script>
+      const toggle = document.getElementById('mobile-menu-toggle');
+      const navbar = document.querySelector('.site-navbar');
+
+      if (toggle && navbar) {
+        toggle.addEventListener('click', () => {
+          const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!isExpanded));
+          navbar.classList.toggle('is-open');
+          document.body.classList.toggle('menu-open');
+        });
+
+        // Close menu when clicking a link
+        const links = navbar.querySelectorAll('.site-navbar-links a');
+        links.forEach(link => {
+          link.addEventListener('click', () => {
+            toggle.setAttribute('aria-expanded', 'false');
+            navbar.classList.remove('is-open');
+            document.body.classList.remove('menu-open');
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

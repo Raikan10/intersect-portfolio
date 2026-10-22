@@ -1,5 +1,6 @@
 ---
-import Base from "../layouts/Base.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Sitemap from "../components/Sitemap.astro";
 import { site, services, principles } from "../data/site";
 import { breadcrumbs } from "../lib/schema";
 
@@ -14,51 +15,45 @@ const serviceNodes = services.map((s) => ({
   serviceType: "AI strategy and implementation",
 }));
 ---
-<Base title="Services" description={description} markdown="/services.md" schema={[...serviceNodes, breadcrumbs([{ name: "Home", path: "/" }, { name: "Services", path: "/services/" }])]}>
-  <div class="wrap">
-    <header class="page-head">
-      <p class="crumbs"><a href="/">Home</a> / Services</p>
-      <h1 class="display">Start with one workflow.</h1>
-      <p class="lede">Every engagement has a defined output, a price agreed up front, and a payback case you can check. It ends with something your team runs without us.</p>
-    </header>
+<BaseLayout title="Services" description={description} pageKind="content" markdown="/services.md" schema={[...serviceNodes, breadcrumbs([{ name: "Home", path: "/" }, { name: "Services", path: "/services/" }])]}>
+  <main class="library-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <section class="library-hero">
+      <p class="eyebrow">Services</p>
+      <h1>Start with one workflow.</h1>
+      <p class="library-intro">
+        Every engagement has a defined output, a price agreed up front, and a payback case you can check. It ends with something your team runs without us.
+      </p>
+    </section>
 
-    <div class="grid-2">
+    <section class="library-grid library-grid-2" aria-label="Services">
       {services.map((s) => (
-        <article class="card" id={s.id}>
-          <div class="meta">
-            <span class="pill">{s.duration}</span>
-            <span class="pill pill-accent">{s.price}</span>
-          </div>
-          <h2 class="h3 card-title">{s.name}</h2>
+        <article class="library-card" id={s.id}>
+          <p class="card-eyebrow">{s.duration}</p>
+          <h2>{s.name}</h2>
           <p>{s.summary}</p>
-          <p class="eyebrow">What you get</p>
           <ul>{s.outputs.map((o) => <li>{o}</li>)}</ul>
+          <div class="library-meta"><span>{s.price}</span></div>
         </article>
       ))}
-    </div>
-  </div>
+    </section>
 
-  <section class="section" aria-labelledby="principles">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Principles</p>
-        <h2 id="principles" class="h2">What stays the same in every engagement.</h2>
+    <section class="library-section" id="principles" aria-labelledby="principles-h">
+      <h2 id="principles-h">What stays the same in every engagement.</h2>
+      <div class="library-grid">
+        {principles.map((p) => (
+          <article class="library-card" id={p.id}>
+            <h3 class="card-title">{p.title}</h3>
+            <p>{p.body}</p>
+          </article>
+        ))}
       </div>
-      <ol class="principles">
-        {principles.map((p) => (<li><h3>{p.title}</h3><p>{p.body}</p></li>))}
-      </ol>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="wrap">
-      <div class="cta">
-        <h2 class="h2">Pick one workflow. We'll take it apart properly.</h2>
-        <div class="actions">
-          <a class="btn btn-primary" href={`mailto:${site.email}?subject=A%20workflow%20to%20take%20apart`}>Email Ajay</a>
-          <a class="btn" href="/work/">See the work</a>
-        </div>
-      </div>
+    <div class="entry-next">
+      <a class="button button-primary" href={`mailto:${site.email}?subject=A%20workflow%20to%20take%20apart`}>Pick a workflow with us</a>
+      <a class="button" href="/work/">See the work</a>
     </div>
-  </section>
-</Base>
+  </main>
+  <Sitemap />
+</BaseLayout>

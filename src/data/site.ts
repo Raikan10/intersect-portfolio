@@ -30,26 +30,32 @@ export const founder = {
 
 export const principles = [
   {
+    id: "messy-workflows",
     title: "Most problems are messy workflows, not a lack of intelligence.",
     body: "Before anything gets built, we map how the work actually moves today: who asks, who answers, where it waits, and where it gets re-typed. The fix is usually in that map.",
   },
   {
+    id: "standard-vs-exceptions",
     title: "Automate what is completely standard. People handle the exceptions.",
     body: "The boundary between the two is written down, so the system cannot quietly produce wrong output. When a case falls outside the rules, it goes to a person with the context attached.",
   },
   {
+    id: "removes-steps",
     title: "AI is worth it when it removes steps.",
     body: "Adding a chatbot on top of a broken process adds a step. We measure success in steps removed, hours returned and errors avoided, not in features shipped.",
   },
   {
+    id: "adoption",
     title: "Adoption is most of the work.",
     body: "Companies that scale AI spend more on workflow change and training than on the technology. We budget for that from the start and stay through the rollout.",
   },
   {
+    id: "fixed-scope",
     title: "Fixed scope over open-ended retainers.",
     body: "Owners would rather pay once to get something done than pay forever. Each engagement has a defined output, a price and a payback case you can check.",
   },
   {
+    id: "when-not-to-build",
     title: "We will tell you when not to build.",
     body: "Sometimes the right answer is a spreadsheet, a policy change or a specialist vendor. Saying so early is cheaper for everyone.",
   },
@@ -157,7 +163,17 @@ export const faqs = [
 ];
 
 export const nav = [
-  { href: "/services/", label: "Services" },
   { href: "/work/", label: "Work" },
+  { href: "/services/", label: "Services" },
   { href: "/about/", label: "About" },
 ];
+
+// Where each case study meets the services and principles. Drives the graph
+// on the home page and the "connected nodes" panel on each case study.
+export const relations: Record<string, { services: string[]; principles: string[] }> = {
+  "dealer-whatsapp-copilot": { services: ["workflow-teardown", "fixed-scope-build"], principles: ["messy-workflows", "standard-vs-exceptions", "when-not-to-build"] },
+  "manufacturer-sales-mis": { services: ["operating-layer", "fixed-scope-build"], principles: ["removes-steps", "fixed-scope"] },
+  "retail-chain-process-redesign": { services: ["workflow-teardown", "operating-layer", "ai-advisory"], principles: ["messy-workflows", "adoption"] },
+  "activation-check-runner": { services: ["fixed-scope-build"], principles: ["standard-vs-exceptions", "when-not-to-build", "removes-steps"] },
+  "company-brain": { services: ["operating-layer", "ai-advisory"], principles: ["adoption", "removes-steps"] },
+};

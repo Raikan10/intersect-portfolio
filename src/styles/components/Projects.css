@@ -1,0 +1,181 @@
+.scroll-graph {
+  position: relative;
+  z-index: 10;
+  width: min(100%, var(--max-width));
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 0 clamp(24px, 5vw, 64px);
+  scroll-margin-top: 120px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.graph-intro {
+  width: min(100%, 800px);
+}
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+.capability-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  background: rgba(4, 3, 2, 0.4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  min-height: 280px;
+}
+
+.capability-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(164, 138, 114, 0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.capability-card:hover {
+  border-color: var(--line-hover);
+  background: rgba(164, 138, 114, 0.04);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.capability-card:hover::before {
+  opacity: 1;
+}
+
+.card-type {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.card-summary {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: auto;
+}
+
+.card-arrow {
+  margin-top: 32px;
+  color: var(--text-muted);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.capability-card:hover .card-arrow {
+  transform: translateX(6px);
+  color: var(--text);
+}
+
+.graph-intro h2 {
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+  color: var(--text);
+}
+
+.graph-intro p:not(.eyebrow) {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 62ch;
+}
+
+.graph-frame {
+  margin-top: 2rem;
+}
+
+/* Cards are links; keep their text colours rather than the link default. */
+a.capability-card {
+  color: inherit;
+}
+
+.card-price {
+  margin-top: 28px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  opacity: 0.8;
+}
+
+.faq-list {
+  border-top: 1px solid var(--line);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding: 26px 48px 26px 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  background:
+    linear-gradient(var(--accent), var(--accent)) center / 14px 1.5px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) center / 1.5px 14px no-repeat;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-item p {
+  margin: 0;
+  padding: 0 0 28px;
+  max-width: 70ch;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.faq-item summary:focus-visible,
+.capability-card:focus-visible {
+  outline: 1px solid var(--line-hover);
+  outline-offset: 4px;
+}

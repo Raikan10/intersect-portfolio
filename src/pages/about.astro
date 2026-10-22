@@ -1,41 +1,38 @@
 ---
-import Base from "../layouts/Base.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import About from "../components/About.astro";
+import Contact from "../components/Contact.astro";
+import Sitemap from "../components/Sitemap.astro";
 import { site, founder } from "../data/site";
 import { breadcrumbs, ids } from "../lib/schema";
 
 const description = `${founder.name} founded ${site.name} to build AI systems for operating businesses. Software engineer, operator and IESE MBA, based in Coimbatore, India.`;
 ---
-<Base title="About" description={description} markdown="/about.md" schema={[
+<BaseLayout title="About" description={description} pageKind="content" markdown="/about.md" schema={[
   { "@type": "AboutPage", "@id": `${site.url}/about/#page`, url: `${site.url}/about/`, name: `About ${site.name}`, mainEntity: { "@id": ids.person }, about: { "@id": ids.org } },
   breadcrumbs([{ name: "Home", path: "/" }, { name: "About", path: "/about/" }]),
 ]}>
-  <div class="wrap">
-    <header class="page-head">
-      <p class="crumbs"><a href="/">Home</a> / About</p>
-      <h1 class="display">Built by an operator, <em>not a vendor.</em></h1>
-      <p class="lede">{site.name} is a small practice. {founder.name} leads every engagement and brings in specialists where a job needs them.</p>
-    </header>
-
-    <div class="two-col">
-      <div class="prose">
-        <h2>{founder.name}</h2>
-        <p>{founder.summary}</p>
-        <p>Most of what this site describes was tested first inside businesses Ajay runs: an HP and BenQ distribution business, a retail chain scaling past 150 stores, and a smartphone distribution territory. The methods came from the work, not the other way round.</p>
-        <h2>Why the name</h2>
-        <p>The useful work in a business happens where two things meet: operations and technology, a process and the person who owns it, a rule and its exception. That intersection is where we build.</p>
-        <h2>How we decide what to build</h2>
-        <p>We ask what a step costs today, who owns it, how often it goes wrong, and what happens when it does. If the answer is a spreadsheet or a policy change, we say so. If it is software, we build the smallest version that removes the step and measure it.</p>
+  <main class="entry-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <section class="library-hero">
+      <p class="eyebrow">About</p>
+      <h1>Built by an operator.</h1>
+    </section>
+    <About />
+    <section class="library-section" aria-labelledby="background-h">
+      <h2 id="background-h">{founder.name}</h2>
+      <div class="library-grid library-grid-2">
+        <article class="library-card">
+          <p class="card-eyebrow">Background</p>
+          <ul>{founder.background.map((b) => <li>{b}</li>)}</ul>
+        </article>
+        <article class="library-card">
+          <p class="card-eyebrow">Why the name</p>
+          <p>The useful work in a business happens where two things meet: operations and technology, a process and the person who owns it, a rule and its exception. That intersection is where we build.</p>
+        </article>
       </div>
-      <aside>
-        <dl class="facts">
-          <div><dt>Founder</dt><dd>{founder.name}</dd></div>
-          <div><dt>Based in</dt><dd>{site.location.city}, India</dd></div>
-          <div><dt>Education</dt><dd>IESE MBA; CityU Hong Kong, Computer and Data Engineering</dd></div>
-          <div><dt>Contact</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
-          <div><dt>Elsewhere</dt><dd><a href={site.linkedin} rel="me noopener">LinkedIn</a> · <a href={site.github} rel="me noopener">GitHub</a></dd></div>
-        </dl>
-      </aside>
-    </div>
-  </div>
-  <div class="section-spacer"></div>
-</Base>
+    </section>
+  </main>
+  <Contact />
+  <Sitemap />
+</BaseLayout>
