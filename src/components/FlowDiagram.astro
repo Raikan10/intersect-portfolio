@@ -8,10 +8,10 @@
     <desc id="flow-desc">Incoming requests pass through explicit rules. Standard cases are handled automatically. Exceptions go to a named person with the context attached. Both paths end in done, and every exception improves the rules.</desc>
 
     <!-- inbound -->
-    <rect class="node" x="10" y="146" width="104" height="48" rx="10" />
+    <rect class="node" x="6" y="146" width="112" height="48" rx="10" />
     <text x="62" y="167" text-anchor="middle">Requests</text>
     <text class="sub" x="62" y="183" text-anchor="middle">WhatsApp, email</text>
-    <path class="ln" d="M114 170 H150" />
+    <path class="ln" d="M118 170 H150" />
 
     <!-- rules -->
     <rect class="node-accent" x="150" y="140" width="96" height="60" rx="10" />
@@ -28,7 +28,7 @@
     <path class="ln-dash" d="M246 178 C 290 178, 290 264, 330 264 H344" />
     <rect class="node" x="344" y="240" width="126" height="48" rx="10" />
     <text x="407" y="261" text-anchor="middle">A person</text>
-    <text class="sub" x="407" y="277" text-anchor="middle">exceptions, with context</text>
+    <text class="sub" x="407" y="277" text-anchor="middle">with full context</text>
 
     <!-- feedback: exceptions improve the rules -->
     <path class="ln-dash" d="M344 280 C 250 330, 198 300, 198 200" />
@@ -36,8 +36,8 @@
     <text class="sub" x="236" y="318" text-anchor="middle">each exception sharpens the rules</text>
 
     <!-- labels -->
-    <text class="sub" x="300" y="40" text-anchor="middle">most of the volume</text>
-    <text class="sub" x="300" y="226" text-anchor="middle">the few that matter</text>
+    <text class="sub" x="407" y="40" text-anchor="middle">most of the volume</text>
+    <text class="sub" x="407" y="228" text-anchor="middle">the few that matter</text>
   </svg>
   <figcaption class="flow-caption">Automate what is completely standard. Route the exceptions to people. Keep the boundary explicit.</figcaption>
 </figure>
