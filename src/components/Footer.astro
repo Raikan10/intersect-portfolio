@@ -1,0 +1,31 @@
+---
+import { nav, site } from "../data/site";
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <p><strong>{site.name}</strong></p>
+      <p>{site.tagline}</p>
+      <p class="agent-note">© {year} {site.name}. Coimbatore, India.</p>
+    </div>
+    <div>
+      <h2>Site</h2>
+      <ul>
+        <li><a href="/">Home</a></li>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href={`mailto:${site.email}`}>Email</a></li>
+        <li><a href={site.linkedin} rel="me noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>For agents and LLMs</h2>
+      <ul>
+        <li><a href="/llms.txt">llms.txt</a></li>
+        <li><a href="/llms-full.txt">llms-full.txt</a></li>
+        <li><a href="/index.md">This site as markdown</a></li>
+        <li><a href="/sitemap-index.xml">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

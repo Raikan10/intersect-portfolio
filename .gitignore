@@ -34,3 +34,6 @@ coverage/
 
 # Output
 output/
+
+# Wrangler
+.wrangler/

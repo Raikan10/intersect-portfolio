@@ -1,51 +1,42 @@
-# Intersect Portfolio
+# buildIntersect
 
-A high-performance, systems-driven portfolio for **Ajay Rajnikanth**, built at the intersection of Strategy, AI, and Technical Precision.
+Source for [buildintersect.com](https://buildintersect.com): a small AI strategy and implementation practice led by Ajay Rajnikanth.
 
-![Intersect Banner](/public/og-image.png)
+The previous personal portfolio lives on the `personal-website` branch.
 
-## ✦ The Vision
-This portfolio is designed to be as intentional and structured as physical architecture. It utilizes a custom-built interactive mind map to visualize the depth and connectivity of horizontal strategy and vertical technical execution.
+## Built for people and for agents
 
-## 🚀 Key Features
-- **Interactive D3.js Mind Map**: A custom force-directed graph representing projects, capabilities, and their relationships.
-- **Architectural Glow Shaders**: Advanced WebGL/Three.js shaders providing a unique, premium visual language.
-- **Performance First**: 
-  - Optimized image delivery via Astro's `<Image />` component.
-  - 100/100 Lighthouse performance potential with localized fonts and zero layout shift.
-  - Edge-cached delivery ready.
-- **SEO Optimized**: Automated sitemap generation, structured data (JSON-LD), and a custom OpenGraph strategy.
-- **Branded 404 Experience**: A custom error page designed to maintain the "system" aesthetic.
+- **One source of truth.** Facts live in `src/data/site.ts` and case studies in `src/content/work/*.md`. The HTML pages, markdown twins, `llms.txt` and JSON-LD are all generated from them, so they cannot drift apart.
+- **Markdown twins.** Every page has a plain markdown version: `/index.md`, `/services.md`, `/about.md`, `/work.md`, `/work/<slug>.md`.
+- **llms.txt** (`/llms.txt`) and the full site in one file (`/llms-full.txt`).
+- **Structured data.** Organization, ProfessionalService, Person, Service, FAQPage, Article and BreadcrumbList, linked by stable `@id`s.
+- **AI crawlers are explicitly allowed** in `robots.txt`.
+- **Zero client-side JavaScript.** Pages are static HTML and CSS.
 
-## 🛠 Tech Stack
-- **Framework**: [Astro](https://astro.build/) (Static Site Generation)
-- **Visuals**: [Three.js](https://threejs.org/) & [D3.js](https://d3js.org/)
-- **Typography**: IBM Plex Sans, IBM Plex Mono, Inter, instrument-serif, Anton
-- **Runtime**: [Bun](https://bun.sh/) (Recommended)
+## Security
 
-## 🏁 Getting Started
+- Strict CSP and security headers in `public/_headers` (no inline scripts or styles; keep it that way).
+- Exact dependency versions, committed `bun.lock`.
+- `bunfig.toml` refuses any package version published in the last 3 days (`minimumReleaseAge`).
+- Dependabot proposes updates weekly with a 7-day cooldown.
+- Cloudflare Pages build pins `NODE_VERSION` and `BUN_VERSION` (never `latest`).
 
-### Prerequisites
-- [Bun](https://bun.sh/) installed on your machine.
+## Develop
 
-### Installation
 ```bash
 bun install
+bun run dev      # http://localhost:4321
+bun run build    # static output in dist/
 ```
 
-### Development
-```bash
-bun run dev
-```
+Requires Node 22.22+ (pinned to 24 in `.node-version`) and Bun 1.4.3.
 
-### Build for Production
-```bash
-bun run build
-```
-The optimized site will be available in the `dist/` directory.
+## Editing content
 
-## 🚢 Deployment
-This project is optimized for **Cloudflare Pages**, but can be deployed to Vercel or Netlify with minimal configuration.
+- Add a case study: create `src/content/work/<slug>.md` with the frontmatter used by the existing files. Keep client names out; state status honestly.
+- Change services, principles, FAQs or contact details: edit `src/data/site.ts` and bump `updated`.
+- Writing rules: concrete over impressive, short sentences, no hype words, no em dashes.
 
----
-Designed and Built by Ajay Rajnikanth.
+## Deploy
+
+Pushing to `main` deploys to Cloudflare Pages (project `ajraikan`), served at buildintersect.com. Other branches get preview URLs.

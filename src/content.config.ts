@@ -1,20 +1,19 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
-const graph = defineCollection({
-  loader: glob({ base: "./src/content/graph", pattern: "**/*.md" }),
+const work = defineCollection({
+  loader: glob({ base: "./src/content/work", pattern: "**/*.md" }),
   schema: z.object({
     title: z.string(),
+    client: z.string(),
+    sector: z.string(),
     summary: z.string(),
-    nodeType: z.enum(["project", "idea", "writing", "education", "experience", "hackathon", "mba", "leadership"]),
-    status: z.enum(["draft", "placeholder", "published"]).default("placeholder"),
-    featured: z.boolean().default(false),
-    order: z.number().int().default(0),
-    related: z.array(z.string()).default([]),
-    keywords: z.array(z.string()).default([]),
+    status: z.string(),
+    order: z.number().int(),
+    metrics: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
+    tags: z.array(z.string()).default([]),
   }),
 });
 
-export const collections = {
-  graph,
-};
+export const collections = { work };

@@ -1,0 +1,13 @@
+---
+// The Intersect mark: four arms meeting at one point.
+interface Props { title?: string }
+const { title } = Astro.props;
+---
+<svg viewBox="0 0 800 800" fill="none" role={title ? "img" : undefined} aria-hidden={title ? undefined : "true"} aria-label={title}>
+  <g stroke="currentColor" stroke-width="44" stroke-linejoin="miter">
+    <path d="M400 400 L100 100 L215 285 Z" />
+    <path d="M400 400 L700 100 L585 285 Z" />
+    <path d="M400 400 L100 700 L215 515 Z" />
+    <path d="M400 400 L700 700 L585 515 Z" />
+  </g>
+</svg>

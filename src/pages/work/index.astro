@@ -1,0 +1,32 @@
+---
+import Base from "../../layouts/Base.astro";
+import WorkCard from "../../components/WorkCard.astro";
+import { site } from "../../data/site";
+import { breadcrumbs } from "../../lib/schema";
+import { getWork } from "../../lib/markdown";
+
+const work = await getWork();
+const description = "Case studies from buildIntersect: dealer WhatsApp operations, sales MIS on legacy systems, retail process redesign, human-in-the-loop automation and a company brain.";
+---
+<Base title="Work" description={description} markdown="/work.md" schema={[
+  {
+    "@type": "CollectionPage",
+    "@id": `${site.url}/work/#page`,
+    url: `${site.url}/work/`,
+    name: `Work | ${site.name}`,
+    hasPart: work.map((e) => ({ "@id": `${site.url}/work/${e.id}/#article` })),
+  },
+  breadcrumbs([{ name: "Home", path: "/" }, { name: "Work", path: "/work/" }]),
+]}>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="crumbs"><a href="/">Home</a> / Work</p>
+      <h1 class="display">Work, stated plainly.</h1>
+      <p class="lede">Client names are withheld. Where work is still in progress, the page says so, and the numbers describe scope until outcomes are measured.</p>
+    </header>
+    <div class="work-list">
+      {work.map((entry) => <WorkCard entry={entry} />)}
+    </div>
+  </div>
+  <div class="section-spacer"></div>
+</Base>

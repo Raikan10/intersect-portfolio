@@ -1,0 +1,5 @@
+[install]
+# Supply-chain guard: never resolve a package version published in the last 3 days.
+# Most malicious npm releases are caught and pulled within hours.
+minimumReleaseAge = 259200
+exact = true

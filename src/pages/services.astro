@@ -1,0 +1,64 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, services, principles } from "../data/site";
+import { breadcrumbs } from "../lib/schema";
+
+const description = "How buildIntersect engagements work: a free workflow teardown, fixed-scope builds, a company brain and MIS, and advisory for owners and leadership teams.";
+const serviceNodes = services.map((s) => ({
+  "@type": "Service",
+  "@id": `${site.url}/services/#${s.id}`,
+  name: s.name,
+  description: `${s.summary} ${s.outputs.join(". ")}.`,
+  provider: { "@id": `${site.url}/#organization` },
+  areaServed: ["India", "United Arab Emirates", "United Kingdom"],
+  serviceType: "AI strategy and implementation",
+}));
+---
+<Base title="Services" description={description} markdown="/services.md" schema={[...serviceNodes, breadcrumbs([{ name: "Home", path: "/" }, { name: "Services", path: "/services/" }])]}>
+  <div class="wrap">
+    <header class="page-head">
+      <p class="crumbs"><a href="/">Home</a> / Services</p>
+      <h1 class="display">Start with one workflow.</h1>
+      <p class="lede">Every engagement has a defined output, a price agreed up front, and a payback case you can check. It ends with something your team runs without us.</p>
+    </header>
+
+    <div class="grid-2">
+      {services.map((s) => (
+        <article class="card" id={s.id}>
+          <div class="meta">
+            <span class="pill">{s.duration}</span>
+            <span class="pill pill-accent">{s.price}</span>
+          </div>
+          <h2 class="h3 card-title">{s.name}</h2>
+          <p>{s.summary}</p>
+          <p class="eyebrow">What you get</p>
+          <ul>{s.outputs.map((o) => <li>{o}</li>)}</ul>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="principles">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Principles</p>
+        <h2 id="principles" class="h2">What stays the same in every engagement.</h2>
+      </div>
+      <ol class="principles">
+        {principles.map((p) => (<li><h3>{p.title}</h3><p>{p.body}</p></li>))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="cta">
+        <h2 class="h2">Pick one workflow. We'll take it apart properly.</h2>
+        <div class="actions">
+          <a class="btn btn-primary" href={`mailto:${site.email}?subject=A%20workflow%20to%20take%20apart`}>Email Ajay</a>
+          <a class="btn" href="/work/">See the work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

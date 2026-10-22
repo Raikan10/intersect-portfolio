@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Wait a week before proposing a new release; most malicious publishes
+    # are caught and pulled well inside that window.
+    cooldown:
+      default-days: 7
+    groups:
+      astro:
+        patterns: ["astro", "@astrojs/*"]
+      fonts:
+        patterns: ["@fontsource/*"]
+    open-pull-requests-limit: 5
