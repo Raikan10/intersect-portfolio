@@ -179,3 +179,19 @@ a.capability-card {
   outline: 1px solid var(--line-hover);
   outline-offset: 4px;
 }
+
+/* Balanced rows: five case studies as 3 + 2, four services as 2 + 2. */
+@media (min-width: 1024px) {
+  .capability-grid--work {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .capability-grid--work > * {
+    grid-column: span 2;
+  }
+  .capability-grid--work > :nth-child(n + 4) {
+    grid-column: span 3;
+  }
+  .capability-grid--services {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

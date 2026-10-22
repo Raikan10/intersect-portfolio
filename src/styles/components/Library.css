@@ -301,3 +301,14 @@ body.content-page {
     grid-template-columns: 1fr;
   }
 }
+
+/* Case study titles are sentences, not single words: scale to the column. */
+.entry-header h1 {
+  max-width: none;
+  font-size: clamp(2.1rem, 3.1vw, 3rem);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}

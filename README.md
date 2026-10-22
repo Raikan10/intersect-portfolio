@@ -11,11 +11,22 @@ The previous personal portfolio lives on the `personal-website` branch.
 - **llms.txt** (`/llms.txt`) and the full site in one file (`/llms-full.txt`).
 - **Structured data.** Organization, ProfessionalService, Person, Service, FAQPage, Article and BreadcrumbList, linked by stable `@id`s.
 - **AI crawlers are explicitly allowed** in `robots.txt`.
-- **Zero client-side JavaScript.** Pages are static HTML and CSS.
+- **Content is static HTML.** JavaScript only drives the design (slat shader, logo assembly, graph); every word is readable without it.
+
+## Design system (do not replace)
+
+The visual identity is hand-built and carried over from the original portfolio:
+
+- `GlowShader.astro`: the glass slats hero (three.js shader)
+- `SplashScreen.astro`: the five-stage logo assembly and FLIP handoff into the navbar
+- The `STRATEGY × AI` glass lockup with the Intersect mark, the floating island navbar, `About`, `Contact`, `Sitemap`
+- Tokens in `src/styles/tokens.css`; Anton, Instrument Serif, IBM Plex Sans and Mono
+
+Change content, not the design language.
 
 ## Security
 
-- Strict CSP and security headers in `public/_headers` (no inline scripts or styles; keep it that way).
+- Strict CSP and security headers in `public/_headers`. No inline scripts or `style=` attributes: Vite's `assetsInlineLimit: 0` keeps every script in a file.
 - Exact dependency versions, committed `bun.lock`.
 - `bunfig.toml` refuses any package version published in the last 3 days (`minimumReleaseAge`).
 - Dependabot proposes updates weekly with a 7-day cooldown.

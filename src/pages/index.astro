@@ -76,7 +76,7 @@ const graphLinks = [
         <D3Graph nodes={graphNodes} links={graphLinks} />
       </div>
 
-      <div class="capability-grid">
+      <div class="capability-grid capability-grid--work">
         {work.map((entry) => (
           <a class="capability-card" href={`/work/${entry.id}/`}>
             <span class="card-type">{entry.data.sector} · {entry.data.status}</span>
@@ -96,7 +96,7 @@ const graphLinks = [
         <h2>Start with one workflow.</h2>
         <p>Every engagement has a defined output, a price agreed up front, and a payback case you can check.</p>
       </div>
-      <div class="capability-grid">
+      <div class="capability-grid capability-grid--services">
         {services.map((s) => (
           <a class="capability-card" href={`/services/#${s.id}`}>
             <span class="card-type">{s.duration}</span>
