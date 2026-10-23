@@ -1,13 +1,13 @@
 import type { APIRoute } from "astro";
 import {
-  homeMd, servicesPageMd, aboutMd, coimbatoreMd, contactPageMd, workIndexMd, workEntryMd,
+  homeMd, servicesPageMd, aboutMd, contactPageMd, workIndexMd, workEntryMd,
   insightsIndexMd, insightEntryMd, getWork, getInsights,
 } from "../lib/markdown";
 
 export const GET: APIRoute = async () => {
   const [work, insights] = await Promise.all([getWork(), getInsights()]);
   const parts = [
-    await homeMd(), servicesPageMd(), coimbatoreMd(), aboutMd(), contactPageMd(),
+    await homeMd(), servicesPageMd(), aboutMd(), contactPageMd(),
     await workIndexMd(), ...work.map(workEntryMd),
     await insightsIndexMd(), ...insights.map(insightEntryMd),
   ];

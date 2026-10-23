@@ -1,6 +1,6 @@
 ---
 title: "Five hours of manual device checks, down to thirty minutes"
-client: "A smartphone distributor, South India"
+client: "A smartphone distributor"
 sector: "Distribution"
 summary: "An operator checked about 200 handsets a day, one serial at a time, on a public web page. We built a human-in-the-loop runner that does everything except the captcha, and declined to automate the captcha on purpose."
 industry: distribution

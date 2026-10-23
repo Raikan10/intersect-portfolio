@@ -1,11 +1,11 @@
 ---
 title: "How can AI help wholesale distributors with orders and collections?"
-description: "Where AI pays off for distributors and wholesalers in India: price and stock queries, collections, schemes and reporting, written by people who run a distribution business."
-answer: "For distributors, AI pays off first in three places: answering price and stock queries faster, chasing collections before they cross 45 days, and tracking schemes and targets without manual reports. All three depend on clean, current data from Tally or your ERP. Start with the one that costs the most money or time this quarter."
+description: "Where AI pays off for distributors and wholesalers: price and stock queries, collections, schemes and reporting, written by people who run a distribution business."
+answer: "For distributors, AI pays off first in three places: answering price and stock queries faster, chasing collections before they cross 45 days, and tracking schemes and targets without manual reports. All three depend on clean, current data from your core system. Start with the one that costs the most money or time this quarter."
 category: "Industries"
 published: 2026-10-23
 tags: ["distribution", "wholesale", "collections", "AI for distributors"]
-related: ["automate-whatsapp-enquiries", "ai-with-tally-and-excel", "dealer-whatsapp-copilot", "activation-check-runner"]
+related: ["answer-customer-enquiries-faster", "ai-without-replacing-your-systems", "dealer-sales-copilot", "activation-check-runner"]
 faq:
   - q: "What is the best first AI project for a distributor?"
     a: "Usually overdue alerts or a sales copilot for price and stock queries. Both use data you already have and show results within weeks."
@@ -19,7 +19,7 @@ Distribution margins are thin. Working capital is tied up in stock and receivabl
 
 ## 1. Price and stock queries
 
-Dealers ask the same questions all day: price of this model, is it in stock, when can you deliver. A salesperson copilot can draft those replies from the current price list and stock position, and flag threads nobody answered. See [how we measured this](/insights/automate-whatsapp-enquiries/) in dealer WhatsApp groups.
+Dealers ask the same questions all day: price of this model, is it in stock, when can you deliver. A salesperson copilot can draft those replies from the current price list and stock position, and flag threads nobody answered. See [how we measured this](/insights/answer-customer-enquiries-faster/) across 510 dealer messages.
 
 ## 2. Collections
 
@@ -31,8 +31,8 @@ Brand schemes have thresholds, caps and rebate slabs, usually tracked in spreads
 
 ## 4. Operations work nobody should do by hand
 
-Some jobs are pure repetition: checking device activation status serial by serial, re-keying sales into brand portals, reconciling statements. These are good automation candidates, with a person handling anything unusual. One example cut about five hours of daily checking to about thirty minutes, described in [this case study](/work/activation-check-runner/).
+Some jobs are pure repetition: checking device status serial by serial, re-keying the same sales into several places, reconciling statements. These are good automation candidates, with a person handling anything unusual. One example cut about five hours of daily checking to about thirty minutes, described in [this case study](/work/activation-check-runner/).
 
 ## What has to be true first
 
-All of this depends on clean data: a current price list, stock that matches the books, and customer records that agree across Tally and the sales team. If those are not in place, that is the first project.
+All of this depends on clean data: a current price list, stock that matches the books, and customer records that agree between the books and the sales team. If those are not in place, that is the first project.

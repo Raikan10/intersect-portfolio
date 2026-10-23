@@ -6,7 +6,7 @@ import { breadcrumbs } from "../../lib/schema";
 import { getInsights } from "../../lib/markdown";
 
 const insights = await getInsights();
-const description = "Practical answers on using AI in owner-run and mid-size businesses: growth, productivity, automation with Tally and WhatsApp, and AI by industry. From buildIntersect in Coimbatore, India.";
+const description = "Practical answers on using AI in owner-run and mid-size businesses: growth, productivity, automation and AI by industry. From buildIntersect.";
 const fmt = (d: Date) => d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 const groups = insightCategories
   .map((category) => ({ category, entries: insights.filter((e) => e.data.category === category) }))
@@ -30,7 +30,7 @@ const groups = insightCategories
       <p class="eyebrow">Insights</p>
       <h1>AI in business, answered plainly.</h1>
       <p class="library-intro">
-        Short answers to the questions owners ask us most, written from running distribution and retail businesses in South India and building AI for others.
+        Short answers to the questions owners ask us most, written from running distribution and retail businesses and building AI for others.
       </p>
     </section>
 

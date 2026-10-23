@@ -34,7 +34,7 @@ Because it is plain text with explicit links, the same knowledge base works for 
 
 ## Why it matters for clients
 
-A business that writes down how it works is a business agents can help run. Most companies hold this knowledge in people's heads and WhatsApp threads. The first step of a company brain is not software. It is agreeing what gets written down, by whom, and where.
+A business that writes down how it works is a business agents can help run. Most companies hold this knowledge in people's heads and chat threads. The first step of a company brain is not software. It is agreeing what gets written down, by whom, and where.
 
 ## What we would do differently
 

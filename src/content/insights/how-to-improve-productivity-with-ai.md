@@ -21,7 +21,7 @@ Take one routine job, like turning a customer order into an invoice, and write d
 
 When owners do this honestly, two things usually show up:
 
-1. **The same information is typed more than once.** From WhatsApp into a notebook, from the notebook into Tally, from Tally into a spreadsheet for the weekly review.
+1. **The same information is typed more than once.** From a chat message into a notebook, from the notebook into the accounts, from the accounts into a spreadsheet for the weekly review.
 2. **Most of the elapsed time is waiting.** For an approval, for a price list, for the one person who knows how it works.
 
 Each re-typing step and each wait is a candidate for automation. Each one removed is time back for everyone involved, not just one person.

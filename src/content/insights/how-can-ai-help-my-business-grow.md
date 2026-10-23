@@ -5,7 +5,7 @@ answer: "AI helps a business grow mainly by giving people their hours back and b
 category: "Strategy"
 published: 2026-10-23
 tags: ["AI for business", "growth", "small business", "MSME"]
-related: ["how-to-improve-productivity-with-ai", "is-my-business-ready-for-ai", "dealer-whatsapp-copilot"]
+related: ["how-to-improve-productivity-with-ai", "is-my-business-ready-for-ai", "dealer-sales-copilot"]
 faq:
   - q: "Can AI increase sales for a small business?"
     a: "Indirectly, yes. The most reliable route is speed and follow-up: answering price and stock queries faster, not letting enquiries go quiet, and giving salespeople the information they need without waiting on someone else."
@@ -13,7 +13,7 @@ faq:
     a: "No. The first useful projects are usually small and fixed in scope, built on the systems you already run. Start with one task that eats hours every week."
 ---
 
-Most owners we speak to have already tried an AI tool. Someone in the team uses ChatGPT for emails, maybe there was a chatbot on the website for a while. And the business runs exactly as it did before.
+Most owners we speak to have already tried an AI tool. Someone in the team uses a chat assistant for emails, maybe there was a chatbot on the website for a while. And the business runs exactly as it did before.
 
 That is not because AI is overhyped. It is because the tool was added on top of the work instead of changing how the work moves.
 
@@ -25,7 +25,7 @@ AI is useful when it takes standard, repeated work off those people:
 
 - **Customer queries.** Price, stock and order status questions are most of the volume in many businesses. A system can draft the reply for a person to send, or answer the simple ones outright.
 - **Follow-up.** Enquiries that go quiet, overdue payments, quotes nobody chased. Flagging these on time is worth more than most new features.
-- **Re-typing.** Moving data from WhatsApp to Tally, from Tally to Excel, from Excel to a brand portal. Every hop is time and a chance for error.
+- **Re-typing.** Moving the same data from a chat into the accounts, from the accounts into a spreadsheet, from the spreadsheet into a supplier portal. Every hop is time and a chance for error.
 - **Reports.** Owners make decisions on numbers that are a week or a month old. A reporting layer that answers questions in plain language changes that.
 
 None of these are new ideas. What changed is that they are now cheap enough to build for a 50-person company, not just a 5,000-person one.

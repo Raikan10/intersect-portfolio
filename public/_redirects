@@ -1,0 +1,11 @@
+# Renamed pages. Old URLs keep working.
+/ai-consulting-coimbatore/    /about/    301
+/ai-consulting-coimbatore.md  /about.md  301
+/insights/ai-with-tally-and-excel/    /insights/ai-without-replacing-your-systems/    301
+/insights/ai-with-tally-and-excel.md  /insights/ai-without-replacing-your-systems.md  301
+/insights/automate-whatsapp-enquiries/    /insights/answer-customer-enquiries-faster/    301
+/insights/automate-whatsapp-enquiries.md  /insights/answer-customer-enquiries-faster.md  301
+/insights/ai-in-manufacturing-india/    /insights/ai-in-manufacturing/    301
+/insights/ai-in-manufacturing-india.md  /insights/ai-in-manufacturing.md  301
+/work/dealer-whatsapp-copilot/    /work/dealer-sales-copilot/    301
+/work/dealer-whatsapp-copilot.md  /work/dealer-sales-copilot.md  301

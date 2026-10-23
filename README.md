@@ -1,6 +1,6 @@
 # buildIntersect
 
-Source for [buildintersect.com](https://buildintersect.com): an AI consulting practice in Coimbatore, India, led by Ajay Rajnikanth.
+Source for [buildintersect.com](https://buildintersect.com): an AI consulting practice for growing businesses, led by Ajay Rajnikanth.
 
 The previous personal portfolio lives on the `personal-website` branch.
 
@@ -48,11 +48,14 @@ Requires Node 22.22+ (pinned to 24 in `.node-version`) and Bun 1.4.3.
 - Add a case study: create `src/content/work/<slug>.md` with the frontmatter used by the existing files (challenge, approach and result are the one-line summary). Keep client names out; state status honestly.
 - Add an insight: create `src/content/insights/<slug>.md`. Title it as the question people ask, put a two-to-four sentence direct answer in `answer`, and optionally add `faq` and `related` (case study or insight slugs). Set `draft: true` to hide it.
 - Change services, principles, FAQs or contact details: edit `src/data/site.ts` and bump `updated`.
-- Writing rules: concrete over impressive, short sentences, no hype words, no em dashes.
+- Writing rules: concrete over impressive, short sentences, no hype words, no em dashes. Name outcomes, not the technology behind them. The practice is global: no copy that ties it to one city or country.
+- Renamed a page? Add a 301 in `public/_redirects`.
 
 ## Enquiries
 
-`functions/api/enquiry.ts` is a Cloudflare Pages Function. It takes the contact form (form post, redirects to `/contact/thanks/`) and AI agents (JSON, must include `user_consent: true`). `GET /api/enquiry` describes the API. Submissions are stored in the Workers KV namespace `buildintersect-enquiries` (bound as `ENQUIRIES`) under keys `enquiry:<timestamp>-<id>`; read them in the Cloudflare dashboard under Storage and databases, Workers KV.
+`functions/api/enquiry.ts` is a Cloudflare Pages Function. It takes the contact form (form post, redirects to `/contact/thanks/`) and AI agents (JSON). Agents are asked to send `user_consent: true` and a `consent` note saying how the user agreed (asked now or pre-authorised); it is recorded, and only an explicit `user_consent: false` is refused. `GET /api/enquiry` describes the API. Submissions are stored in the Workers KV namespace `buildintersect-enquiries` (bound as `ENQUIRIES`) under keys `enquiry:<timestamp>-<id>`; read them in the Cloudflare dashboard under Storage and databases, Workers KV.
+
+Flood protection: a zone rate limiting rule (Security, WAF, Rate limiting rules, "Enquiry API: block floods") blocks an IP sending more than 5 POSTs to `/api/enquiry` in 10 seconds, at the edge. Behind it, the function caps bodies at 16 KB while reading and stores at most 10 submissions per IP per hour.
 
 ## Deploy
 

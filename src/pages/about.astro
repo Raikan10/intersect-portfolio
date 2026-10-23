@@ -6,7 +6,7 @@ import Sitemap from "../components/Sitemap.astro";
 import { site, founder } from "../data/site";
 import { breadcrumbs, ids } from "../lib/schema";
 
-const description = `${site.name} is an AI consulting practice in Coimbatore, India, founded by ${founder.name}: software engineer, operator and IESE MBA who runs distribution and retail businesses in South India.`;
+const description = `${site.name} is an AI consulting practice founded by ${founder.name}: software engineer, operator and IESE MBA who runs distribution and retail businesses.`;
 ---
 <BaseLayout title="About" description={description} pageKind="content" markdown="/about.md" schema={[
   { "@type": "AboutPage", "@id": `${site.url}/about/#page`, url: `${site.url}/about/`, name: `About ${site.name}`, mainEntity: { "@id": ids.person }, about: { "@id": ids.org } },
@@ -17,7 +17,7 @@ const description = `${site.name} is an AI consulting practice in Coimbatore, In
     <section class="library-hero">
       <p class="eyebrow">About</p>
       <h1>Built by an operator.</h1>
-      <p class="library-intro">An AI consulting practice in Coimbatore, Tamil Nadu, run by someone who runs businesses too.</p>
+      <p class="library-intro">An AI consulting practice run by someone who runs businesses too.</p>
     </section>
     <About />
     <section class="library-section" aria-labelledby="background-h">

@@ -1,7 +1,7 @@
 ---
 title: "Is my business ready for AI? A 10-question check"
 description: "Ten plain questions to check whether your business is ready to get value from AI, and what to fix first if it is not. Written for owner-run and mid-size businesses."
-answer: "Your business is ready for AI if some work is repeated the same way every week, the data for it exists somewhere (even in Excel or WhatsApp), and one person owns the outcome. You do not need clean data, a new ERP or an AI team to start. If nobody owns the process, or the numbers do not reconcile, fix that first."
+answer: "Your business is ready for AI if some work is repeated the same way every week, the data for it exists somewhere (even in spreadsheets or chat threads), and one person owns the outcome. You do not need clean data, new software or an AI team to start. If nobody owns the process, or the numbers do not reconcile, fix that first."
 category: "Strategy"
 published: 2026-10-23
 tags: ["AI readiness", "AI readiness assessment", "strategy", "small business"]
@@ -23,8 +23,8 @@ Answer each question yes or no. There is no score. The point is to see where you
 
 ## The data
 
-4. **Does the data for that task exist somewhere?** Tally, an ERP, Excel, email or WhatsApp all count.
-5. **Do the numbers in different places agree?** If the sales report and Tally disagree, people will not trust anything built on top.
+4. **Does the data for that task exist somewhere?** Your accounts, spreadsheets, email and chat threads all count.
+5. **Do the numbers in different places agree?** If the sales report and the books disagree, people will not trust anything built on top.
 6. **Can you get to the data without asking a vendor's permission?** Some legacy systems make this the hardest step.
 
 ## The people

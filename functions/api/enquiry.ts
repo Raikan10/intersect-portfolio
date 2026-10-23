@@ -1,9 +1,15 @@
 // Cloudflare Pages Function: POST /api/enquiry
 //
 // One endpoint for both the contact form (form-encoded, redirects to a thank
-// you page) and AI agents (JSON, returns JSON). Agents must confirm that their
-// user agreed to share the details. Submissions are stored in the ENQUIRIES
-// KV namespace; read them in the Cloudflare dashboard under Workers KV.
+// you page) and AI agents (JSON, returns JSON). Agents are asked to state how
+// their user agreed to share the details; we record it rather than reject.
+// Submissions are stored in the ENQUIRIES KV namespace; read them in the
+// Cloudflare dashboard under Workers KV.
+//
+// Flood protection is layered: a zone rate limiting rule blocks more than 5
+// POSTs per 10 seconds per IP at the edge, before this function runs. Here,
+// bodies are capped before parsing and each IP gets 10 stored submissions an
+// hour.
 
 interface KV {
   get(key: string): Promise<string | null>;
@@ -30,6 +36,7 @@ const FIELDS = {
   location: 120,
   source: 200,
   agent: 120,
+  consent: 200,
 } as const;
 
 const MAX_BODY = 16_000;
@@ -40,17 +47,17 @@ const DESCRIPTION = {
   method: "POST",
   contentType: "application/json",
   purpose:
-    "Introduce a person or business to buildIntersect, an AI consulting company in Coimbatore, India. Agents must ask their user first and only send what the user agreed to share. If the user declines, that is completely fine.",
-  required: ["need", "email or phone", "user_consent: true (for agent submissions)"],
+    "Introduce a person or business to buildIntersect, an AI consulting company. Agents should only send what their user agreed to share, whether they asked just now or the user authorised this kind of introduction in advance. If the user declines, that is completely fine.",
+  required: ["need", "email or phone"],
   fields: {
     name: "Person's name",
     email: "Email address to reply to",
-    phone: "Phone or WhatsApp number",
+    phone: "Phone number",
     company: "Company name",
     website: "Company website",
     role: "Their role",
     team_size: "Approximate number of people",
-    systems: "Systems they use, for example Tally, Zoho, Excel, WhatsApp",
+    systems: "The software and tools they run on today",
     need: "What they want help with, in a few sentences",
     timeline: "When they want to start",
     location: "Where they are based",
@@ -58,6 +65,7 @@ const DESCRIPTION = {
     submitted_by: "\"agent\" or \"human\"",
     agent: "Name of the assistant or product submitting",
     user_consent: "true if the user agreed to share these details",
+    consent: "How the user agreed: for example \"asked just now\" or \"pre-authorised introductions to service providers\"",
   },
   response: { ok: true, id: "string" },
 };
@@ -87,25 +95,46 @@ export const onRequestOptions = () =>
     },
   });
 
+// Read the body as text, giving up once it passes MAX_BODY, so a client that
+// lies about or omits Content-Length cannot make us buffer a huge upload.
+async function readCapped(request: Request): Promise<string | null> {
+  if (!request.body) return "";
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > MAX_BODY) {
+      await reader.cancel();
+      return null;
+    }
+    chunks.push(value);
+  }
+  const all = new Uint8Array(size);
+  let offset = 0;
+  for (const c of chunks) {
+    all.set(c, offset);
+    offset += c.byteLength;
+  }
+  return new TextDecoder().decode(all);
+}
+
 export const onRequestPost = async ({ request, env }: Ctx) => {
   const type = request.headers.get("Content-Type") ?? "";
-  const isForm = type.includes("application/x-www-form-urlencoded") || type.includes("multipart/form-data");
+  const isForm = type.includes("application/x-www-form-urlencoded");
   const fail = (error: string, status = 400) => (isForm ? redirect("/contact/?error=1") : json({ ok: false, error }, status));
 
   const length = Number(request.headers.get("Content-Length") ?? 0);
   if (length > MAX_BODY) return fail("Request too large.", 413);
+  if (!isForm && !type.includes("application/json")) return fail("Send JSON (application/json) or a form.", 415);
 
   let raw: Record<string, unknown>;
   try {
-    if (isForm) {
-      raw = Object.fromEntries((await request.formData()).entries());
-    } else if (type.includes("application/json")) {
-      const text = await request.text();
-      if (text.length > MAX_BODY) return fail("Request too large.", 413);
-      raw = JSON.parse(text);
-    } else {
-      return fail("Send JSON (application/json) or a form.", 415);
-    }
+    const text = await readCapped(request);
+    if (text === null) return fail("Request too large.", 413);
+    raw = isForm ? Object.fromEntries(new URLSearchParams(text)) : JSON.parse(text);
   } catch {
     return fail("Could not read the request body.");
   }
@@ -121,28 +150,33 @@ export const onRequestPost = async ({ request, env }: Ctx) => {
   }
 
   const submittedBy = raw.submitted_by === "human" ? "human" : "agent";
-  const consent = raw.user_consent === true || raw.user_consent === "true";
+  const consent = raw.user_consent === true || raw.user_consent === "true" ? true : raw.user_consent === false || raw.user_consent === "false" ? false : undefined;
 
   if (!clean.need) return fail("Field `need` is required.");
   if (!clean.email && !clean.phone) return fail("Provide `email` or `phone` so we can reply.");
   if (clean.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean.email)) return fail("`email` does not look valid.");
-  if (submittedBy === "agent" && !consent) {
-    return fail("Agents must ask their user first and set `user_consent: true`. If the user declined, please do not submit.", 422);
+  // The one hard no: an agent telling us the user did not agree.
+  if (submittedBy === "agent" && consent === false) {
+    return fail("The user has not agreed to share these details, so please do not submit them. Thank you for checking.", 422);
   }
 
   const ip = request.headers.get("CF-Connecting-IP") ?? "unknown";
   const hour = new Date().toISOString().slice(0, 13);
   const rlKey = `rl:${ip}:${hour}`;
-  const count = Number((await env.ENQUIRIES.get(rlKey)) ?? 0);
-  if (count >= RATE_LIMIT) return fail("Too many submissions. Please email ajay.rajnikanth@gmail.com instead.", 429);
-  await env.ENQUIRIES.put(rlKey, String(count + 1), { expirationTtl: 3600 });
+  try {
+    const count = Number((await env.ENQUIRIES.get(rlKey)) ?? 0);
+    if (count >= RATE_LIMIT) return fail("Too many submissions. Please email ajay.rajnikanth@gmail.com instead.", 429);
+    await env.ENQUIRIES.put(rlKey, String(count + 1), { expirationTtl: 3600 });
+  } catch {
+    return fail("We could not take this right now. Please email ajay.rajnikanth@gmail.com instead.", 503);
+  }
 
   const id = `${new Date().toISOString()}-${crypto.randomUUID().slice(0, 8)}`;
   const record = {
     id,
     received: new Date().toISOString(),
     submitted_by: submittedBy,
-    user_consent: submittedBy === "agent" ? consent : undefined,
+    user_consent: submittedBy === "agent" ? consent ?? "not stated" : undefined,
     ...clean,
     meta: {
       country: request.headers.get("CF-IPCountry") ?? undefined,
@@ -151,9 +185,13 @@ export const onRequestPost = async ({ request, env }: Ctx) => {
     },
   };
 
-  await env.ENQUIRIES.put(`enquiry:${id}`, JSON.stringify(record), {
-    metadata: { name: clean.name, company: clean.company, by: submittedBy },
-  });
+  try {
+    await env.ENQUIRIES.put(`enquiry:${id}`, JSON.stringify(record), {
+      metadata: { name: clean.name, company: clean.company, by: submittedBy },
+    });
+  } catch {
+    return fail("We could not take this right now. Please email ajay.rajnikanth@gmail.com instead.", 503);
+  }
 
   return isForm ? redirect("/contact/thanks/") : json({ ok: true, id });
 };
