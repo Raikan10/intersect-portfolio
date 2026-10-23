@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sitemap from "../../components/Sitemap.astro";
+import { site, insightCategories } from "../../data/site";
+import { breadcrumbs } from "../../lib/schema";
+import { getInsights } from "../../lib/markdown";
+
+const insights = await getInsights();
+const description = "Practical answers on using AI in owner-run and mid-size businesses: growth, productivity, automation with Tally and WhatsApp, and AI by industry. From buildIntersect in Coimbatore, India.";
+const fmt = (d: Date) => d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+const groups = insightCategories
+  .map((category) => ({ category, entries: insights.filter((e) => e.data.category === category) }))
+  .filter((g) => g.entries.length > 0);
+---
+<BaseLayout title="Insights on AI in Business" description={description} pageKind="content" markdown="/insights.md" schema={[
+  {
+    "@type": "Blog",
+    "@id": `${site.url}/insights/#blog`,
+    url: `${site.url}/insights/`,
+    name: `Insights | ${site.name}`,
+    description,
+    publisher: { "@id": `${site.url}/#organization` },
+    blogPost: insights.map((e) => ({ "@id": `${site.url}/insights/${e.id}/#article` })),
+  },
+  breadcrumbs([{ name: "Home", path: "/" }, { name: "Insights", path: "/insights/" }]),
+]}>
+  <main class="library-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <section class="library-hero">
+      <p class="eyebrow">Insights</p>
+      <h1>AI in business, answered plainly.</h1>
+      <p class="library-intro">
+        Short answers to the questions owners ask us most, written from running distribution and retail businesses in South India and building AI for others.
+      </p>
+    </section>
+
+    {groups.map((g) => (
+      <section class="library-section" aria-labelledby={`cat-${g.category}`}>
+        <h2 id={`cat-${g.category}`}>{g.category}</h2>
+        <div class="library-grid">
+          {g.entries.map((e) => (
+            <article class="library-card">
+              <p class="card-eyebrow"><time datetime={e.data.published.toISOString().slice(0, 10)}>{fmt(e.data.published)}</time></p>
+              <h3 class="card-title">{e.data.title}</h3>
+              <p>{e.data.description}</p>
+              <a class="button button-primary" href={`/insights/${e.id}/`}>Read the answer</a>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </main>
+  <Sitemap />
+</BaseLayout>

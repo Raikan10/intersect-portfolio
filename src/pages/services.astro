@@ -1,28 +1,28 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Sitemap from "../components/Sitemap.astro";
-import { site, services, principles } from "../data/site";
+import { site, services, principles, industries, process } from "../data/site";
 import { breadcrumbs } from "../lib/schema";
 
-const description = "How buildIntersect engagements work: a free workflow teardown, fixed-scope builds, a company brain and MIS, and advisory for owners and leadership teams.";
+const description = "AI consulting services from buildIntersect in Coimbatore, India: a free AI readiness assessment, fixed-price AI automation, AI reporting and a company knowledge base, and advisory for owners and investors.";
 const serviceNodes = services.map((s) => ({
   "@type": "Service",
   "@id": `${site.url}/services/#${s.id}`,
   name: s.name,
-  description: `${s.summary} ${s.outputs.join(". ")}.`,
+  description: `${s.short} ${s.summary} ${s.outputs.join(". ")}.`,
   provider: { "@id": `${site.url}/#organization` },
-  areaServed: ["India", "United Arab Emirates", "United Kingdom"],
-  serviceType: "AI strategy and implementation",
+  areaServed: site.areaServed.map((name) => ({ "@type": "Place", name })),
+  serviceType: "AI consulting",
 }));
 ---
-<BaseLayout title="Services" description={description} pageKind="content" markdown="/services.md" schema={[...serviceNodes, breadcrumbs([{ name: "Home", path: "/" }, { name: "Services", path: "/services/" }])]}>
+<BaseLayout title="AI Consulting Services" description={description} pageKind="content" markdown="/services.md" schema={[...serviceNodes, breadcrumbs([{ name: "Home", path: "/" }, { name: "Services", path: "/services/" }])]}>
   <main class="library-shell">
     <div class="ambient-grid" aria-hidden="true"></div>
     <section class="library-hero">
       <p class="eyebrow">Services</p>
-      <h1>Start with one workflow.</h1>
+      <h1>AI consulting, built to be used.</h1>
       <p class="library-intro">
-        Every engagement has a defined output, a price agreed up front, and a payback case you can check. It ends with something your team runs without us.
+        Every engagement starts with one problem and ends with something your team runs without us. A defined output, a price agreed up front, and a payback case you can check.
       </p>
     </section>
 
@@ -31,11 +31,38 @@ const serviceNodes = services.map((s) => ({
         <article class="library-card" id={s.id}>
           <p class="card-eyebrow">{s.duration}</p>
           <h2>{s.name}</h2>
-          <p>{s.summary}</p>
+          <p>{s.short} {s.summary}</p>
           <ul>{s.outputs.map((o) => <li>{o}</li>)}</ul>
           <div class="library-meta"><span>{s.price}</span></div>
         </article>
       ))}
+    </section>
+
+    <section class="library-section" id="process" aria-labelledby="process-h">
+      <h2 id="process-h">How an engagement runs.</h2>
+      <ol class="library-grid library-steps">
+        {process.map((p, i) => (
+          <li class="library-card">
+            <p class="card-eyebrow">Step {i + 1}</p>
+            <h3 class="card-title">{p.name}</h3>
+            <p>{p.body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="library-section" id="industries" aria-labelledby="industries-h">
+      <h2 id="industries-h">Industries we work with.</h2>
+      <div class="library-grid library-grid-2">
+        {industries.map((i) => (
+          <article class="library-card" id={i.id}>
+            <h3 class="card-title">{i.name}</h3>
+            <p>{i.pain}</p>
+            <ul>{i.firstProjects.map((p) => <li>{p}</li>)}</ul>
+            <a class="button" href={`/insights/${i.insight}/`}>Read more</a>
+          </article>
+        ))}
+      </div>
     </section>
 
     <section class="library-section" id="principles" aria-labelledby="principles-h">
@@ -51,8 +78,8 @@ const serviceNodes = services.map((s) => ({
     </section>
 
     <div class="entry-next">
-      <a class="button button-primary" href={`mailto:${site.email}?subject=A%20workflow%20to%20take%20apart`}>Pick a workflow with us</a>
-      <a class="button" href="/work/">See the work</a>
+      <a class="button button-primary" href="/contact/">Book a free AI readiness assessment</a>
+      <a class="button" href="/work/">See the case studies</a>
     </div>
   </main>
   <Sitemap />

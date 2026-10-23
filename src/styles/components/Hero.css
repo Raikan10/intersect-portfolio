@@ -337,3 +337,24 @@ body.content-page .hero-statement {
 @media (prefers-reduced-motion: reduce) {
   .hero-statement { opacity: 0.9; }
 }
+
+/* Where we are, under the statement. */
+.hero-sub {
+  margin: 14px auto 0;
+  max-width: 52ch;
+  padding: 0 24px;
+  font-size: clamp(0.9rem, 1.1vw, 1.02rem);
+  line-height: 1.6;
+  color: var(--text-muted);
+  opacity: 0;
+  filter: drop-shadow(0 0 18px rgba(0, 0, 0, 0.95));
+  transition: opacity 1.2s ease 0.7s;
+}
+
+body.site-ready .hero-sub {
+  opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-sub { opacity: 0.9; }
+}

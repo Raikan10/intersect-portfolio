@@ -1,8 +1,15 @@
 ---
-title: "Dealer price queries on WhatsApp"
+title: "WhatsApp price queries: why a distributor needed a sales copilot, not a bot"
 client: "An HP and BenQ distribution business, South India"
 sector: "Distribution"
 summary: "We read every message in two dealer WhatsApp groups to find out whether a bot was worth building. The answer was a salesperson copilot, and the real prerequisite was a clean price list."
+industry: distribution
+challenge: "Around 850 dealers ask for prices and stock in WhatsApp groups. Should the distributor put a bot in front of them?"
+approach: "We classified 510 messages over 110 days to see what dealers actually ask and where replies slip."
+result: "96% of threads were price or stock queries and the median reply was 3 minutes. The real loss was the 12% of threads left hanging, so we scoped a copilot that drafts replies and flags quiet threads."
+published: 2026-10-22
+services: ["ai-readiness-assessment", "ai-automation"]
+principles: ["messy-processes", "standard-vs-exceptions", "when-not-to-build"]
 status: "Pilot scoped"
 order: 1
 metrics:
@@ -15,7 +22,7 @@ metrics:
 tags: ["WhatsApp", "sales operations", "distribution", "copilot"]
 ---
 
-## Situation
+## The challenge
 
 Dealers ask for prices and stock in WhatsApp groups. The question on the table was whether to put the WhatsApp Business API and a bot in front of them, and whether message costs would make that uneconomic across roughly 850 dealers.
 

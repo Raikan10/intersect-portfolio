@@ -24,10 +24,10 @@
   Access-Control-Allow-Origin: *
   Cross-Origin-Resource-Policy: cross-origin
 
-/og-image.png
+/og-image.jpg
   Cross-Origin-Resource-Policy: cross-origin
 
-/logo.png
+/apple-touch-icon.png
   Cross-Origin-Resource-Policy: cross-origin
 
 https://:project.pages.dev/*

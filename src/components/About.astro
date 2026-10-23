@@ -1,7 +1,14 @@
 ---
-import { Image } from "astro:assets";
-import portrait from "../assets/portrait.png";
 import "../styles/components/About.css";
+import { site } from "../data/site";
+
+const facts = [
+  { label: "Based in", value: `${site.location.city}, ${site.location.region}, India` },
+  { label: "On site", value: "Coimbatore, Tiruppur, Erode, Salem, Chennai, Bengaluru" },
+  { label: "Remote", value: "Across India, the UAE and the UK" },
+  { label: "Clients", value: "Owner-run and mid-size businesses, 20 to 500 people" },
+  { label: "Pricing", value: "Free first assessment, then fixed price" },
+];
 ---
 
 <section id="about" class="about-section">
@@ -12,10 +19,10 @@ import "../styles/components/About.css";
         <h2 class="about-title">Strategy × AI × Systems</h2>
         <div class="about-description">
           <p>
-            buildIntersect is a small AI strategy and build practice. I run operations and IT across a group of distribution and retail businesses in South India, and most of what I build for clients was tested there first.
+            buildIntersect is an AI consulting practice in Coimbatore, India. We run distribution and retail businesses in South India ourselves, and most of what we build for clients was tested there first.
           </p>
           <p>
-            The work starts with one workflow. We map how it actually runs, automate the parts that are completely standard, route the exceptions to the right person, and stay until the team uses it. Technology is the supporting actor. Operations is the main character.
+            The work starts with one problem that costs your team hours every week. We map how it actually runs, automate the parts that are completely standard, send the exceptions to the right person, and stay until the team uses it. Technology is the supporting actor. Operations is the main character.
           </p>
         </div>
         <div class="about-stats">
@@ -25,31 +32,23 @@ import "../styles/components/About.css";
           </div>
           <div class="stat-item">
             <span class="stat-label">Method</span>
-            <span class="stat-value">One workflow at a time</span>
+            <span class="stat-value">One problem at a time</span>
           </div>
           <div class="stat-item">
             <span class="stat-label">Outcome</span>
-            <span class="stat-value">Steps removed</span>
+            <span class="stat-value">Hours returned</span>
           </div>
         </div>
       </div>
-      
-      <div class="about-visual">
-        <div class="portrait-frame">
-          <Image 
-            src={portrait} 
-            alt="Ajay Rajnikanth, founder of buildIntersect" 
-            class="portrait-img" 
-            width={800} 
-            height={1000}
-            format="webp"
-            quality="high"
-          />
-          <div class="frame-overlay"></div>
-          <div class="geometric-decoration top-right"></div>
-          <div class="geometric-decoration bottom-left"></div>
-        </div>
-      </div>
+
+      <dl class="about-facts">
+        {facts.map((f) => (
+          <div class="about-fact">
+            <dt>{f.label}</dt>
+            <dd>{f.value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   </div>
 </section>

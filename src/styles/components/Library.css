@@ -312,3 +312,162 @@ body.content-page {
   overflow-wrap: break-word;
   hyphens: auto;
 }
+
+/* Case study summary: challenge, approach, result. */
+.at-a-glance {
+  display: grid;
+  gap: 16px;
+  margin: 0 0 8px;
+  padding: 0 0 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.at-a-glance dt {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.at-a-glance dd {
+  margin: 4px 0 0;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Insight articles: one readable column with an answer box first. */
+.article-layout {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.article-header h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.article-byline {
+  margin: 20px 0 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.answer-box {
+  margin: 36px 0 0;
+  padding: 24px 28px;
+  border: 1px solid var(--line-hover);
+  border-radius: 22px;
+  background: rgba(164, 138, 114, 0.06);
+}
+
+.answer-box p:first-child {
+  margin: 0 0 8px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.answer-box p + p {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.article-layout .prose {
+  margin-top: 40px;
+  font-size: 1.05rem;
+}
+
+.prose a {
+  color: var(--text);
+  border-bottom: 1px solid var(--line-hover);
+}
+
+.prose a:hover {
+  border-color: var(--text);
+}
+
+.article-faq {
+  margin-top: 56px;
+}
+
+.article-faq h2 {
+  font-size: 1.35rem;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.article-related {
+  margin-top: 56px;
+  display: grid;
+  gap: 14px;
+}
+
+.library-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.library-card .card-title {
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.25;
+}
+
+.filter-row {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto 24px;
+}
+
+.contact-layout {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.contact-aside {
+  gap: 8px;
+}
+
+.contact-aside .card-eyebrow {
+  margin: 14px 0 0;
+}
+
+.contact-aside .card-eyebrow:first-child {
+  margin-top: 0;
+}
+
+@media (max-width: 1080px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-error {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto 18px;
+  padding: 16px 20px;
+  border: 1px solid rgba(220, 120, 90, 0.5);
+  border-radius: 16px;
+  color: var(--text);
+  background: rgba(220, 120, 90, 0.08);
+}

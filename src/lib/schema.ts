@@ -2,6 +2,7 @@
 // answer engines can join them into one graph across pages.
 
 import { site, founder, services, faqs } from "../data/site";
+import type { CollectionEntry } from "astro:content";
 
 const abs = (path: string) => new URL(path, site.url).href;
 
@@ -18,8 +19,8 @@ export function orgGraph() {
       "@id": ids.org,
       name: site.name,
       url: abs("/"),
-      logo: abs("/logo.png"),
-      image: abs("/og-image.png"),
+      logo: { "@type": "ImageObject", url: abs("/apple-touch-icon.png"), width: 180, height: 180 },
+      image: abs("/og-image.jpg"),
       description: site.description,
       slogan: site.tagline,
       email: site.email,
@@ -30,15 +31,30 @@ export function orgGraph() {
         addressRegion: site.location.region,
         addressCountry: site.location.country,
       },
-      areaServed: ["India", "United Arab Emirates", "United Kingdom"],
+      geo: { "@type": "GeoCoordinates", ...site.location.geo },
+      areaServed: site.areaServed.map((name) => ({ "@type": "Place", name })),
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        email: site.email,
+        url: abs("/contact/"),
+        areaServed: ["IN", "AE", "GB"],
+        availableLanguage: ["English"],
+      },
       knowsAbout: [
+        "AI consulting",
         "AI strategy",
+        "AI automation",
         "Business process automation",
+        "WhatsApp Business automation",
+        "Tally automation",
         "AI agents",
         "Management information systems",
-        "Workflow redesign",
         "ERP readiness",
         "Knowledge management",
+        "AI for manufacturing",
+        "AI for distributors",
+        "AI for retail",
       ],
       sameAs: [site.linkedin],
       hasOfferCatalog: {
@@ -83,15 +99,7 @@ export function orgGraph() {
 }
 
 export function faqGraph() {
-  return {
-    "@type": "FAQPage",
-    "@id": `${site.url}/#faq`,
-    mainEntity: faqs.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
-    })),
-  };
+  return faqPage(`${site.url}/#faq`, faqs);
 }
 
 export function breadcrumbs(items: { name: string; path: string }[]) {
@@ -106,9 +114,10 @@ export function breadcrumbs(items: { name: string; path: string }[]) {
   };
 }
 
-export function caseStudy(opts: { title: string; summary: string; path: string; tags: string[] }) {
+export function caseStudy(opts: { title: string; summary: string; path: string; tags: string[]; published: Date }) {
   return {
     "@type": "Article",
+    datePublished: opts.published.toISOString().slice(0, 10),
     "@id": `${abs(opts.path)}#article`,
     headline: opts.title,
     description: opts.summary,
@@ -118,7 +127,42 @@ export function caseStudy(opts: { title: string; summary: string; path: string; 
     author: { "@id": ids.person },
     publisher: { "@id": ids.org },
     isPartOf: { "@id": ids.website },
-    image: abs("/og-image.png"),
+    image: abs("/og-image.jpg"),
+  };
+}
+
+export function blogPosting(entry: CollectionEntry<"insights">) {
+  const d = entry.data;
+  const url = abs(`/insights/${entry.id}/`);
+  return {
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    headline: d.title,
+    description: d.description,
+    abstract: d.answer,
+    url,
+    mainEntityOfPage: url,
+    articleSection: d.category,
+    keywords: d.tags.join(", "),
+    datePublished: d.published.toISOString().slice(0, 10),
+    dateModified: (d.updated ?? d.published).toISOString().slice(0, 10),
+    author: { "@id": ids.person },
+    publisher: { "@id": ids.org },
+    isPartOf: { "@id": ids.website },
+    image: abs("/og-image.jpg"),
+    inLanguage: "en",
+  };
+}
+
+export function faqPage(id: string, items: { q: string; a: string }[]) {
+  return {
+    "@type": "FAQPage",
+    "@id": id,
+    mainEntity: items.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
   };
 }
 

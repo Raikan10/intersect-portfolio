@@ -1,0 +1,82 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sitemap from "../../components/Sitemap.astro";
+import "../../styles/components/Projects.css";
+import { site, founder } from "../../data/site";
+import { breadcrumbs, blogPosting, faqPage } from "../../lib/schema";
+import { getInsights, resolveRelated } from "../../lib/markdown";
+
+export async function getStaticPaths() {
+  const insights = await getInsights();
+  return insights.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const path = `/insights/${entry.id}/`;
+const { Content } = await render(entry);
+const related = await resolveRelated(d.related);
+const fmt = (date: Date) => date.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+const schema = [
+  blogPosting(entry),
+  ...(d.faq.length ? [faqPage(`${site.url}${path}#faq`, d.faq)] : []),
+  breadcrumbs([{ name: "Home", path: "/" }, { name: "Insights", path: "/insights/" }, { name: d.title, path }]),
+];
+---
+<BaseLayout title={d.title} description={d.description} pageKind="content" markdown={`/insights/${entry.id}.md`} ogType="article" schema={schema}>
+  <main class="entry-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <article class="article-layout">
+      <header class="article-header">
+        <p class="eyebrow"><a href="/insights/">Insights</a> · {d.category}</p>
+        <h1>{d.title}</h1>
+        <p class="article-byline">
+          By <a class="text-link" href="/about/">{founder.name}</a>, {site.location.city}.
+          Published <time datetime={d.published.toISOString().slice(0, 10)}>{fmt(d.published)}</time>{d.updated && <>. Updated <time datetime={d.updated.toISOString().slice(0, 10)}>{fmt(d.updated)}</time></>}.
+        </p>
+      </header>
+
+      <section class="answer-box" aria-label="Short answer">
+        <p>Short answer</p>
+        <p>{d.answer}</p>
+      </section>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {d.faq.length > 0 && (
+        <section class="article-faq" aria-labelledby="faq-h">
+          <h2 id="faq-h">Related questions</h2>
+          <div class="faq-list">
+            {d.faq.map((f) => (
+              <details class="faq-item">
+                <summary>{f.q}</summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {related.length > 0 && (
+        <aside class="article-related" aria-label="Related">
+          <p class="card-eyebrow">Read next</p>
+          {related.map((r) => (
+            <a class="relation-card" href={r.href}>
+              <strong>{r.title}</strong>
+              <span>{r.type}</span>
+            </a>
+          ))}
+        </aside>
+      )}
+
+      <div class="entry-next">
+        <a class="button button-primary" href="/contact/">Book a free AI readiness assessment</a>
+        <a class="button" href="/insights/">All insights</a>
+      </div>
+    </article>
+  </main>
+  <Sitemap />
+</BaseLayout>

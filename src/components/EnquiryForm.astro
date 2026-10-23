@@ -1,0 +1,77 @@
+---
+// Posts to the Pages Function at /api/enquiry, which also accepts JSON from
+// AI agents (see llms.txt). Works without JavaScript.
+import "../styles/components/Form.css";
+---
+
+<form class="enquiry-form" method="post" action="/api/enquiry">
+  <input type="hidden" name="submitted_by" value="human" />
+  <div class="form-trap" aria-hidden="true">
+    <label>Leave this empty <input type="text" name="fax" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <div class="form-row">
+    <label class="form-field">
+      <span>Name</span>
+      <input type="text" name="name" autocomplete="name" required maxlength="120" />
+    </label>
+    <label class="form-field">
+      <span>Work email</span>
+      <input type="email" name="email" autocomplete="email" required maxlength="200" />
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label class="form-field">
+      <span>Company</span>
+      <input type="text" name="company" autocomplete="organization" required maxlength="160" />
+    </label>
+    <label class="form-field">
+      <span>Phone or WhatsApp <em>optional</em></span>
+      <input type="tel" name="phone" autocomplete="tel" maxlength="40" />
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label class="form-field">
+      <span>Team size</span>
+      <select name="team_size">
+        <option value="">Choose one</option>
+        <option>Under 20</option>
+        <option>20 to 100</option>
+        <option>100 to 500</option>
+        <option>Over 500</option>
+      </select>
+    </label>
+    <label class="form-field">
+      <span>Systems you use <em>optional</em></span>
+      <input type="text" name="systems" placeholder="Tally, Zoho, Excel, WhatsApp" maxlength="300" />
+    </label>
+  </div>
+
+  <label class="form-field">
+    <span>What would you like help with?</span>
+    <textarea name="need" rows="5" required maxlength="4000" placeholder="The task that costs your team the most hours, and what you have tried so far."></textarea>
+  </label>
+
+  <div class="form-row">
+    <label class="form-field">
+      <span>Timeline</span>
+      <select name="timeline">
+        <option value="">Choose one</option>
+        <option>This month</option>
+        <option>Next three months</option>
+        <option>Just exploring</option>
+      </select>
+    </label>
+    <label class="form-field">
+      <span>Where you are based <em>optional</em></span>
+      <input type="text" name="location" placeholder="Coimbatore, Dubai, London" maxlength="120" />
+    </label>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="button button-primary">Send enquiry</button>
+    <p class="form-note">Ajay replies to every enquiry personally. We use your details only to reply.</p>
+  </div>
+</form>

@@ -1,8 +1,15 @@
 ---
-title: "A company brain that agents can read"
+title: "A company knowledge base that AI agents keep current"
 client: "Our own operations, across five businesses"
 sector: "Internal"
 summary: "A plain-text knowledge base of people, companies, projects and decisions, kept current by AI agents from meetings, journals and email. It is how one person runs operations across several businesses, and the pattern we now build for clients."
+industry: owners-investors
+challenge: "One person running operations across five businesses. Commitments made in one meeting were lost by the next."
+approach: "A plain-text knowledge base of people, companies, projects and decisions, updated daily by AI agents from meetings, journals and email."
+result: "155 cross-linked pages from 215 sources, in daily use. It is the pattern we now build for clients."
+published: 2026-10-22
+services: ["ai-reporting", "ai-advisory"]
+principles: ["adoption", "removes-steps"]
 status: "Live, in daily use"
 order: 5
 metrics:
@@ -15,7 +22,7 @@ metrics:
 tags: ["knowledge management", "agents", "company brain", "chief of staff"]
 ---
 
-## Situation
+## The challenge
 
 Ajay runs operations and IT across a distribution business, a retail chain and several AI projects at once. Commitments made in one meeting were getting lost by the next. Notes lived in five places and nobody, human or AI, could see the whole picture.
 

@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Sitemap from "../../components/Sitemap.astro";
+---
+<BaseLayout title="Thank you" description="Your enquiry has reached buildIntersect." pageKind="content" noindex>
+  <main class="library-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <section class="library-hero">
+      <p class="eyebrow">Enquiry sent</p>
+      <h1>Thank you.</h1>
+      <p class="library-intro">Your enquiry has reached us. Ajay will reply by email. In the meantime, the insights below answer the questions we hear most.</p>
+    </section>
+    <div class="entry-next">
+      <a class="button button-primary" href="/insights/">Read the insights</a>
+      <a class="button" href="/work/">See the case studies</a>
+    </div>
+  </main>
+  <Sitemap />
+</BaseLayout>

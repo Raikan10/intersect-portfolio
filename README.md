@@ -1,15 +1,16 @@
 # buildIntersect
 
-Source for [buildintersect.com](https://buildintersect.com): a small AI strategy and implementation practice led by Ajay Rajnikanth.
+Source for [buildintersect.com](https://buildintersect.com): an AI consulting practice in Coimbatore, India, led by Ajay Rajnikanth.
 
 The previous personal portfolio lives on the `personal-website` branch.
 
 ## Built for people and for agents
 
-- **One source of truth.** Facts live in `src/data/site.ts` and case studies in `src/content/work/*.md`. The HTML pages, markdown twins, `llms.txt` and JSON-LD are all generated from them, so they cannot drift apart.
-- **Markdown twins.** Every page has a plain markdown version: `/index.md`, `/services.md`, `/about.md`, `/work.md`, `/work/<slug>.md`.
+- **One source of truth.** Facts live in `src/data/site.ts`, case studies in `src/content/work/*.md` and articles in `src/content/insights/*.md`. The HTML pages, markdown twins, `llms.txt` and JSON-LD are all generated from them, so they cannot drift apart.
+- **Markdown twins.** Every page has a plain markdown version at the same path plus `.md`, for example `/index.md`, `/work/<slug>.md`, `/insights/<slug>.md`.
+- **Agent enquiries.** `llms.txt` invites AI agents to ask their user before introducing them, and to send the introduction to `POST /api/enquiry` (see below).
 - **llms.txt** (`/llms.txt`) and the full site in one file (`/llms-full.txt`).
-- **Structured data.** Organization, ProfessionalService, Person, Service, FAQPage, Article and BreadcrumbList, linked by stable `@id`s.
+- **Structured data.** Organization and ProfessionalService (with address, geo and areas served), Person, Service, FAQPage, Article, Blog, BlogPosting and BreadcrumbList, linked by stable `@id`s.
 - **AI crawlers are explicitly allowed** in `robots.txt`.
 - **Content is static HTML.** JavaScript only drives the design (slat shader, logo assembly, graph); every word is readable without it.
 
@@ -44,9 +45,14 @@ Requires Node 22.22+ (pinned to 24 in `.node-version`) and Bun 1.4.3.
 
 ## Editing content
 
-- Add a case study: create `src/content/work/<slug>.md` with the frontmatter used by the existing files. Keep client names out; state status honestly.
+- Add a case study: create `src/content/work/<slug>.md` with the frontmatter used by the existing files (challenge, approach and result are the one-line summary). Keep client names out; state status honestly.
+- Add an insight: create `src/content/insights/<slug>.md`. Title it as the question people ask, put a two-to-four sentence direct answer in `answer`, and optionally add `faq` and `related` (case study or insight slugs). Set `draft: true` to hide it.
 - Change services, principles, FAQs or contact details: edit `src/data/site.ts` and bump `updated`.
 - Writing rules: concrete over impressive, short sentences, no hype words, no em dashes.
+
+## Enquiries
+
+`functions/api/enquiry.ts` is a Cloudflare Pages Function. It takes the contact form (form post, redirects to `/contact/thanks/`) and AI agents (JSON, must include `user_consent: true`). `GET /api/enquiry` describes the API. Submissions are stored in the Workers KV namespace `buildintersect-enquiries` (bound as `ENQUIRIES`) under keys `enquiry:<timestamp>-<id>`; read them in the Cloudflare dashboard under Storage and databases, Workers KV.
 
 ## Deploy
 

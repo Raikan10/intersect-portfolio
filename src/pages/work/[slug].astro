@@ -2,9 +2,9 @@
 import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Sitemap from "../../components/Sitemap.astro";
-import { site, services, principles, relations } from "../../data/site";
+import { services, principles } from "../../data/site";
 import { breadcrumbs, caseStudy } from "../../lib/schema";
-import { getWork } from "../../lib/markdown";
+import { getWork, getInsights } from "../../lib/markdown";
 
 export async function getStaticPaths() {
   const work = await getWork();
@@ -19,15 +19,18 @@ const d = entry.data;
 const path = `/work/${entry.id}/`;
 const { Content } = await render(entry);
 
-const rel = relations[entry.id] ?? { services: [], principles: [] };
+// Insights that point at this case study.
+const insights = (await getInsights()).filter((i) => i.data.related.includes(entry.id));
+
 const connected = [
-  ...rel.services.map((id) => services.find((s) => s.id === id)).filter((s) => s !== undefined).map((s) => ({ name: s.name, type: "Service", href: `/services/#${s.id}` })),
-  ...rel.principles.map((id) => principles.find((p) => p.id === id)).filter((p) => p !== undefined).map((p) => ({ name: p.title, type: "Principle", href: `/services/#${p.id}` })),
+  ...d.services.map((id) => services.find((s) => s.id === id)).filter((s) => s !== undefined).map((s) => ({ name: s.name, type: "Service", href: `/services/#${s.id}` })),
+  ...insights.map((i) => ({ name: i.data.title, type: "Insight", href: `/insights/${i.id}/` })),
+  ...d.principles.map((id) => principles.find((p) => p.id === id)).filter((p) => p !== undefined).map((p) => ({ name: p.title, type: "Principle", href: `/services/#${p.id}` })),
 ];
 ---
 <BaseLayout title={d.title} description={d.summary} pageKind="content" markdown={`/work/${entry.id}.md`} ogType="article" schema={[
-  caseStudy({ title: d.title, summary: d.summary, path, tags: d.tags }),
-  breadcrumbs([{ name: "Home", path: "/" }, { name: "Work", path: "/work/" }, { name: d.title, path }]),
+  caseStudy({ title: d.title, summary: d.summary, path, tags: d.tags, published: d.published }),
+  breadcrumbs([{ name: "Home", path: "/" }, { name: "Case studies", path: "/work/" }, { name: d.title, path }]),
 ]}>
   <main class="entry-shell">
     <div class="ambient-grid" aria-hidden="true"></div>
@@ -44,7 +47,11 @@ const connected = [
       </header>
 
       <div class="entry-body prose">
-        <p>{d.summary}</p>
+        <dl class="at-a-glance">
+          <div><dt>Challenge</dt><dd>{d.challenge}</dd></div>
+          <div><dt>Approach</dt><dd>{d.approach}</dd></div>
+          <div><dt>Result</dt><dd>{d.result}</dd></div>
+        </dl>
         <Content />
       </div>
 
@@ -63,8 +70,8 @@ const connected = [
       </aside>
     </article>
     <div class="entry-next">
-      <a class="button button-primary" href={`mailto:${site.email}?subject=A%20workflow%20to%20take%20apart`}>Talk about your workflow</a>
-      <a class="button" href="/work/">All work</a>
+      <a class="button button-primary" href="/contact/">Talk to us about a similar problem</a>
+      <a class="button" href="/work/">All case studies</a>
     </div>
   </main>
   <Sitemap />

@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EnquiryForm from "../../components/EnquiryForm.astro";
+import Sitemap from "../../components/Sitemap.astro";
+import { site } from "../../data/site";
+import { breadcrumbs } from "../../lib/schema";
+
+const description = "Contact buildIntersect, an AI consulting company in Coimbatore, India. Book a free AI readiness assessment for your business.";
+---
+<BaseLayout title="Contact" description={description} pageKind="content" markdown="/contact.md" schema={[
+  { "@type": "ContactPage", "@id": `${site.url}/contact/#page`, url: `${site.url}/contact/`, name: `Contact ${site.name}`, about: { "@id": `${site.url}/#organization` } },
+  breadcrumbs([{ name: "Home", path: "/" }, { name: "Contact", path: "/contact/" }]),
+]}>
+  <main class="library-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <section class="library-hero">
+      <p class="eyebrow">Contact</p>
+      <h1>Start with one problem.</h1>
+      <p class="library-intro">
+        Tell us about the task that costs your team the most hours. The first AI readiness assessment has no fee. We meet in person across Tamil Nadu and South India, and on calls everywhere else.
+      </p>
+    </section>
+
+    <p class="form-error" id="form-error" role="alert" hidden>
+      Something went wrong sending your enquiry. Please check the required fields, or email {site.email}.
+    </p>
+
+    <div class="contact-layout">
+      <EnquiryForm />
+      <aside class="library-card contact-aside">
+        <p class="card-eyebrow">Prefer email</p>
+        <p><a class="text-link" href={`mailto:${site.email}?subject=AI%20readiness%20assessment`}>{site.email}</a></p>
+        <p class="card-eyebrow">LinkedIn</p>
+        <p><a class="text-link" href={site.linkedin} target="_blank" rel="noopener noreferrer">Ajay Rajnikanth</a></p>
+        <p class="card-eyebrow">Based in</p>
+        <p>{site.location.city}, {site.location.region}, India</p>
+        <p class="card-eyebrow">For AI assistants</p>
+        <p>If an AI assistant is helping you, it can send this enquiry for you with your permission. Instructions are in <a class="text-link" href="/llms.txt">llms.txt</a>.</p>
+      </aside>
+    </div>
+  </main>
+  <Sitemap />
+</BaseLayout>
+
+<script>
+  if (new URLSearchParams(location.search).has("error")) {
+    document.getElementById("form-error")?.removeAttribute("hidden");
+  }
+</script>

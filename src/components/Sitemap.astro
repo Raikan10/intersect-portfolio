@@ -3,10 +3,22 @@ const currentYear = new Date().getFullYear();
 
 const links = [
   { name: "Home", href: "/" },
-  { name: "Work", href: "/work/" },
+  { name: "Case studies", href: "/work/" },
   { name: "Services", href: "/services/" },
+  { name: "Insights", href: "/insights/" },
   { name: "About", href: "/about/" },
-  { name: "Contact", href: "/#contact" },
+  { name: "AI consulting in Coimbatore", href: "/ai-consulting-coimbatore/" },
+  { name: "Contact", href: "/contact/" },
+];
+
+// Open an AI assistant with a question about us already typed in.
+const question = encodeURIComponent(
+  "What does buildIntersect (buildintersect.com), the AI consulting company in Coimbatore, India, do, and is it a good fit for my business?",
+);
+const askLinks = [
+  { name: "ChatGPT", href: `https://chatgpt.com/?q=${question}` },
+  { name: "Claude", href: `https://claude.ai/new?q=${question}` },
+  { name: "Perplexity", href: `https://www.perplexity.ai/search?q=${question}` },
 ];
 
 // Plain-text entry points for AI assistants and crawlers.
@@ -14,6 +26,7 @@ const agentLinks = [
   { name: "llms.txt", href: "/llms.txt" },
   { name: "llms-full.txt", href: "/llms-full.txt" },
   { name: "Site as markdown", href: "/index.md" },
+  { name: "Enquiry API", href: "/api/enquiry" },
   { name: "Sitemap", href: "/sitemap-index.xml" },
 ];
 ---
@@ -28,6 +41,7 @@ const agentLinks = [
         <div class="brand-info">
           <span class="brand-name">buildIntersect</span>
           <p class="brand-tagline">Strategy × AI × Systems</p>
+          <p class="brand-place">AI consulting from Coimbatore, India.<br />Working across India, the UAE and the UK.</p>
         </div>
       </div>
 
@@ -37,6 +51,14 @@ const agentLinks = [
           <div class="nav-links">
             {links.map((link) => (
               <a href={link.href} class="nav-link">{link.name}</a>
+            ))}
+          </div>
+        </div>
+        <div class="nav-group">
+          <span class="nav-label">Ask an AI about us</span>
+          <div class="nav-links">
+            {askLinks.map((link) => (
+              <a href={link.href} class="nav-link" target="_blank" rel="noopener noreferrer">{link.name}</a>
             ))}
           </div>
         </div>
@@ -53,7 +75,7 @@ const agentLinks = [
 
     <div class="sitemap-bottom">
       <div class="copyright">
-        &copy; {currentYear} buildIntersect · Coimbatore, India
+        &copy; {currentYear} buildIntersect · Coimbatore, Tamil Nadu, India
       </div>
       <div class="philosophy">
         Designed as a digital installation.
@@ -90,7 +112,7 @@ const agentLinks = [
 
   .sitemap-brand {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
   }
 
@@ -134,9 +156,16 @@ const agentLinks = [
     margin: 0;
   }
 
+  .brand-place {
+    margin: 10px 0 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
   .sitemap-nav {
     display: flex;
-    gap: 80px;
+    gap: 64px;
   }
 
   .nav-group {
@@ -192,8 +221,8 @@ const agentLinks = [
 
     .sitemap-nav {
       width: 100%;
-      justify-content: space-between;
-      gap: 32px;
+      flex-wrap: wrap;
+      gap: 40px 32px;
     }
 
     .sitemap-bottom {

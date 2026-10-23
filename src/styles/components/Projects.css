@@ -195,3 +195,43 @@ a.capability-card {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.card-list {
+  margin: 20px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text);
+  opacity: 0.8;
+}
+
+/* The three engagement steps: an ordered list laid out as cards. */
+.capability-grid--steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.capability-grid--steps .capability-card {
+  min-height: 0;
+}
+
+.capability-grid--steps .capability-card:hover {
+  transform: none;
+}
+
+@media (min-width: 1024px) {
+  .capability-grid--steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.text-link {
+  color: var(--text);
+  border-bottom: 1px solid var(--line-hover);
+  transition: border-color 0.2s ease;
+}
+
+.text-link:hover,
+.text-link:focus-visible {
+  border-color: var(--text);
+}

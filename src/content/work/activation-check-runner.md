@@ -3,6 +3,13 @@ title: "Five hours of manual device checks, down to thirty minutes"
 client: "A smartphone distributor, South India"
 sector: "Distribution"
 summary: "An operator checked about 200 handsets a day, one serial at a time, on a public web page. We built a human-in-the-loop runner that does everything except the captcha, and declined to automate the captcha on purpose."
+industry: distribution
+challenge: "An operator checked about 200 handsets a day, one serial at a time, on a public web page with a captcha."
+approach: "A human-in-the-loop runner: the tool handles the queue, parsing, retries and records. The operator only solves the captcha."
+result: "Expected time for 200 devices drops from about five hours to about thirty minutes, without risking the brand relationship."
+published: 2026-10-22
+services: ["ai-automation"]
+principles: ["standard-vs-exceptions", "when-not-to-build", "removes-steps"]
 status: "Built, in shakedown"
 order: 4
 metrics:
@@ -15,7 +22,7 @@ metrics:
 tags: ["automation", "human in the loop", "operations", "browser automation"]
 ---
 
-## Situation
+## The challenge
 
 The distributor needs to know whether each handset has already been activated, for inventory checks and to catch grey-market stock. The only route was the brand's public coverage page: type a serial, solve a captcha, read the result. About 90 seconds a device, roughly 200 devices a day. Close to a full-time job.
 

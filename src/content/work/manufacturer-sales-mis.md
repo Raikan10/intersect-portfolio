@@ -1,8 +1,15 @@
 ---
-title: "Sales MIS for a manufacturer on a legacy system"
+title: "A sales MIS on a legacy system in six days"
 client: "A mid-size electrical components manufacturer, South India"
 sector: "Manufacturing"
 summary: "The sales system was a VB6 application on a single database. Six days after the first meeting, the leadership team was drilling from unit to product to customer in Metabase, and asking questions of the data in plain language from their phones."
+industry: manufacturing
+challenge: "Sales data for a multi-plant manufacturer lived in a VB6 application. Leadership waited on manual reports."
+approach: "We loaded one month of sales into ClickHouse, built drill-downs in Metabase and let leadership ask questions in plain language."
+result: "A working demo six days after the first meeting, and three workstreams agreed in the same room."
+published: 2026-10-22
+services: ["ai-reporting", "ai-automation"]
+principles: ["removes-steps", "fixed-scope"]
 status: "Live, expanding"
 order: 2
 metrics:
@@ -15,7 +22,7 @@ metrics:
 tags: ["MIS", "ClickHouse", "Metabase", "manufacturing", "legacy systems"]
 ---
 
-## Situation
+## The challenge
 
 A high-volume catalogue manufacturer with several plants and a large export business. Sales data lived in a legacy VB6 application backed by one database. Leadership wanted unit-wise sales, drilling down to product and customer, without waiting on manual reports.
 

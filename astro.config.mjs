@@ -9,7 +9,7 @@ export default defineConfig({
     // Keep all CSS in files so the CSP can stay at style-src 'self'.
     inlineStylesheets: "never",
   },
-  integrations: [sitemap()],
+  integrations: [sitemap({ filter: (page) => !page.includes("/contact/thanks") })],
   vite: {
     build: {
       // Never inline scripts into HTML: the CSP only allows script-src 'self'.

@@ -6,22 +6,22 @@ import { breadcrumbs } from "../../lib/schema";
 import { getWork } from "../../lib/markdown";
 
 const work = await getWork();
-const description = "Case studies from buildIntersect: dealer WhatsApp operations, sales MIS on legacy systems, retail process redesign, human-in-the-loop automation and a company brain.";
+const description = "AI consulting case studies from buildIntersect: WhatsApp sales queries, a sales MIS on a legacy system, retail process redesign, automation with a person in the loop, and a company knowledge base.";
 ---
-<BaseLayout title="Work" description={description} pageKind="content" markdown="/work.md" schema={[
+<BaseLayout title="AI Case Studies" description={description} pageKind="content" markdown="/work.md" schema={[
   {
     "@type": "CollectionPage",
     "@id": `${site.url}/work/#page`,
     url: `${site.url}/work/`,
-    name: `Work | ${site.name}`,
+    name: `Case studies | ${site.name}`,
     hasPart: work.map((e) => ({ "@id": `${site.url}/work/${e.id}/#article` })),
   },
-  breadcrumbs([{ name: "Home", path: "/" }, { name: "Work", path: "/work/" }]),
+  breadcrumbs([{ name: "Home", path: "/" }, { name: "Case studies", path: "/work/" }]),
 ]}>
   <main class="library-shell">
     <div class="ambient-grid" aria-hidden="true"></div>
     <section class="library-hero">
-      <p class="eyebrow">Work</p>
+      <p class="eyebrow">Case studies</p>
       <h1>Work, stated plainly.</h1>
       <p class="library-intro">
         Client names are withheld. Where work is still in progress, the page says so, and the numbers describe scope until outcomes are measured.
@@ -31,12 +31,11 @@ const description = "Case studies from buildIntersect: dealer WhatsApp operation
     <section class="library-grid" aria-label="Case studies">
       {work.map((entry) => (
         <article class="library-card">
-          <p class="card-eyebrow">{entry.data.sector}</p>
+          <p class="card-eyebrow">{entry.data.sector} · {entry.data.status}</p>
           <h2>{entry.data.title}</h2>
-          <p>{entry.data.summary}</p>
+          <p>{entry.data.result}</p>
           <div class="library-meta">
-            <span>{entry.data.status}</span>
-            {entry.data.metrics[0] && <span>{entry.data.metrics[0].value} {entry.data.metrics[0].label}</span>}
+            {entry.data.metrics.slice(0, 2).map((m) => <span>{m.value} {m.label}</span>)}
           </div>
           <a class="button button-primary" href={`/work/${entry.id}/`}>Read the case study</a>
         </article>
